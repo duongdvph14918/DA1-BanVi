@@ -6,6 +6,7 @@ package quanlycuahangpoly;
 
 import Model.TKDoanhThu_View;
 import Model.TKSanPham_View;
+import Model.TKTongQuan_View;
 import Service.ITKDoanhThu_service;
 import Service.ITKSanPham_Service;
 import Service.ITKTongQuan_Service;
@@ -47,6 +48,11 @@ public class ThongKeJpanel extends javax.swing.JPanel {
     public ThongKeJpanel() {
         initComponents();
         testbarchar(2024);
+        txtBatDau.setEnabled(false);
+        txtKetThuc.setEnabled(false);
+        btnTK.setEnabled(false);
+        TKTongQuan_View tk = tkTQ_Service.tkHomNay();
+        fillTKTongQuan(tk.getDonHang(),tk.getSanPham(),tk.getDoanhthu());
     }
 
     /**
@@ -543,5 +549,17 @@ public class ThongKeJpanel extends javax.swing.JPanel {
         pnlBieuDo.add(chartPanel);
 
     }
-
+   private void fillTKTongQuan(int donHang, int sanPham, float doanhthu) {
+        lbldoanhthu.setText(numberFM.format(doanhthu));
+        lbdonhang.setText(donHang + "");
+        lblsanpham.setText(sanPham + "");
+    }
+       public void filltblTKSP() {
+        listTkSP = tkSP_sv.getTKSanPham();
+        mol = (DefaultTableModel) tbl_TKSP.getModel();
+        mol.setRowCount(0);
+        for (TKSanPham_View t : listTkSP) {
+            mol.addRow(new Object[]{t.getMaSP(), t.getMachitiet(), t.getTen(), t.getThuonghieu(), t.getNhasanxuat(), t.getChatlieu(), t.getLoaivi(), t.getSlBan()});
+        }
+    }
 }

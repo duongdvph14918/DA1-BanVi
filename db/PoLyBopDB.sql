@@ -167,33 +167,7 @@ CREATE TABLE [HoaDonChiTiet] (
       REFERENCES [HoaDon]([IDHoaDon])
 );
 
-CREATE TABLE [GioHang] (
-  [IDGioHang] INT IDENTITY,
-  [ID_KhachHang] INT,
-  [Ma_GioHang] Varchar(50),
-  [NgayTao] Date,
-  [TrangThai] BIT,
-  PRIMARY KEY ([IDGioHang]),
-  CONSTRAINT [FK_GioHang.ID_KhachHang]
-    FOREIGN KEY ([ID_KhachHang])
-      REFERENCES [KhachHang]([IDKhangHang])
-);
 
-CREATE TABLE [ChiTietGioHang] (
-  [IDChiTietGioHang] INT IDENTITY,
-  [ID_GioHang] INT,
-  [ID_ChiTietVi] INT,
-  [Ma_ChiTietGiohang] Varchar(50),
-  [SoLuong] INT,
-  [TrangThai] BIT,
-  PRIMARY KEY ([IDChiTietGioHang]),
-  CONSTRAINT [FK_ChiTietGioHang.ID_GioHang]
-    FOREIGN KEY ([ID_GioHang])
-      REFERENCES [GioHang]([IDGioHang]),
-  CONSTRAINT [FK_ChiTietGioHang.ID_ChiTietVi]
-    FOREIGN KEY ([ID_ChiTietVi])
-      REFERENCES [ChiTietVi]([IDChiTietVi])
-);
 
 -- Thêm d? li?u 
 -- Lo?i Ví
@@ -330,26 +304,26 @@ INSERT INTO Vi (ID_ThuongHieu, Ma_Vi, KieuDang, TenVi, Url_Anh, TrangThai) VALUE
 (20, 'V020', N'Canon Camera Bag', N'Canon DSLR Camera Bag', 'bag.jpg', 1);
 -- Chi ti?t Ví  
 INSERT INTO ChiTietVi (ID_Vi, ID_MauSac, ID_ChatLieu, ID_XuatXu, ID_LoaiVi, Ma_ChiTietVi, KhoaVi, SoNganDungThe, SoLuong, GiaNhap, GiaBan, NgayNhap, TrangThai) VALUES 
-(1, 1, 1, 1, 1, 'CTV001', N'NikeSportWallet-Red', '10 Card Slots', 50, 150000, 200000, '2023-01-01', 1),
-(2, 2, 2, 2, 2, 'CTV002', N'AdidasOriginalsWallet-Blue', '8 Card Slots', 30, 120000, 180000, '2023-01-02', 1),
-(3, 3, 3, 3, 3, 'CTV003', N'GucciCardHolder-Black', '4 Card Slots', 20, 300000, 450000, '2023-01-03', 1),
-(4, 4, 4, 4, 4, 'CTV004', N'AppleWalletCase-Brown', 'iPhone 12 Pro Max', 15, 250000, 350000, '2023-01-04', 1),
-(5, 5, 5, 5, 5, 'CTV005', N'SamsungGalaxyWallet-Green', 'Galaxy S21 Ultra', 25, 200000, 300000, '2023-01-05', 1),
-(6, 6, 6, 6, 6, 'CTV006', N'LacosteSlimWallet-White', 'Slim Design', 35, 180000, 250000, '2023-01-06', 1),
-(7, 7, 7, 7, 7, 'CTV007', N'ChanelQuiltedWallet-Pink', 'Classic Quilted', 40, 500000, 700000, '2023-01-07', 1),
-(8, 8, 8, 8, 8, 'CTV008', N'SurfaceWallet-Gray', 'Microsoft Surface Duo', 10, 400000, 600000, '2023-01-08', 1),
-(9, 9, 9, 9, 9, 'CTV009', N'ToyotaLeatherWallet-Brown', 'Genuine Leather', 18, 220000, 320000, '2023-01-09', 1),
-(10, 10, 10, 10, 10, 'CTV010', N'MercedesMoneyClip-Black', 'Men Money Clip', 22, 280000, 400000, '2023-01-10', 1),
-(11, 11, 11, 11, 11, 'CTV011', N'SonyPassportHolder-Red', 'Travel Passport Holder', 28, 350000, 500000, '2023-01-11', 1),
-(12, 12, 12, 12, 12, 'CTV012', N'LVMonogramWallet-Beige', 'Monogram Canvas', 12, 600000, 800000, '2023-01-12', 1),
-(13, 13, 13, 13, 13, 'CTV013', N'BMWCardWallet-Blue', 'Genuine Leather', 14, 260000, 380000, '2023-01-13', 1),
-(14, 14, 14, 14, 14, 'CTV014', N'CocaColaCoinPurse-Red', 'Logo Coin Purse', 16, 120000, 180000, '2023-01-14', 1),
-(15, 15, 15, 15, 15, 'CTV015', N'PepsiSlimWallet-Blue', 'Logo Slim Wallet', 20, 150000, 220000, '2023-01-15', 1),
-(16, 16, 16, 16, 16, 'CTV016', N'NikeTrifoldWallet-Black', 'Trifold Wallet', 25, 190000, 270000, '2023-01-16', 1),
-(17, 17, 17, 17, 17, 'CTV017', N'McDonaldsMoneyClip-Gold', 'Golden Arches', 30, 320000, 450000, '2023-01-17', 1),
-(18, 18, 18, 18, 18, 'CTV018', N'StellaArtoisCardHolder-Brown', 'Leather Card Holder', 14, 280000, 380000, '2023-01-18', 1),
-(19, 19, 19, 19, 19, 'CTV019', N'KFCSlimWallet-Red', 'Colonel Slim Wallet', 18, 200000, 300000, '2023-01-19', 1),
-(20, 20, 20, 20, 20, 'CTV020', N'CanonCameraBag-Black', 'DSLR Camera Bag', 22, 400000, 600000, '2023-01-20', 1);
+(1, 1, 1, 1, 1, 'CTV001', N'NikeSportWallet-Red', '10 Card Slots', 50, 150000, 200000, '2024-01-01', 1),
+(2, 2, 2, 2, 2, 'CTV002', N'AdidasOriginalsWallet-Blue', '8 Card Slots', 30, 120000, 180000, '2024-03-02', 1),
+(3, 3, 3, 3, 3, 'CTV003', N'GucciCardHolder-Black', '4 Card Slots', 20, 300000, 450000, '2024-01-03', 1),
+(4, 4, 4, 4, 4, 'CTV004', N'AppleWalletCase-Brown', 'iPhone 12 Pro Max', 15, 250000, 350000, '2024-01-04', 1),
+(5, 5, 5, 5, 5, 'CTV005', N'SamsungGalaxyWallet-Green', 'Galaxy S21 Ultra', 25, 200000, 300000, '2024-01-05', 1),
+(6, 6, 6, 6, 6, 'CTV006', N'LacosteSlimWallet-White', 'Slim Design', 35, 180000, 250000, '2024-01-06', 1),
+(7, 7, 7, 7, 7, 'CTV007', N'ChanelQuiltedWallet-Pink', 'Classic Quilted', 40, 500000, 700000, '2024-01-07', 1),
+(8, 8, 8, 8, 8, 'CTV008', N'SurfaceWallet-Gray', 'Microsoft Surface Duo', 10, 400000, 600000, '2024-01-08', 1),
+(9, 9, 9, 9, 9, 'CTV009', N'ToyotaLeatherWallet-Brown', 'Genuine Leather', 18, 220000, 320000, '2024-01-09', 1),
+(10, 10, 10, 10, 10, 'CTV010', N'MercedesMoneyClip-Black', 'Men Money Clip', 22, 280000, 400000, '2024-01-10', 1),
+(11, 11, 11, 11, 11, 'CTV011', N'SonyPassportHolder-Red', 'Travel Passport Holder', 28, 350000, 500000, '2024-01-11', 1),
+(12, 12, 12, 12, 12, 'CTV012', N'LVMonogramWallet-Beige', 'Monogram Canvas', 12, 600000, 800000, '2024-01-12', 1),
+(13, 13, 13, 13, 13, 'CTV013', N'BMWCardWallet-Blue', 'Genuine Leather', 14, 260000, 380000, '2024-01-13', 1),
+(14, 14, 14, 14, 14, 'CTV014', N'CocaColaCoinPurse-Red', 'Logo Coin Purse', 16, 120000, 180000, '2024-01-14', 1),
+(15, 15, 15, 15, 15, 'CTV015', N'PepsiSlimWallet-Blue', 'Logo Slim Wallet', 20, 150000, 220000, '2024-01-15', 1),
+(16, 16, 16, 16, 16, 'CTV016', N'NikeTrifoldWallet-Black', 'Trifold Wallet', 25, 190000, 270000, '2024-01-16', 1),
+(17, 17, 17, 17, 17, 'CTV017', N'McDonaldsMoneyClip-Gold', 'Golden Arches', 30, 320000, 450000, '2024-01-17', 1),
+(18, 18, 18, 18, 18, 'CTV018', N'StellaArtoisCardHolder-Brown', 'Leather Card Holder', 14, 280000, 380000, '2024-01-18', 1),
+(19, 19, 19, 19, 19, 'CTV019', N'KFCSlimWallet-Red', 'Colonel Slim Wallet', 18, 200000, 300000, '2024-01-19', 1),
+(20, 20, 20, 20, 20, 'CTV020', N'CanonCameraBag-Black', 'DSLR Camera Bag', 22, 400000, 600000, '2024-01-20', 1);
 -- Khách hàng 
 INSERT INTO KhachHang ( TenKhachHang, SDT, NgaySinh, Email, DiaChi, TrangThai) VALUES
 ( N'Khách Lẻ', '', '1990-01-01', '', N'Hà Nội', 1),
@@ -364,16 +338,16 @@ INSERT INTO KhachHang ( TenKhachHang, SDT, NgaySinh, Email, DiaChi, TrangThai) V
 ( N'Mai Thị K', '0914785236', '1998-05-08', 'maithik@example.com', N'Bình Thuận', 1);
 -- Khuy?n mãi 
 INSERT INTO KhuyenMai (Ma_KhuyenMai, GiaTri, NgayBatDau, NgayKetThuc, KieuGiamGia, TrangThai) VALUES 
-('KM001', 10, '2023-01-01', '2023-01-15', 0.1, 1),
-('KM002', 20, '2023-02-01', '2023-02-28', 0.2, 1),
-('KM003', 15, '2023-03-01', '2023-03-15', 0.15, 1),
-('KM004', 25, '2023-04-01', '2023-04-30', 0.25, 1),
-('KM005', 30, '2023-05-01', '2023-05-15', 0.3, 1),
-('KM006', 18, '2023-06-01', '2023-06-30', 0.18, 1),
-('KM007', 12, '2023-07-01', '2023-07-15', 0.12, 1),
-('KM008', 22, '2023-08-01', '2023-08-31', 0.22, 1),
-('KM009', 28, '2023-09-01', '2023-09-15', 0.28, 1),
-('KM010', 35, '2023-10-01', '2023-10-31', 0.35, 1);
+('KM001', 10, '2023-01-01', '2024-01-15', 0.1, 1),
+('KM002', 20, '2023-02-01', '2024-02-20', 0.2, 1),
+('KM003', 15, '2023-03-01', '2024-03-19', 0.15, 1),
+('KM004', 25, '2023-04-01', '2024-01-18', 0.25, 1),
+('KM005', 30, '2023-05-01', '2024-01-17', 0.3, 1),
+('KM006', 18, '2023-06-01', '2024-01-16', 0.18, 1),
+('KM007', 12, '2023-07-01', '2024-03-15', 0.12, 1),
+('KM008', 22, '2023-08-01', '2024-02-21', 0.22, 1),
+('KM009', 28, '2023-09-01', '2024-03-15', 0.28, 1),
+('KM010', 35, '2023-10-01', '2024-02-24', 0.35, 1);
 -- Nhân viên
 INSERT INTO NhanVien ( HoTen, ChucVu, NgaySinh, SDT, Email, GioiTinh, DiaChi, MatKhau, TrangThai) VALUES
 ( N'Nguyễn Văn A', 1, '1990-01-01', '0123456789', 'nguyenvana@example.com', 1, N'Hà Nội', 'hashed_password', 1),
@@ -388,16 +362,16 @@ INSERT INTO NhanVien ( HoTen, ChucVu, NgaySinh, SDT, Email, GioiTinh, DiaChi, Ma
 ( N'Mai Thị K', 0, '1998-05-08', '0914785236', 'maithik@example.com', 0, N'Bình Thuận', 'hashed_password', 1);
 -- Hóa ??n 
 INSERT INTO HoaDon (ID_KhachHang, ID_NhanVien, ID_KhuyenMai, Ma_HoaDon, TienSauGiamGia, ThanhTien, PhuongThucThanhToan, NgayThanhToan, TrangThai) VALUES 
-(1, 1, 1, 'HD001', 180000, 160000, 1, '2023-01-10', 1),
-(2, 2, 2, 'HD002', 144000, 120000, 0, '2023-02-15', 1),
-(3, 3, 3, 'HD003', 255000, 220000, 1, '2023-03-20', 1),
-(4, 4, 4, 'HD004', 337500, 300000, 0, '2023-04-25', 1),
-(5, 5, 5, 'HD005', 210000, 180000, 1, '2023-05-30', 1),
-(6, 6, 6, 'HD006', 225000, 200000, 0, '2023-06-05', 1),
-(7, 7, 7, 'HD007', 525000, 480000, 1, '2023-07-10', 1),
-(8, 8, 8, 'HD008', 450000, 400000, 0, '2023-08-15', 1),
-(9, 9, 9, 'HD009', 285000, 250000, 1, '2023-09-20', 1),
-(10, 10, 10, 'HD010', 390000, 350000, 0, '2023-10-25', 1);
+(1, 1, 1, 'HD001', 180000, 160000, 1, '2024-01-10', 1),
+(2, 2, 2, 'HD002', 144000, 120000, 0, '2024-02-15', 1),
+(3, 3, 3, 'HD003', 255000, 220000, 1, '2024-03-20', 1),
+(4, 4, 4, 'HD004', 337500, 300000, 0, '2024-01-25', 1),
+(5, 5, 5, 'HD005', 210000, 180000, 1, '2024-03-30', 1),
+(6, 6, 6, 'HD006', 225000, 200000, 0, '2023-03-05', 1),
+(7, 7, 7, 'HD007', 525000, 480000, 1, '2023-02-10', 1),
+(8, 8, 8, 'HD008', 450000, 400000, 0, '2023-01-15', 1),
+(9, 9, 9, 'HD009', 285000, 250000, 1, '2023-01-20', 1),
+(10, 10, 10, 'HD010', 390000, 350000, 0, '2023-03-25', 1);
 -- Hóa ??n chi ti?t 
 INSERT INTO HoaDonChiTiet (ID_HoaDon, ID_ChiTietVi, Ma_HoaDonChiTiet, SoLuong, DonGia,TrangThai) VALUES 
 (1, 1, 'HDCT001', 2, 80000,1),
@@ -407,40 +381,7 @@ INSERT INTO HoaDonChiTiet (ID_HoaDon, ID_ChiTietVi, Ma_HoaDonChiTiet, SoLuong, D
 (3, 5, 'HDCT005', 2, 110000,1),
 (3, 6, 'HDCT006', 1, 110000,1);
 
--- Gi? hàng 
-INSERT INTO GioHang (ID_KhachHang, Ma_GioHang, NgayTao, TrangThai) VALUES 
-(1, 'GH001', '2023-01-01', 1),
-(2, 'GH002', '2023-02-01', 1),
-(3, 'GH003', '2023-03-01', 1),
-(4, 'GH004', '2023-04-01', 1),
-(5, 'GH005', '2023-05-01', 1),
-(6, 'GH006', '2023-06-01', 1),
-(7, 'GH007', '2023-07-01', 1),
-(8, 'GH008', '2023-08-01', 1),
-(9, 'GH009', '2023-09-01', 1),
-(10, 'GH010', '2023-10-01', 1);
--- Chi ti?t gi? hàng 
-INSERT INTO ChiTietGioHang (ID_GioHang, ID_ChiTietVi, Ma_ChiTietGioHang, SoLuong, TrangThai) VALUES 
-(1, 1, 'CTGH001', 2, 1),
-(1, 2, 'CTGH002', 1, 1),
-(2, 3, 'CTGH003', 3, 1),
-(2, 4, 'CTGH004', 1, 1),
-(3, 5, 'CTGH005', 2, 1),
-(3, 6, 'CTGH006', 1, 1),
-(4, 7, 'CTGH007', 3, 1),
-(4, 8, 'CTGH008', 1, 1),
-(5, 9, 'CTGH009', 2, 1),
-(5, 10, 'CTGH010', 1, 1),
-(6, 11, 'CTGH011', 2, 1),
-(6, 12, 'CTGH012', 1, 1),
-(7, 13, 'CTGH013', 5, 1),
-(7, 14, 'CTGH014', 1, 1),
-(8, 15, 'CTGH015', 4, 1),
-(8, 16, 'CTGH016', 1, 1),
-(9, 17, 'CTGH017', 3, 1),
-(9, 18, 'CTGH018', 1, 1),
-(10, 19, 'CTGH019', 2, 1),
-(10, 20, 'CTGH020', 1, 1);
+
 -- 
 --Truy vấn bảng Vi
 Update Vi set TenVi=?, KieuDang =?, ID_ThuongHieu=?, Url_Anh =?, TrangThai=? where Ma_Vi =?
@@ -484,12 +425,12 @@ select * from LoaiVi where TenLoaiVi =?
 	SELECT (
 	SELECT count(HoaDon.Ma_HoaDon) 
 	FROM HoaDon
-	WHERE CONVERT(DATE, HoaDon.NgayThanhToan)  = GETDATE() AND HoaDon.TrangThai != 0) AS 'Đơn hàng',
+	WHERE CONVERT(DATE, HoaDon.NgayThanhToan)  <= CONVERT(DATE, GETDATE()) AND HoaDon.TrangThai != 0) AS 'Đơn hàng',
     sum(HoaDonChiTiet.SoLuong) as 'Sản phẩm',
 	SUM(HoaDon.ThanhTien) as 'Doanh thu' 
 	FROM HoaDon
    left JOIN HoaDonChiTiet on HoaDon.IDHoaDon = HoaDonChiTiet.ID_HoaDon
-    WHERE CONVERT(DATE, HoaDon.NgayThanhToan)  = CONVERT(DATE, GETDATE()) AND HoaDon.TrangThai != 0
+    WHERE CONVERT(DATE, HoaDon.NgayThanhToan)  <= CONVERT(DATE, GETDATE()) AND HoaDon.TrangThai != 0
 	-- theo ngày
 	select
 	    sum(HoaDonChiTiet.SoLuong) as 'Sản phẩm' 
@@ -517,14 +458,6 @@ select * from LoaiVi where TenLoaiVi =?
                 WHERE HoaDon.TrangThai =1
                group by Ma_HoaDon, Ma_HoaDonChiTiet, Vi.TenVi,ThuongHieu.TenThuongHieu,XuatXu.TenXuatXu,ChatLieu.TenChatLieu,LoaiVi.TenLoaiVi
 
---
-
-	SELECT (SELECT count(donhang.MaDonHang) FROM donhang WHERE CONVERT(DATE, donhang.NgayTao)  <= getDate() AND donhang.TrangThai != 2) AS DONHANG, 
-                sum(ctdonhang.SL), 
-				SUM(ctdonhang.DonGiaSauGiam) 
-				FROM donhang
-                JOIN ctdonhang on donhang.MaDonHang = ctdonhang.MaDonHang
-                WHERE CONVERT(DATE, donhang.NgayTao)  <= getDate() AND donhang.TrangThai != 2
 
 --Thống kê sản phẩm bán
 Select Ma_HoaDon,Ma_HoaDonChiTiet,TenVi,TenThuongHieu,TenXuatXu,TenChatLieu,TenLoaiVi,HoaDonChiTiet.SoLuong as N'Số lượng bán'
@@ -566,3 +499,10 @@ SELECT HoaDonChiTiet.Ma_HoaDonChiTiet
                 				  join ThuongHieu on Vi.ID_ThuongHieu = ThuongHieu.IDThuongHieu
               			  join MauSac on Vi.ID_ThuongHieu = MauSac.IDMauSac
                                  where HoaDon.Ma_HoaDon = N'HD191' and HoaDonChiTiet.TrangThai = 1
+--Hoa don chua thanh toan
+select IDHoaDon ,Ma_HoaDon , KhachHang.TenKhachHang , NhanVien.HoTen as N'Ten Nhan Vien',
+ID_KhuyenMai , TienSauGiamGia, ThanhTien ,PhuongThucThanhToan , NgayThanhToan , HoaDon.TrangThai
+			from HoaDon 
+			join KhachHang on HoaDon.ID_KhachHang = KhachHang.IDKhangHang
+			Join NhanVien on HoaDon.ID_NhanVien = NhanVien.IDNhanVien
+			where HoaDon.TrangThai = 1

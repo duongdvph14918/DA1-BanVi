@@ -4,7 +4,10 @@
  */
 package quanlycuahangpoly;
 
+import Model.HoaDonCT;
+import Model.HoaDonCT1;
 import Model.SanPham;
+import Service.HoaDonDAO;
 import Service.SanPhamDAO;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -14,9 +17,14 @@ import javax.swing.table.DefaultTableModel;
  * @author Windows
  */
 public class BanHangJPanel extends javax.swing.JPanel {
+
     SanPhamDAO service = new SanPhamDAO();
-String tenNV, email;
- DefaultTableModel mol = new DefaultTableModel();
+    HoaDonDAO serviceHD = new HoaDonDAO();
+    int index = -1;
+
+    String tenNV, email;
+    DefaultTableModel mol = new DefaultTableModel();
+
     /**
      * Creates new form BanHangJPanel
      */
@@ -24,8 +32,10 @@ String tenNV, email;
         initComponents();
         this.tenNV = tenNV;
         this.email = email;
-//        txt_KhachHang1.setText("Khách Lẻ");
+        txt_KhachHang1.setText("Khách Lẻ");
         this.fillTableSP(service.seachSP(txt_TimKiemSP.getText()));
+        fillTableHD(serviceHD.getAllHDChuaHT());
+        txt_NhanVien.setText(tenNV);
     }
 
     /**
@@ -521,7 +531,7 @@ String tenNV, email;
     private javax.swing.JTextField txt_TimKiemSP;
     // End of variables declaration//GEN-END:variables
 
-     // Code fillTable : 
+    // Code fillTable : 
     private void fillTableSP(List<SanPham> list) {
         mol = (DefaultTableModel) tbl_SanPham.getModel();
         mol.setRowCount(0);
@@ -534,6 +544,40 @@ String tenNV, email;
                 x.getMauSac(),
                 x.getSoLuong(),
                 x.getGiaBan()
+            });
+        }
+    }
+
+    private void fillTableHD(List<HoaDonCT> list) {
+        mol = (DefaultTableModel) tbl_hoaDon.getModel();
+        mol.setRowCount(0);
+        for (HoaDonCT x : list) {
+            mol.addRow(new Object[]{
+                x.getMaHD(),
+                x.getTenNV(),
+                x.getTenKH(),
+                x.getNgayTT(),
+                x.getTrangThai(),
+                x.getTT()
+            });
+        }
+    }
+
+    void fillTableHDCT() {
+        index = tbl_hoaDon.getSelectedRow();
+        HoaDonCT hd = serviceHD.getAllHDChuaHT().get(index);
+        mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
+        mol.setRowCount(0);
+        for (HoaDonCT1 hoaDonCT1 : serviceHD.getAllCTHD(hd.getMaHD())) {
+            mol.addRow(new Object[]{
+                hoaDonCT1.getMaVi(),
+                hoaDonCT1.getTenVi(),
+                hoaDonCT1.getKieuDang(),
+                hoaDonCT1.getMauSac(),
+                hoaDonCT1.getThuongHieu(),
+                hoaDonCT1.getGiaBan(),
+                hoaDonCT1.getSoLuong(),
+                hoaDonCT1.getTongTien()
             });
         }
     }
