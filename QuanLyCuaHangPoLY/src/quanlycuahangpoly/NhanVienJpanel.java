@@ -20,14 +20,14 @@ import Hepper.Xdate;
  *
  * @author ADMIN
  */
-public class NhanVienJpanel1 extends javax.swing.JPanel {
+public class NhanVienJpanel extends javax.swing.JPanel {
     List<NhanVien> list;
     DefaultTableModel dtm;
     NhanVienRepository nhanVienRepository = new NhanVienRepository();
     /**
      * Creates new form NhanVien
      */
-    public NhanVienJpanel1() {
+    public NhanVienJpanel() {
         initComponents();
         fillTableNhanVienKhongHoatDong();
         fillTableNhanVien();
