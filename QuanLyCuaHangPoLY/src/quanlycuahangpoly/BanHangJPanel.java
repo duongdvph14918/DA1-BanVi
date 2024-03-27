@@ -9,7 +9,12 @@ import Model.HoaDonCT1;
 import Model.SanPham;
 import Service.HoaDonDAO;
 import Service.SanPhamDAO;
+import static java.awt.image.ImageObserver.HEIGHT;
+import static java.awt.image.ImageObserver.WIDTH;
 import java.util.List;
+import java.util.Random;
+import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -34,7 +39,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         this.email = email;
         txt_KhachHang1.setText("Khách Lẻ");
         this.fillTableSP(service.seachSP(txt_TimKiemSP.getText()));
-        fillTableHD(serviceHD.getAllHDChuaHT());
+        this.fillTableHD(serviceHD.getAllHDChuaHT());
         txt_NhanVien.setText(tenNV);
     }
 
@@ -428,6 +433,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // tạo hóa đơn
+        this.addHD();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -537,7 +543,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         mol.setRowCount(0);
         for (SanPham x : list) {
             mol.addRow(new Object[]{
-                x.getMaVi(),
+                x.getMachitietVi(),
                 x.getTenVi(),
                 x.getKieuDang(),
                 x.getThuongHieu(),
@@ -557,7 +563,6 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 x.getTenNV(),
                 x.getTenKH(),
                 x.getNgayTT(),
-                x.getTrangThai(),
                 x.getTT()
             });
         }
@@ -581,4 +586,439 @@ public class BanHangJPanel extends javax.swing.JPanel {
             });
         }
     }
+   // show hóa đơn chi tiết 
+    private void showHDCT() {
+        double tongTien = 0;
+        index = tbl_hoaDon.getSelectedRow();
+        HoaDonCT hd = serviceHD.getAllHDChuaHT().get(index);
+        mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
+        mol.setRowCount(0);
+        for (HoaDonCT1 hoaDonCT1 : serviceHD.getAllCTHD(hd.getMaHD())) {
+            mol.addRow(new Object[]{
+                hoaDonCT1.getMaVi(),
+                hoaDonCT1.getTenVi(),
+                hoaDonCT1.getKieuDang(),
+                hoaDonCT1.getMauSac(),
+                hoaDonCT1.getThuongHieu(),
+                hoaDonCT1.getGiaBan(),
+                hoaDonCT1.getSoLuong(),
+                hoaDonCT1.getTongTien()
+            });
+            tongTien = hoaDonCT1.getTongTien() + tongTien;
+        }
+        lbl_TongTien.setText(String.valueOf(tongTien));
+        lbl_maHD.setText(hd.getMaHD());
+        txt_KhachHang1.setText("Khách Lẻ");
+    }
+
+    // Show tổng tiền 
+    private void showTongTien() {
+        double tongTien = 0;
+        index = tbl_hoaDon.getSelectedRow();
+        HoaDonCT hd = serviceHD.getAllHDChuaHT().get(index);
+        mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
+        mol.setRowCount(0);
+        for (HoaDonCT1 hoaDonCT1 : serviceHD.getAllCTHD(hd.getMaHD())) {
+            mol.addRow(new Object[]{
+                hoaDonCT1.getMaVi(),
+                hoaDonCT1.getTenVi(),
+                hoaDonCT1.getKieuDang(),
+                hoaDonCT1.getMauSac(),
+                hoaDonCT1.getThuongHieu(),
+                hoaDonCT1.getGiaBan(),
+                hoaDonCT1.getSoLuong(),
+                hoaDonCT1.getTongTien()
+            });
+            tongTien = hoaDonCT1.getTongTien() + tongTien;
+        }
+        lbl_TongTien.setText(String.valueOf(tongTien));
+    }
+
+    // Chọn số lượng sản phẩm 
+    int sl = 0;
+
+    int choiceSLSP() {
+        index = tbl_SanPham.getSelectedRow();
+        SanPham sp = service.seachSP(txt_TimKiemSP.getText()).get(index);
+        sl = Integer.valueOf(JOptionPane.showInputDialog("nhập số lượng sản phẩm"));
+        System.out.println(sl);
+        return sl;
+    }
+
+    // lấy ra mã hóa đơn trong bảng hóa đơn 
+    String getMaHD() {
+        index = tbl_hoaDon.getSelectedRow();
+        HoaDonCT hd = serviceHD.getAllHDChuaHT().get(index);
+        return hd.getMaHD();
+    }
+
+    // Lấy ra mã hóa đơn chi tiết trong bảng hóa đơn chi tiết 
+    String getMaHDCT() {
+        int index_HDCT = tbl_hoaDonCT.getSelectedRow();
+        HoaDonCT1 hd1 = serviceHD.getAllCTHD(getMaHD()).get(index_HDCT);
+        return hd1.getMaHDCT();
+    }
+
+    // lấy ra số lượng trong hóa đơn chi tiết 
+    int getSoLuongSPHDCT() {
+        int index_HDCT = tbl_hoaDonCT.getSelectedRow();
+        HoaDonCT1 hd1 = serviceHD.getAllCTHD(getMaHD()).get(index_HDCT);
+        return hd1.getSoLuong();
+    }
+
+    // Lấy ra id sản phẩm chi tiết ở bảng sản phẩm 
+    int IDCTSP() {
+        int index_SP = tbl_SanPham.getSelectedRow();
+        SanPham sp = service.seachSP(txt_TimKiemSP.getText()).get(index_SP);
+        return service.getIDCTSP(sp.getMachitietVi());
+    }
+
+    // Lấy ra id sản phẩm chi tiết ở bảng hóa đơn chi tiết 
+    int IDCTSP_tableHDCT() {
+        int index1 = tbl_hoaDonCT.getSelectedRow();
+        HoaDonCT1 hd1 = serviceHD.getAllCTHD(getMaHD()).get(index1);
+        return serviceHD.getID_CTSP(hd1.getMaHDCT());
+    }
+
+    // lấy ra giá sản phẩm 
+    double moneySP() {
+        index = tbl_SanPham.getSelectedRow();
+        SanPham sp = service.seachSP(txt_TimKiemSP.getText()).get(index);
+        return sp.getGiaBan();
+    }
+
+//    // Lấy ra khách hàng từ bảng lên form 
+//    private void getKH() {
+//        int index_KH = tbl_KhachHang.getSelectedRow();
+//        KhachHang kh = khachHangService.firdKhachHangHD(txt_KhachHang.getText()).get(index_KH);
+//        txt_KhachHang1.setText(kh.getTenKhachHang());
+//    }
+//
+//    // lấy ra id khách hàng từ bảng khách hàng 
+//    private int getIDKH() {
+//        int index_KH = tbl_KhachHang.getSelectedRow();
+//        KhachHang kh = khachHangService.firdKhachHangHD(txt_KhachHang.getText()).get(index_KH);
+//        return kh.getIdKhachHang();
+//    }
+
+    // Lấy ra số lượng sản phẩm từ bảng sản phẩm 
+    int getSoLuongSP() {
+        int index_SP = tbl_SanPham.getSelectedRow();
+        SanPham sp = service.seachSP(txt_TimKiemSP.getText()).get(index_SP);
+        return sp.getSoLuong();
+    }
+
+    // Tạo mã hoá đơn ngẫu nhiên 
+    public static String randum() {
+        Random rd = new Random();
+        int numberCode = rd.nextInt(200) + 200;
+        return String.valueOf(numberCode);
+    }
+
+    // Check đã chọn hóa đơn chưa
+    private void checkChoiceHD() {
+        index = tbl_hoaDon.getSelectedRow();
+        if (index < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn ! ");
+        } // Đã chọn hóa đơn 
+        else {
+            try {
+                // Check sản phẩm đã có trong hóa đơn chưa 
+                int checkSP = 0;
+                int soLuong = choiceSLSP();
+                // Check số lượng 
+                if (soLuong <= 0) {
+                    JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ");
+                } else if (soLuong > getSoLuongSP()) {
+                    JOptionPane.showMessageDialog(this, "Số Lượng Sản Phẩm Không Đủ !");
+                } else {
+                    int index_HD = tbl_hoaDon.getSelectedRow();
+                    HoaDonCT hd = serviceHD.getAllHDChuaHT().get(index_HD);
+
+                    for (HoaDonCT1 ct : serviceHD.getAllCTHD(hd.getMaHD())) {
+                        if (ct.getIdCTVI() == IDCTSP()) {
+                            // đã tồn tại 
+                            serviceHD.updateSLSPHDCT(ct.getMaHDCT(), soLuong);
+                            double giaUpdate = serviceHD.getSLSP(IDCTSP(), serviceHD.getIDHD(hd.getMaHD())) * moneySP();
+                            serviceHD.updateGiaSPHDCT(giaUpdate, IDCTSP(), serviceHD.getIDHD(hd.getMaHD()));
+                            service.reduceSLSP(IDCTSP(), soLuong);
+                            this.fillTableHDCT();
+                            this.fillTableSP(service.seachSP(txt_TimKiemSP.getText()));
+                            this.showTongTien();
+                            checkSP = 1;
+                        }
+                    }
+                    // chưa tồn tại
+                    if (checkSP == 0) {
+                        // Thêm sản phẩm vào hóa đơn 
+                        service.reduceSLSP(IDCTSP(), soLuong);
+                        serviceHD.addSPHDCT(serviceHD.getIDHD(hd.getMaHD()), IDCTSP(), "HDCT" + randum(), soLuong, moneySP() * sl);
+                        // System.out.println(serviceHD.getIDHD(hd.getMaHD()));
+                        this.fillTableHDCT();
+                        this.fillTableSP(service.seachSP(txt_TimKiemSP.getText()));
+                        this.showTongTien();
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Số lượng sản phẩm không hợp lệ !");
+            }
+
+        }
+    }
+
+//    private void fillTableKH(List<KhachHang> list) {
+//        mol = (DefaultTableModel) tbl_KhachHang.getModel();
+//        mol.setRowCount(0);
+//        for (Model.KhachHang kh : list) {
+//            if (kh.isTrangThai() != false) {
+//                mol.addRow(new Object[]{
+//                    kh.getIdKhachHang(),
+//                    kh.getTenKhachHang(),
+//                    kh.getSdt()
+//                });
+//            }
+//        }
+//    }
+//
+//    private void searchKH(String ma) {
+//        List<Model.KhachHang> list;
+//        DefaultTableModel dtm;
+//        list = khachHangService.Search(ma);
+//        dtm = (DefaultTableModel) tbl_KhachHang.getModel();
+//        dtm.setRowCount(0);
+//        for (Model.KhachHang s : list) {
+//            dtm.addRow(new Object[]{s.getIdKhachHang(),
+//                s.getTenKhachHang(), s.getSdt(),});
+//        }
+//    }
+
+    // tạo hóa đơn 
+    private void addHD() {
+        try {
+            if (email.equals("")) {
+                JOptionPane.showMessageDialog(this, "Bạn Chưa đăng nhập !");
+            } else {
+                serviceHD.addHoaDon(1, serviceHD.getIDNhanVien(email), 1, "HD" + randum(), 0, 0);
+                this.fillTableHD(serviceHD.getAllHDChuaHT());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Bạn Chưa đăng nhập !");
+        }
+    }
+
+    // Hủy hóa đơn 
+    private void huyHD() {
+        try {
+            index = tbl_hoaDon.getSelectedRow();
+            if (index < 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn hủy ! ");
+            } // Đã chọn hóa đơn 
+            else {
+                String Options[] = {"Xác Nhận", "Trở Về"};
+                int choice = JOptionPane.showOptionDialog(this, "Xác Nhận Hủy Hóa Đơn ? ", "Quản Lý Bán Sản Phẩm BolyBop", WIDTH, HEIGHT, null, Options, EXIT_ON_CLOSE);
+                if (choice == 0) {
+                    index = tbl_hoaDon.getSelectedRow();
+                    HoaDonCT hd = serviceHD.getAllHDChuaHT().get(index);
+                    serviceHD.removeHoaDon(serviceHD.getIDHD(hd.getMaHD()));
+                    this.fillTableHD(serviceHD.getAllHDChuaHT());
+                    lbl_TongTien.setText("");
+                    lbl_maHD.setText("");
+                    mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
+                    mol.setRowCount(0);
+                }
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Hủy thất bại");
+        }
+    }
+
+    // Tìm kiếm sản phẩm 
+    private void timKiemSP() {
+        this.fillTableSP(service.seachSP(txt_TimKiemSP.getText()));
+    }
+
+    // Sửa số lượng trong hóa đơn chi tiết 
+    private void updateSLHDCT() {
+        index = tbl_hoaDonCT.getSelectedRow();
+        // HoaDonCT1 hd = serviceHD.getAllCTHD(getMaHD()).get(index);
+        if (index < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm muốn sửa !");
+        } // Đã chọn sản phẩm trong hóa đơn chi tiết 
+        else {
+            try {
+                int sumSL = service.sumSLSP(IDCTSP_tableHDCT(), getMaHDCT());
+                int soLuongUpdate = Integer.valueOf(JOptionPane.showInputDialog("Nhập số lượng muốn sửa "));
+                if (soLuongUpdate <= sumSL && soLuongUpdate > 0) {
+                    serviceHD.setSLHDCT(getMaHDCT(), soLuongUpdate);
+                    service.updateSLSP(IDCTSP_tableHDCT(), sumSL - soLuongUpdate);
+                    double giaUpdate = soLuongUpdate * serviceHD.getGiaBan(IDCTSP_tableHDCT());
+                    serviceHD.updateGiaSPHDCT_btnSua(giaUpdate, getMaHDCT());
+                    this.fillTableHDCT();
+                    this.fillTableSP(service.seachSP(txt_TimKiemSP.getText()));
+                    this.showTongTien();
+                } else if (soLuongUpdate < 0) {
+                    JOptionPane.showMessageDialog(this, "Số lượng sửa không hợp lệ !");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Số lượng sản phẩm không đủ !");
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "SỐ lượng sửa không hợp lệ !");
+            }
+        }
+    }
+
+    // Xóa sản phẩm trong hóa đơn chi tiết 
+    private void removeSPHDCT() {
+        index = tbl_hoaDonCT.getSelectedRow();
+        // HoaDonCT1 hd = serviceHD.getAllCTHD(getMaHD()).get(index);
+        if (index < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm muốn xóa");
+        } // Đã chọn sản phẩm trong hóa đơn chi tiết 
+        else {
+            String Options[] = {"Xác Nhận", "Trở Về"};
+            int choice = JOptionPane.showOptionDialog(this, "Xác Nhận xóa sản phẩm  ? ", "Quản Lý Bán Sản Phẩm BolyBop", WIDTH, HEIGHT, null, Options, EXIT_ON_CLOSE);
+            if (choice == 0) {
+                service.addSLSP(IDCTSP_tableHDCT(), getSoLuongSPHDCT());
+                serviceHD.deleteSPHDCT(getMaHDCT());
+                this.fillTableHDCT();
+                this.fillTableSP(service.seachSP(txt_TimKiemSP.getText()));
+                JOptionPane.showMessageDialog(this, "Xóa thành công ");
+                this.showTongTien();
+            }
+        }
+    }
+
+//    // thêm khách hàng mới 
+//    private void addKhNew() {
+//        NewKhachHangJDiaLog newKH = new NewKhachHangJDiaLog();
+//        newKH.setVisible(true);
+//        this.fillTableKH(khachHangService.firdKhachHangHD(txt_KhachHang.getText()));
+//
+//    }
+
+    // lấy ra phương thức thanh toán 
+    int getPTTT() {
+        if (rdo_TienMat.isSelected()) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+//    // Thanh toán hóa đơn 
+//    private void thanhToanHD() {
+//        try {
+//            index = tbl_hoaDon.getSelectedRow();
+//            if (index < 0) {
+//                JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn thanh toán ! ");
+//            } // Đã chọn hóa đơn 
+//            else {
+//                try {
+//                    if(txt_KhachHang1.getText().equals("")) {
+//                        JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng !");
+//                    } 
+//                    // nếu khách không muốn cung cấp thông tin 
+//                    
+//                      else  if (rdo_TienMat.isSelected()) {
+//                            double moneyNhan = Integer.valueOf(JOptionPane.showInputDialog("Nhập số tiền nhận của khách "));
+//                            if (moneyNhan == Double.valueOf(lbl_TongTien.getText())) {
+//                                serviceHD.thanhToanHD(lbl_maHD.getText(),1, Double.valueOf(lbl_TongTien.getText()), getPTTT());
+//                                this.fillTableHD(serviceHD.getAllHDChuaHT());
+//                                JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
+//                            } else if (moneyNhan < Double.valueOf(lbl_TongTien.getText())) {
+//                                JOptionPane.showMessageDialog(this, "Thanh toán thât bại ! \nKhách đưa thiếu tiền !");
+//                            } else {
+//                                double moneyTra = moneyNhan - Double.valueOf(lbl_TongTien.getText());
+//                                serviceHD.thanhToanHD(lbl_maHD.getText(),1, Double.valueOf(lbl_TongTien.getText()), getPTTT());
+//                                this.fillTableHD(serviceHD.getAllHDChuaHT());
+//                                JOptionPane.showMessageDialog(this, "Thanh Toán Thành Công !" + "\nSố tiền thối khách : " + String.valueOf(moneyTra) + " VNĐ");
+//
+//                            }
+//                        } else if (rdo_ChuyenKhoan.isEnabled()) {
+//                            serviceHD.thanhToanHD(lbl_maHD.getText(),1, Double.valueOf(lbl_TongTien.getText()), getPTTT());
+//                            this.fillTableHD(serviceHD.getAllHDChuaHT());
+//                            JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
+//                        }
+//                    
+//                    // Khách cung cấp thông tin 
+//                   if(txt_KhachHang1.getText().isBlank()){
+//                        if (rdo_TienMat.isSelected()) {
+//                        double moneyNhan = Integer.valueOf(JOptionPane.showInputDialog("Nhập số tiền nhận của khách "));
+//                        if (moneyNhan == Double.valueOf(lbl_TongTien.getText())) {
+//                            serviceHD.thanhToanHD(lbl_maHD.getText(), getIDKH(), Double.valueOf(lbl_TongTien.getText()), getPTTT());
+//                            this.fillTableHD(serviceHD.getAllHDChuaHT());
+//                            JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
+//                        } else if (moneyNhan < Double.valueOf(lbl_TongTien.getText())) {
+//                            JOptionPane.showMessageDialog(this, "Thanh toán thât bại ! \nKhách đưa thiếu tiền !");
+//                        } else {
+//                            double moneyTra = moneyNhan - Double.valueOf(lbl_TongTien.getText());
+//                            serviceHD.thanhToanHD(lbl_maHD.getText(), getIDKH(), Double.valueOf(lbl_TongTien.getText()), getPTTT());
+//                            this.fillTableHD(serviceHD.getAllHDChuaHT());
+//                            JOptionPane.showMessageDialog(this, "Thanh Toán Thành Công !" + "\nSố tiền thối khách : " + String.valueOf(moneyTra) + " VNĐ");
+//
+//                        }
+//                    } else if (rdo_ChuyenKhoan.isEnabled()) {
+//                        serviceHD.thanhToanHD(lbl_maHD.getText(), getIDKH(), Double.valueOf(lbl_TongTien.getText()), getPTTT());
+//                        this.fillTableHD(serviceHD.getAllHDChuaHT());
+//                        JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
+//                    }
+//                    }
+//                } catch (Exception e) {
+//                    System.out.println(e);
+//                    JOptionPane.showMessageDialog(this, "Số tiền không hợp lệ !");
+//                }
+//
+//            }
+//            mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
+//            mol.setRowCount(0);
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this, "Thanh toán thất bại ! ");
+//        }
+//    }
+//    private void thanhToanHD() {
+//        try {
+//            index = tbl_hoaDon.getSelectedRow();
+//            if (index < 0) {
+//                JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn thanh toán ! ");
+//            } // Đã chọn hóa đơn 
+//            else {
+//                try {
+//                    if (txt_KhachHang1.getText().equals("")) {
+//                        JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng !");
+//                    } else if (rdo_TienMat.isSelected()) {
+//                        double moneyNhan = Integer.valueOf(JOptionPane.showInputDialog("Nhập số tiền nhận của khách "));
+//                        if (moneyNhan == Double.valueOf(lbl_TongTien.getText())) {
+//                            serviceHD.thanhToanHD(lbl_maHD.getText(), getIDKH(), Double.valueOf(lbl_TongTien.getText()), getPTTT());
+//                            this.fillTableHD(serviceHD.getAllHDChuaHT());
+//                            JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
+//                        } else if (moneyNhan < Double.valueOf(lbl_TongTien.getText())) {
+//                            JOptionPane.showMessageDialog(this, "Thanh toán thât bại ! \nKhách đưa thiếu tiền !");
+//                        } else {
+//                            double moneyTra = moneyNhan - Double.valueOf(lbl_TongTien.getText());
+//                            serviceHD.thanhToanHD(lbl_maHD.getText(), getIDKH(), Double.valueOf(lbl_TongTien.getText()), getPTTT());
+//                            this.fillTableHD(serviceHD.getAllHDChuaHT());
+//                            JOptionPane.showMessageDialog(this, "Thanh Toán Thành Công !" + "\nSố tiền thối khách : " + String.valueOf(moneyTra) + " VNĐ");
+//                            mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
+//                            mol.setRowCount(0);
+//                        }
+//                    } else if (rdo_ChuyenKhoan.isEnabled()) {
+//                        serviceHD.thanhToanHD(lbl_maHD.getText(), getIDKH(), Double.valueOf(lbl_TongTien.getText()), getPTTT());
+//                        this.fillTableHD(serviceHD.getAllHDChuaHT());
+//                        JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
+//                        mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
+//                        mol.setRowCount(0);
+//                    }
+//                } catch (Exception e) {
+//                    JOptionPane.showMessageDialog(this, "Số tiền không hợp lệ !");
+//                }
+//
+//            }
+//
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this, "Thanh toán thất bại ! ");
+//        }
+//    }
+
 }

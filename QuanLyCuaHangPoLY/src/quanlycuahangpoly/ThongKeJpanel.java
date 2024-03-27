@@ -52,7 +52,7 @@ public class ThongKeJpanel extends javax.swing.JPanel {
         txtKetThuc.setEnabled(false);
         btnTK.setEnabled(false);
         TKTongQuan_View tk = tkTQ_Service.tkHomNay();
-        fillTKTongQuan(tk.getDonHang(),tk.getSanPham(),tk.getDoanhthu());
+        fillTKTongQuan(tk.getDonHang(), tk.getSanPham(), tk.getDoanhthu());
     }
 
     /**
@@ -468,37 +468,61 @@ public class ThongKeJpanel extends javax.swing.JPanel {
 
     private void cboLoaiTGItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboLoaiTGItemStateChanged
         // TODO add your handling code here:
-
+        if (cboLoaiTG.getItemCount() > 0) {
+            if (cboLoaiTG.getItemCount() == 0) {
+                TKTongQuan_View tk = tkTQ_Service.tkHomNay();
+                txtBatDau.setEnabled(false);
+                txtKetThuc.setEnabled(false);
+                btnTK.setEnabled(false);
+                fillTKTongQuan(tk.getDonHang(), tk.getSanPham(), tk.getDoanhthu());
+            } else {
+                pnlLoaiThoiGian.setEnabled(true);
+                txtBatDau.setEnabled(true);
+                txtKetThuc.setEnabled(true);
+                btnTK.setEnabled(true);
+            }
+        }
     }//GEN-LAST:event_cboLoaiTGItemStateChanged
 
     private void btnTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTKActionPerformed
         // TODO add your handling code here:
         // tim kiem
-
+        TKTongQuan_View tkTQ = tkTQ_Service.tkTheoNgay(dateFM.format(txtBatDau.getDate()), dateFM.format(txtKetThuc.getDate()));
+        ketthuc = dateFM.format(txtBatDau.getDate());
+        batDau = dateFM.format(txtKetThuc.getDate());
+        fillTKTongQuan(tkTQ.getDonHang(), tkTQ.getSanPham(), tkTQ.getDoanhthu());
     }//GEN-LAST:event_btnTKActionPerformed
 
     private void cboNamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboNamMouseClicked
         // TODO add your handling code here:
-
+        filltblTKSP();
+        testbarchar(Integer.parseInt(cboNam.getSelectedItem().toString()));
     }//GEN-LAST:event_cboNamMouseClicked
 
     private void cboNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNamActionPerformed
         // TODO add your handling code here:
+        filltblTKSP();
+        testbarchar(Integer.parseInt(cboNam.getSelectedItem().toString()));
     }//GEN-LAST:event_cboNamActionPerformed
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
         // TODO add your handling code here:
-
+        filltblTKSP();
+        testbarchar(Integer.parseInt(cboNam.getSelectedItem().toString()));
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         // TODO add your handling code here:
-
+        if (jTabbedPane1.getSelectedIndex() == 0) {
+            filltblTKSP();
+        }
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void tabDoanhThuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabDoanhThuMouseClicked
         // TODO add your handling code here:
-
+        if (tabDoanhThu.getSelectedIndex() == 1) {
+            testbarchar(Integer.parseInt(cboNam.getSelectedItem().toString()));
+        }
     }//GEN-LAST:event_tabDoanhThuMouseClicked
 
 
@@ -549,12 +573,14 @@ public class ThongKeJpanel extends javax.swing.JPanel {
         pnlBieuDo.add(chartPanel);
 
     }
-   private void fillTKTongQuan(int donHang, int sanPham, float doanhthu) {
+
+    private void fillTKTongQuan(int donHang, int sanPham, float doanhthu) {
         lbldoanhthu.setText(numberFM.format(doanhthu));
         lbdonhang.setText(donHang + "");
         lblsanpham.setText(sanPham + "");
     }
-       public void filltblTKSP() {
+
+    public void filltblTKSP() {
         listTkSP = tkSP_sv.getTKSanPham();
         mol = (DefaultTableModel) tbl_TKSP.getModel();
         mol.setRowCount(0);
