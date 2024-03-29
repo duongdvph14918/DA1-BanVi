@@ -20,12 +20,12 @@ public class TKTongQuan_Repos implements ITKTongQuan_Repos {
         String sql = "	SELECT (\n"
                 + "	SELECT count(HoaDon.Ma_HoaDon) \n"
                 + "	FROM HoaDon\n"
-                + "	WHERE CONVERT(DATE, HoaDon.NgayThanhToan)  <= CONVERT(DATE, GETDATE()) AND HoaDon.TrangThai =1) AS 'Đơn hàng', \n"
+                + "	WHERE CONVERT(DATE, HoaDon.NgayThanhToan)  = CONVERT(DATE, GETDATE()) AND HoaDon.TrangThai =1) AS 'Đơn hàng', \n"
                 + "    sum(HoaDonChiTiet.SoLuong) as 'Sản phẩm' ,\n"
                 + "	SUM(HoaDon.ThanhTien) as 'Doanh thu' \n"
                 + "	FROM HoaDon\n"
-                + "    left JOIN HoaDonChiTiet on HoaDon.IDHoaDon = HoaDonChiTiet.ID_HoaDon\n"
-                + "    WHERE CONVERT(DATE, HoaDon.NgayThanhToan) <= CONVERT(DATE, GETDATE()) AND HoaDon.TrangThai =1";
+                + "    JOIN HoaDonChiTiet on HoaDon.IDHoaDon = HoaDonChiTiet.ID_HoaDon\n"
+                + "    WHERE CONVERT(DATE, HoaDon.NgayThanhToan) = CONVERT(DATE, GETDATE()) AND HoaDon.TrangThai =1";
         ResultSet rs = JDBCHeper.Query(sql);
         try {
             while (rs.next()) {

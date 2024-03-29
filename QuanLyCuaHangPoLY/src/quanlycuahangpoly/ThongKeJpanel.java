@@ -48,6 +48,7 @@ public class ThongKeJpanel extends javax.swing.JPanel {
     public ThongKeJpanel() {
         initComponents();
         testbarchar(2024);
+        filltblTKSP();
         txtBatDau.setEnabled(false);
         txtKetThuc.setEnabled(false);
         btnTK.setEnabled(false);
@@ -395,8 +396,8 @@ public class ThongKeJpanel extends javax.swing.JPanel {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 70, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Sản Phẩm", jPanel6);
@@ -445,7 +446,7 @@ public class ThongKeJpanel extends javax.swing.JPanel {
                             .addComponent(cboLoaiTG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13))))
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -568,7 +569,7 @@ public class ThongKeJpanel extends javax.swing.JPanel {
         }
         JFreeChart Barchar = ChartFactory.createBarChart("Doanh Thu Theo Năm", "Thang", "Doanh Thu", dbSet, PlotOrientation.VERTICAL, false, false, false);
         ChartPanel chartPanel = new ChartPanel(Barchar);
-        chartPanel.setPreferredSize(new java.awt.Dimension(100, 100));
+        chartPanel.setPreferredSize(new java.awt.Dimension(150, 150));
         pnlBieuDo.removeAll();
         pnlBieuDo.add(chartPanel);
 

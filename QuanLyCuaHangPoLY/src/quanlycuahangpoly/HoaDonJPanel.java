@@ -46,7 +46,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     String maHD;
     public HoaDonJPanel() {
         initComponents();
-        fillTable(service.timKiem(txt_timKiem.getText()));
+        fillTable(service.getAll());
 
     }
 

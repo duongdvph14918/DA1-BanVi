@@ -4,17 +4,45 @@
  */
 package quanlycuahangpoly;
 
+import Hepper.Xdate;
+import Model.KhachHang;
+import Repository.KhachHangRepository;
+import Service.KhachHangService;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.ButtonGroup;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
 /**
  *
  * @author Windows
  */
 public class KhachHangJPanel extends javax.swing.JPanel {
 
+    KhachHangRepository khachHangRepository = new KhachHangRepository();
+    List<KhachHang> list;
+    DefaultTableModel dtm;
+
     /**
      * Creates new form KhachHangJPanel
      */
     public KhachHangJPanel() {
         initComponents();
+        //        fillTable();
+        fillTableKhachHang();
+        ButtonGroup bG = new ButtonGroup();
+        bG.add(rdo1);
+        bG.add(rdo2);
     }
 
     /**
@@ -90,6 +118,11 @@ public class KhachHangJPanel extends javax.swing.JPanel {
         btnThem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThem1ActionPerformed(evt);
+            }
+        });
+        btnThem1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                btnThem1KeyReleased(evt);
             }
         });
 
@@ -299,7 +332,7 @@ public class KhachHangJPanel extends javax.swing.JPanel {
                         .addComponent(btnLastPage)
                         .addComponent(btnExportExcel))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtSearchKH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSearchKH, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnThem1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -367,7 +400,7 @@ public class KhachHangJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-    
+this.delete();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnThem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem1ActionPerformed
@@ -375,10 +408,10 @@ public class KhachHangJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThem1ActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-    }//GEN-LAST:event_btnSuaActionPerformed
+        this.update();    }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-    }//GEN-LAST:event_btnThemActionPerformed
+        this.insert();    }//GEN-LAST:event_btnThemActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
@@ -389,26 +422,36 @@ public class KhachHangJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchKHActionPerformed
 
     private void txtSearchKHKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKHKeyReleased
-    }//GEN-LAST:event_txtSearchKHKeyReleased
+        searchKH(txtSearchKH.getText());    }//GEN-LAST:event_txtSearchKHKeyReleased
 
     private void tbl_KhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_KhachHangMouseClicked
-        
+        int index = tbl_KhachHang.getSelectedRow();
+        Model.KhachHang kh = khachHangRepository.getById(tbl_KhachHang.getValueAt(index, 0).toString());
+        show(kh);
     }//GEN-LAST:event_tbl_KhachHangMouseClicked
 
     private void btnFirstPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstPageActionPerformed
+        this.goToFirstPage();
     }//GEN-LAST:event_btnFirstPageActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+this.prevPage();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+this.nextPage();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnLastPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastPageActionPerformed
+this.goToLastPage();
     }//GEN-LAST:event_btnLastPageActionPerformed
 
     private void btnExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportExcelActionPerformed
-    }//GEN-LAST:event_btnExportExcelActionPerformed
+showSaveDialogAndExport();    }//GEN-LAST:event_btnExportExcelActionPerformed
+
+    private void btnThem1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnThem1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThem1KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -445,4 +488,305 @@ public class KhachHangJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtSearchKH;
     private javax.swing.JTextField txtTenKhachHang;
     // End of variables declaration//GEN-END:variables
+
+    private void fillTableKhachHang() {
+        List<Model.KhachHang> listKH;
+        DefaultTableModel mol;
+//        listKH = khachHangRepository.getAllKhachHang();
+        listKH = khachHangRepository.getKHByPage(currentPage, recordsPerPage);
+        mol = (DefaultTableModel) tbl_KhachHang.getModel();
+        mol.setRowCount(0);
+        for (Model.KhachHang kh : listKH) {
+            mol.addRow(new Object[]{kh.getIdKhachHang(),
+                kh.getTenKhachHang(),
+                kh.getSdt(),
+                kh.getNgaySinh(),
+                kh.getEmail(),
+                kh.getDiaChi(),
+                kh.isTrangThai() ? "Còn hoạt động" : "Không hoạt động"});
+        }
+        int totalPages = (int) Math.ceil((double) khachHangRepository.getTotalKH() / recordsPerPage);
+        pageLabel.setText("Trang: " + currentPage + " / " + totalPages);
+    }
+
+    public KhachHang getForm() {
+        KhachHang kh = new KhachHang();
+        kh.setIdKhachHang(Integer.parseInt(txtMaKhachHang.getText()));
+        kh.setTenKhachHang(txtTenKhachHang.getText());
+        kh.setTrangThai(rdo1.isSelected());
+        //String ngaySinh = format.format(jDateNgaysinh.getDate());
+        kh.setNgaySinh(Xdate.toDate(Xdate.toString(txtNgaySinh.getDate(), "yyyy-MM-dd"), "yyyy-MM-dd"));
+        kh.setEmail(txtEmail.getText());
+        kh.setSdt(txtSdt.getText());
+        kh.setDiaChi(txtDiaChi.getText());
+        return kh;
+    }
+
+    public KhachHang getFormAdd() {
+        KhachHang kh = new KhachHang();
+        kh.setTenKhachHang(txtTenKhachHang.getText());
+        kh.setTrangThai(rdo1.isSelected());
+        //String ngaySinh = format.format(jDateNgaysinh.getDate());
+        kh.setNgaySinh(Xdate.toDate(Xdate.toString(txtNgaySinh.getDate(), "yyyy-MM-dd"), "yyyy-MM-dd"));
+        kh.setEmail(txtEmail.getText());
+        kh.setSdt(txtSdt.getText());
+        kh.setDiaChi(txtDiaChi.getText());
+        return kh;
+    }
+
+    void delete() {
+        int chooser = JOptionPane.showConfirmDialog(this, "Bạn muốn xóa nhân viên?");
+        if (chooser == JOptionPane.YES_OPTION) {
+            try {
+                String manv = txtMaKhachHang.getText();
+                khachHangRepository.delKH(manv);
+                fillTableKhachHang();
+                JOptionPane.showMessageDialog(this, "Xóa thành công!!");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Xóa thất bại");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    KhachHangService khachHangService = new KhachHangService();
+
+    void update() {
+        try {
+            if (validateKhachHangForm()) {
+                khachHangService.update(getForm());
+                fillTableKhachHang();
+                JOptionPane.showMessageDialog(this, "Update thành công!!");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Cập nhật thất bại!" + "\n" + "Vui lòng chọn dữ liệu ở mục danh sách để cập nhật");
+            e.printStackTrace();
+        }
+    }
+
+    private boolean validateKhachHangForm() {
+        if (txtTenKhachHang.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Tên khách hàng");
+            return false;
+        }
+
+        // Kiểm tra số điện thoại
+        if (txtSdt.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Số điện thoại");
+            return false;
+        } else if (!isValidPhoneNumber(txtSdt.getText())) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ");
+            return false;
+        } else if (isPhoneNumberDuplicate(txtSdt.getText())) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại trong danh sách khách hàng");
+            return false;
+        }
+
+        // Kiểm tra ngày sinh
+        if (txtNgaySinh.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Ngày sinh");
+            return false;
+        }
+
+        // Kiểm tra email
+        if (txtEmail.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Email");
+            return false;
+        } else if (!isValidEmail(txtEmail.getText())) {
+            JOptionPane.showMessageDialog(this, "Email không hợp lệ");
+            return false;
+        } else if (isEmailDuplicate(txtEmail.getText())) {
+            JOptionPane.showMessageDialog(this, "Email đã tồn tại trong danh sách khách hàng");
+            return false;
+        }
+
+        // Kiểm tra địa chỉ
+        if (txtDiaChi.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Địa chỉ");
+            return false;
+        }
+
+        return true; // Đã kiểm tra hết, thông tin hợp lệ
+    }
+
+    private boolean isValidEmail(String email) {
+        // Định dạng email sử dụng regex cơ bản
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        // Định dạng số điện thoại: 10 hoặc 11 chữ số, bắt đầu từ 0 hoặc 84
+        String regex = "^(0|84)?[0-9]{9,10}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
+    }
+
+    private boolean isEmailDuplicate(String email) {
+        DefaultTableModel model = (DefaultTableModel) tbl_KhachHang.getModel();
+        int rowCount = model.getRowCount();
+
+        for (int i = 0; i < rowCount; i++) {
+            String existingEmail = (String) model.getValueAt(i, 4); // Assuming 4 is the column index for email
+            if (existingEmail.equals(email)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isPhoneNumberDuplicate(String phoneNumber) {
+        DefaultTableModel model = (DefaultTableModel) tbl_KhachHang.getModel();
+        int rowCount = model.getRowCount();
+
+        for (int i = 0; i < rowCount; i++) {
+            String existingPhoneNumber = (String) model.getValueAt(i, 2); // Assuming 2 is the column index for phone number
+            if (existingPhoneNumber.equals(phoneNumber)) {
+                return true; // Phone number already exists in the table
+            }
+        }
+
+        return false; // Phone number is not a duplicate
+    }
+
+    private int currentPage = 1;
+    private int recordsPerPage = 10;
+
+    public void nextPage() {
+        int totalRecords = khachHangRepository.getTotalKH();
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+
+        if (currentPage < totalPages) {
+            currentPage++;
+            fillTableKhachHang();
+        }
+    }
+
+    public void prevPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            fillTableKhachHang();
+        }
+    }
+
+    public void goToLastPage() {
+        int totalRecords = khachHangRepository.getTotalKH();
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+
+        if (currentPage < totalPages) {
+            currentPage = totalPages;
+            fillTableKhachHang();
+        }
+    }
+
+    public void goToFirstPage() {
+        if (currentPage > 1) {
+            currentPage = 1;
+            fillTableKhachHang();
+        }
+    }
+
+    private void exportToExcel(File fileToSave) {
+        DefaultTableModel model = (DefaultTableModel) tbl_KhachHang.getModel();
+        Workbook workbook = new HSSFWorkbook(); // Sử dụng HSSFWorkbook cho định dạng .xls
+        Sheet sheet = workbook.createSheet("KhachHangData");
+
+        // Tạo header từ tên cột
+        Row headerRow = sheet.createRow(0);
+        for (int col = 0; col < model.getColumnCount(); col++) {
+            Cell cell = headerRow.createCell(col);
+            cell.setCellValue(model.getColumnName(col));
+        }
+
+        // Thêm dữ liệu từ JTable vào Excel
+        for (int row = 0; row < model.getRowCount(); row++) {
+            Row excelRow = sheet.createRow(row + 1);
+            for (int col = 0; col < model.getColumnCount(); col++) {
+                Cell cell = excelRow.createCell(col);
+                cell.setCellValue(model.getValueAt(row, col).toString());
+            }
+        }
+
+        // Định dạng lại các cột (ví dụ: làm to rộng cột A)
+        for (int col = 0; col < 10; col++) {
+            sheet.setColumnWidth(col, 5000); // 3000 đơn vị là width, tùy thuộc vào đơn vị của bạn
+        }
+
+        // Lưu Workbook vào file Excel
+        try (FileOutputStream outputStream = new FileOutputStream(fileToSave)) {
+            workbook.write(outputStream);
+            JOptionPane.showMessageDialog(this, "Export Excel successful!\nFile saved at: " + fileToSave.getAbsolutePath());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Export Excel failed!");
+        }
+    }
+
+    private void showSaveDialogAndExport() {
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.home") + "/Downloads");
+        fileChooser.setDialogTitle("Save Excel File");
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+            public boolean accept(File f) {
+                return f.getName().toLowerCase().endsWith(".xls") || f.isDirectory();
+            }
+
+            public String getDescription() {
+                return "Excel Files (*.xls)";
+            }
+        });
+
+        int userSelection = fileChooser.showSaveDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            // Add .xls extension if not present
+            if (!fileToSave.getAbsolutePath().endsWith(".xls")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".xls");
+            }
+            exportToExcel(fileToSave);
+        }
+    }
+
+    private void show(KhachHang kh) {
+        txtDiaChi.setText(kh.getDiaChi());
+        txtMaKhachHang.setText(String.valueOf(kh.getIdKhachHang()));
+        txtEmail.setText(kh.getEmail());
+        txtNgaySinh.setDate(kh.getNgaySinh());
+        txtSdt.setText(kh.getSdt());
+        txtTenKhachHang.setText(kh.getTenKhachHang());
+        if (kh.isTrangThai() == true) {
+            rdo1.setSelected(true);
+        } else {
+            rdo2.setSelected(true);
+        }
+    }
+
+    private void searchKH(String ma) {
+        list = khachHangService.Search(ma);
+        dtm = (DefaultTableModel) tbl_KhachHang.getModel();
+        dtm.setRowCount(0);
+        for (KhachHang s : list) {
+            dtm.addRow(new Object[]{
+                s.getIdKhachHang(), s.getTenKhachHang(), s.getSdt(),
+                s.getNgaySinh(), s.getEmail(), s.getDiaChi(), s.isTrangThai() ? "Còn hoạt động" : "Không hoạt động"});
+        }
+    }
+
+    private void insert() {
+        try {
+            if (validateKhachHangForm()) {
+                khachHangService.insert(getFormAdd());
+                fillTableKhachHang();
+                JOptionPane.showMessageDialog(this, "Thêm mới thành công");
+            }
+        } catch (Exception e) {//
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Thêm mới thất bại");
+
+        }
+    }
+
 }

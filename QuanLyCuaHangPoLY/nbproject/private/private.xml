@@ -2,11 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group>
             <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/Hepper/JDBCHeper.java</file>
             <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/ChatLieuJDiaLog.java</file>
             <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/main.java</file>
             <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/Repository/DBconnect.java</file>
         </group>
+=======
+        <group/>
+>>>>>>> a24f1299663546eb163f316e578fe64ab390e6bf
     </open-files>
 </project-private>

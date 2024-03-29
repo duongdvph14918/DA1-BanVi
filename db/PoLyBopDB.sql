@@ -425,12 +425,12 @@ select * from LoaiVi where TenLoaiVi =?
 	SELECT (
 	SELECT count(HoaDon.Ma_HoaDon) 
 	FROM HoaDon
-	WHERE CONVERT(DATE, HoaDon.NgayThanhToan)  <= CONVERT(DATE, GETDATE()) AND HoaDon.TrangThai != 0) AS 'Đơn hàng',
+	WHERE CONVERT(DATE, HoaDon.NgayThanhToan)  = CONVERT(DATE, GETDATE()) AND HoaDon.TrangThai = 1) AS 'Đơn hàng',
     sum(HoaDonChiTiet.SoLuong) as 'Sản phẩm',
 	SUM(HoaDon.ThanhTien) as 'Doanh thu' 
 	FROM HoaDon
-   left JOIN HoaDonChiTiet on HoaDon.IDHoaDon = HoaDonChiTiet.ID_HoaDon
-    WHERE CONVERT(DATE, HoaDon.NgayThanhToan)  <= CONVERT(DATE, GETDATE()) AND HoaDon.TrangThai != 0
+    JOIN HoaDonChiTiet on HoaDon.IDHoaDon = HoaDonChiTiet.ID_HoaDon
+    WHERE CONVERT(DATE, HoaDon.NgayThanhToan)  = CONVERT(DATE, GETDATE()) AND HoaDon.TrangThai = 1
 	-- theo ngày
 	select
 	    sum(HoaDonChiTiet.SoLuong) as 'Sản phẩm' 

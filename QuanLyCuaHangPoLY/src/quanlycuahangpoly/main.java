@@ -4,16 +4,14 @@
  */
 package quanlycuahangpoly;
 
-//import Model.TaiKhoan;
-//import Service.TaiKhoanDao;
-//import View.LoginView;
+
+import View.DoiMK_View;
+import View.LoginView;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-//import View.DoiMK_View;
-//import View.LoginView;
 import javax.swing.JButton;
 //import quanlypolybob.Hepper.Auth;
 
@@ -39,7 +37,7 @@ public class main extends javax.swing.JFrame {
 //        new LoginView().setVisible(false);
         setExtendedState(this.MAXIMIZED_BOTH);
         setColor(lblTrangChu);
-        setColorJpanel(pnSanPham);
+        setColorJpanel(pnTrangChu);
 
         if (chucVu == 1) {
             lblChucVu.setText("ADMIN");
@@ -472,16 +470,16 @@ public class main extends javax.swing.JFrame {
 
     private void mnDMKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnDMKActionPerformed
         // Đổi mật khẩu 
-//        DoiMK_View dmk = new DoiMK_View(email);
-//        dmk.setVisible(true);
+        DoiMK_View dmk = new DoiMK_View(email);
+        dmk.setVisible(true);
 
     }//GEN-LAST:event_mnDMKActionPerformed
 
     private void mnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnThoatActionPerformed
         // Thoát 
-//        LoginView lg = new LoginView();
-//        lg.setVisible(true);
-//        this.dispose();
+        LoginView lg = new LoginView();
+        lg.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_mnThoatActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
