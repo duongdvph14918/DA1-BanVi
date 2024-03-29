@@ -8,14 +8,26 @@ package quanlycuahangpoly;
  *
  * @author Windows
  */
+import Model.XuatXu;
+import java.util.List;
+import java.util.Locale;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import quanlycuahangpoly.Dao.XuatXuDao;
+import Hepper.MsgBox;
 public class XuatXuJDiaLog extends javax.swing.JDialog {
 
     /**
      * Creates new form XuatXuJDiaLog
      */
+    XuatXuDao dao = new XuatXuDao();
+    int row;
+   Locale vn = new Locale("vi", "VN");
     public XuatXuJDiaLog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        filltotableXuatXu();
     }
 
     /**
@@ -172,24 +184,37 @@ public class XuatXuJDiaLog extends javax.swing.JDialog {
 
     private void tblTXuatXuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTXuatXuMouseClicked
         // TODO add your handling code here:
-      
+      try {
+            row = tblTXuatXu.getSelectedRow();
+            edit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_tblTXuatXuMouseClicked
 
     private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
         // TODO add your handling code here:
-
+        try {
+            row = tblTXuatXu.getSelectedRow();
+            edit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jScrollPane1MouseClicked
 
     private void btnlammoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlammoiActionPerformed
         // TODO add your handling code here:
+        lammoi();
     }//GEN-LAST:event_btnlammoiActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+        insert();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
+        update();
     }//GEN-LAST:event_btnsuaActionPerformed
 
     /**
@@ -249,4 +274,146 @@ public class XuatXuJDiaLog extends javax.swing.JDialog {
     private javax.swing.JTextField txtMa;
     private javax.swing.JTextField txtTen;
     // End of variables declaration//GEN-END:variables
+    private void filltotableXuatXu() {
+        DefaultTableModel model = (DefaultTableModel) tblTXuatXu.getModel();
+        model.setRowCount(0);
+        List<XuatXu> list = dao.selectAll();
+        for (XuatXu x : list) {
+            model.addRow(new Object[]{x.getMa_XuatXu(), x.getTenXuatXu(), x.isTrangThai() ? "Còn Hàng" : "Hết Hàng"});
+        }
+
+    }
+        private XuatXu getInformation() {
+        XuatXu sp = new XuatXu();
+//        sp.setIDVi(Integer.parseInt(txtMaVi.getText()));
+        sp.setMa_XuatXu(txtMa.getText());
+        sp.setTenXuatXu(txtTen.getText());
+        //System.out.println(sp.getId_loaiSP());
+        sp.setTrangThai(jRadioButton1.isSelected());
+
+        System.out.println(sp.getMa_XuatXu());
+        System.out.println(sp.getTenXuatXu());
+            System.out.println(sp.isTrangThai());
+        return sp;
+    }
+
+    private void setForm(XuatXu sp) {
+//        txtMaVi.setText(sp.getIDVi() + "");
+        txtMa.setText(sp.getMa_XuatXu());
+        txtTen.setText(sp.getTenXuatXu());
+
+        jRadioButton1.setSelected(sp.isTrangThai());
+        jRadioButton2.setSelected(!sp.isTrangThai());
+
+    }
+    
+        private void edit() {
+        String idloaisp = tblTXuatXu.getValueAt(row, 0).toString();
+            XuatXu lsp = dao.selectID1(idloaisp);
+        setForm(lsp);
+    }
+
+    // tự điền mã xuất xứ
+    private void selectMaxIDLSP() {
+        if (dao.selectAll().isEmpty()) {
+            txtMa.setText("XX01))");
+        } else {
+            txtMa.setText("XX0" + (dao.selectMaLOAISP()+ 1));
+        }
+    }
+
+    //
+    private void lammoi() {
+        txtMa.setText("");
+        txtTen.setText("");
+//        txtidloai.setText("");
+        selectMaxIDLSP();
+
+    }
+       private void insert() {
+        if (Checknull()) {
+            return;
+        }  else {
+            try {
+                XuatXu lsp = getInformation();
+                dao.insert(lsp);
+                filltotableXuatXu();
+                lammoi();
+                JOptionPane.showMessageDialog(this, "đã thêm xuất xứ này");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    // cập nhập
+    private void update() {
+        if (Checknull1()) {
+            return;
+        } else {
+            try {
+                XuatXu lsp = getInformation();
+                dao.update(lsp);
+                filltotableXuatXu();
+                lammoi();
+                JOptionPane.showMessageDialog(this, "đã cập nhập xuất xứ này");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private boolean Checknull() {
+        if (txtMa.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã thương hiệu!");
+            txtMa.requestFocus();
+
+            return true;
+        }
+        if (txtTen.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên thương hiệu!");
+            txtTen.requestFocus();
+
+            return true;
+        }
+      
+        List<XuatXu> list = dao.selectAll();
+        String id = txtMa.getText();
+        String tensp = txtTen.getText();
+        for (int i = 0; i < list.size(); i++) {
+            if (id.equalsIgnoreCase(list.get(i).getMa_XuatXu())) {
+                JOptionPane.showMessageDialog(this, "Trùng khóa chính");
+                txtMa.requestFocus();
+                return true;
+            } else if (tensp.equalsIgnoreCase(list.get(i).getTenXuatXu())) {
+                JOptionPane.showMessageDialog(this, "Tên xuất xứ đã tồn tại");
+                txtTen.requestFocus();
+                return true;
+            }
+        }
+         if (txtMa.getText().length() < 3) {
+            JOptionPane.showMessageDialog(this, "Mã xuất xứ phải trên 2 kí tự");
+            return true;
+        } else if (txtTen.getText().length() < 5) {
+            JOptionPane.showMessageDialog(this, "Tên xuất xứ phải trên 5 kí tự");
+            return true;
+        }
+        return false;
+
+    }
+    private boolean Checknull1() {
+        if (txtMa.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã xuất xứ!");
+            txtMa.requestFocus();
+
+            return true;
+        }
+        if (txtTen.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên xuất xứ!");
+            txtTen.requestFocus();
+
+            return true;
+        }
+        return false;
+    }
 }

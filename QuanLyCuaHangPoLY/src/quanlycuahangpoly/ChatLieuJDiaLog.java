@@ -8,14 +8,25 @@ package quanlycuahangpoly;
  *
  * @author Windows
  */
+import Model.ChatLieu;
+import Model.ThuongHieu;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import quanlycuahangpoly.Dao.ChatLieuDao;
+import quanlycuahangpoly.Dao.ThuongHieuDao;
+import Hepper.MsgBox;
 public class ChatLieuJDiaLog extends javax.swing.JDialog {
-
+    ChatLieuDao dao = new ChatLieuDao();
+    int row;
     /**
      * Creates new form ChatLieuJDiaLog
      */
     public ChatLieuJDiaLog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        filltotableChatLieu();
     }
 
     /**
@@ -172,23 +183,37 @@ public class ChatLieuJDiaLog extends javax.swing.JDialog {
 
     private void tblChatLieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChatLieuMouseClicked
         // TODO add your handling code here:
-
+        try {
+            row = tblChatLieu.getSelectedRow();
+            edit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_tblChatLieuMouseClicked
 
     private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
         // TODO add your handling code here:
+        try {
+            row = tblChatLieu.getSelectedRow();
+            edit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jScrollPane1MouseClicked
 
     private void btnlammoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlammoiActionPerformed
         // TODO add your handling code here:
+        lammoi();
     }//GEN-LAST:event_btnlammoiActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+        insert();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
+        update();
     }//GEN-LAST:event_btnsuaActionPerformed
 
     /**
@@ -248,4 +273,146 @@ public class ChatLieuJDiaLog extends javax.swing.JDialog {
     private javax.swing.JTextField txtMa;
     private javax.swing.JTextField txtTen;
     // End of variables declaration//GEN-END:variables
+private void filltotableChatLieu() {
+        DefaultTableModel model = (DefaultTableModel) tblChatLieu.getModel();
+        model.setRowCount(0);
+        List<ChatLieu> list = dao.selectAll();
+        for (ChatLieu x : list) {
+            model.addRow(new Object[]{x.getMa_ChatLieu(), x.getTenChatLieu(), x.isTrangThai() ? "Còn Hàng" : "Hết Hàng"});
+        }
+
+    }
+        private ChatLieu getInformation() {
+        ChatLieu sp = new ChatLieu();
+//        sp.setIDVi(Integer.parseInt(txtMaVi.getText()));
+        sp.setMa_ChatLieu(txtMa.getText());
+        sp.setTenChatLieu(txtTen.getText());
+        //System.out.println(sp.getId_loaiSP());
+        sp.setTrangThai(jRadioButton1.isSelected());
+
+        System.out.println(sp.getMa_ChatLieu());
+        System.out.println(sp.getTenChatLieu());
+            System.out.println(sp.isTrangThai());
+        return sp;
+    }
+
+    private void setForm(ChatLieu sp) {
+//        txtMaVi.setText(sp.getIDVi() + "");
+        txtMa.setText(sp.getMa_ChatLieu());
+        txtTen.setText(sp.getTenChatLieu());
+
+        jRadioButton1.setSelected(sp.isTrangThai());
+        jRadioButton2.setSelected(!sp.isTrangThai());
+
+    }
+    
+        private void edit() {
+        String idloaisp = tblChatLieu.getValueAt(row, 0).toString();
+            ChatLieu lsp = dao.selectID1(idloaisp);
+        setForm(lsp);
+    }
+
+    // tự điền mã đồ uống
+    private void selectMaxIDLSP() {
+        if (dao.selectAll().isEmpty()) {
+            txtMa.setText("CL001");
+        } else {
+            txtMa.setText("CL0" + (dao.selectMaLOAISP() + 1));
+        }
+    }
+
+    //
+    private void lammoi() {
+        txtMa.setText("");
+        txtTen.setText("");
+//        txtidloai.setText("");
+        selectMaxIDLSP();
+
+    }
+       private void insert() {
+        if (Checknull()) {
+            return;
+        }  else {
+            try {
+                ChatLieu lsp = getInformation();
+                dao.insert(lsp);
+                filltotableChatLieu();
+                lammoi();
+                JOptionPane.showMessageDialog(this, "đã thêm loại sản phẩm này");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    // cập nhập
+    private void update() {
+        if (Checknull1()) {
+            return;
+        } else {
+            try {
+                ChatLieu lsp = getInformation();
+                dao.update(lsp);
+                filltotableChatLieu();
+                lammoi();
+                JOptionPane.showMessageDialog(this, "đã cập nhập lại loại sản phẩm này");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private boolean Checknull() {
+        if (txtMa.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã thương hiệu!");
+            txtMa.requestFocus();
+
+            return true;
+        }
+        if (txtTen.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên thương hiệu!");
+            txtTen.requestFocus();
+
+            return true;
+        }
+      
+        List<ChatLieu> list = dao.selectAll();
+        String id = txtMa.getText();
+        String tensp = txtTen.getText();
+        for (int i = 0; i < list.size(); i++) {
+            if (id.equalsIgnoreCase(list.get(i).getMa_ChatLieu())) {
+                JOptionPane.showMessageDialog(this, "Trùng khóa chính");
+                txtMa.requestFocus();
+                return true;
+            } else if (tensp.equalsIgnoreCase(list.get(i).getTenChatLieu())) {
+                JOptionPane.showMessageDialog(this, "Tên chất liệu đã tồn tại");
+                txtTen.requestFocus();
+                return true;
+            }
+        }
+         if (txtMa.getText().length() < 3) {
+            JOptionPane.showMessageDialog(this, "Mã chất liệu phải trên 2 kí tự");
+            return true;
+        } else if (txtTen.getText().length() < 5) {
+            JOptionPane.showMessageDialog(this, "Tên chất liệu phải trên 5 kí tự");
+            return true;
+        }
+        return false;
+
+    }
+    private boolean Checknull1() {
+        if (txtMa.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã chất liệu!");
+            txtMa.requestFocus();
+
+            return true;
+        }
+        if (txtTen.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên chất liệu!");
+            txtTen.requestFocus();
+
+            return true;
+        }
+        return false;
+    }
 }

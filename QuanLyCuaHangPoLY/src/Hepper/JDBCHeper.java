@@ -17,8 +17,13 @@ import java.util.logging.Logger;
 public class JDBCHeper {
    static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
    static String url = "jdbc:sqlserver://127.0.0.1:1433;databaseName=PoLyBop";
+<<<<<<< HEAD
+   static String user ="admin";// đây là tài khoản, ở đây mình sẽ đổi thành admin
+   static String password ="123";// đây là mật khẩu
+=======
    static String user ="sa";// đây là tài khoản, ở đây mình sẽ đổi thành admin
    static String password ="3011";// đây là mật khẩu
+>>>>>>> a24f1299663546eb163f316e578fe64ab390e6bf
 
 //    static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 //    static String url = "jdbc:sqlserver://127.0.0.1:1433;databaseName=QUANLYCAPHEBANME";//kết nối db

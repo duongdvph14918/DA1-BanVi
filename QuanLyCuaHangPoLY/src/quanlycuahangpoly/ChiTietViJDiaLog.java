@@ -8,14 +8,59 @@ package quanlycuahangpoly;
  *
  * @author Windows
  */
+import Model.ChatLieu;
+import Model.ChiTietVi;
+import Model.LoaiVi;
+import Model.MauSac;
+import Model.Vi;
+import Model.XuatXu;
+import Service.ChiTietViService;
+import java.util.List;
+import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import quanlycuahangpoly.Dao.ChatLieuDao;
+import quanlycuahangpoly.Dao.ChiTietViDao;
+import quanlycuahangpoly.Dao.LoaiVIDao;
+import quanlycuahangpoly.Dao.MauSacDao;
+import quanlycuahangpoly.Dao.ViDao;
+import quanlycuahangpoly.Dao.XuatXuDao;
+import Hepper.MsgBox;
+import Hepper.Xdate;
 public class ChiTietViJDiaLog extends javax.swing.JDialog {
 
     /**
      * Creates new form ChiTietViJDiaLog
      */
+    DefaultTableModel model = new DefaultTableModel();
+    MauSacDao daoms = new MauSacDao();
+    XuatXuDao daoxx = new XuatXuDao();
+    ChatLieuDao daocl = new ChatLieuDao();
+    LoaiVIDao daolv = new LoaiVIDao();
+    ViDao daovi = new ViDao();
+    ChiTietViDao daoctv = new ChiTietViDao();
+    List<Vi> listVi;
+    List<MauSac> listMauSac;
+    List<XuatXu> listXuatXu;
+    List<ChiTietVi> listChiTiet;
+    List<LoaiVi> listLoaiVi;
+    List<ChatLieu> listChatLieu;
+    int row;
     public ChiTietViJDiaLog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        filltotableChitietVi();
+        init();
+    }
+    private void init() {
+        fillcomboboxMaVi();
+        fillcomboboxChatLieu();
+        fillcomboboxXuatXu();
+        fillcomboboxLoaiVi();
+        fillcomboboxMauSac();
     }
 
     /**
@@ -592,4 +637,323 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
     private javax.swing.JTextField txtSoluong;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
+    private void search() {
+
+        String timkiem = txtTimKiem.getText();
+        TableRowSorter<DefaultTableModel> sanpham = new TableRowSorter<>(model);
+        jTable1.setRowSorter(sanpham);
+        sanpham.setRowFilter(javax.swing.RowFilter.regexFilter(timkiem));
+
+    }
+
+    private void filltotableChitietVi() {
+        model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        try {
+            List<ChiTietVi> list = daoctv.selectAll();
+            for (ChiTietVi x : list) {
+                model.addRow(new Object[]{
+                    x.getMa_ChiTietVi(), daovi.selectNameById(x.getID_Vi()),
+                    daocl.selectNameById(x.getID_ChatLieu()), x.getKhoaVi(),
+                    daoms.selecNameById(x.getID_MauSac()), daoxx.selectNameByID(x.getID_XuatXu()),
+                    daolv.selectNameByID(x.getID_LoaiVi()), x.getSoNganDungThe(),
+                    x.getGiaNhap(), x.getGiaBan(), x.getSoLuong(), x.getNgayNhap(), x.isTrangThai() ? "Còn hàng" : "Hết hàng"
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillcomboboxMaVi() {
+        DefaultComboBoxModel modelmavi = (DefaultComboBoxModel) cbxMaVi.getModel();
+        modelmavi.removeAllElements();
+        listVi = daovi.selectAll();
+        for (Vi x : listVi) {
+            modelmavi.addElement(x.getTenVi());
+        }
+    }
+
+    private void fillcomboboxChatLieu() {
+        DefaultComboBoxModel modelChat = (DefaultComboBoxModel) cbxChatLieu.getModel();
+        modelChat.removeAllElements();
+        listChatLieu = daocl.selectAll();
+        for (ChatLieu x : listChatLieu) {
+            modelChat.addElement(x.getTenChatLieu());
+        }
+    }
+
+    private void fillcomboboxXuatXu() {
+        DefaultComboBoxModel modelxx = (DefaultComboBoxModel) cbxXuatxu.getModel();
+        modelxx.removeAllElements();
+        listXuatXu = daoxx.selectAll();
+        for (XuatXu x : listXuatXu) {
+            modelxx.addElement(x.getTenXuatXu());
+        }
+    }
+
+    private void fillcomboboxLoaiVi() {
+        DefaultComboBoxModel modelLoaiVi = (DefaultComboBoxModel) cbxLoaivi.getModel();
+        modelLoaiVi.removeAllElements();
+        listLoaiVi = daolv.selectAll();
+        for (LoaiVi x : listLoaiVi) {
+            modelLoaiVi.addElement(x.getTenLoaiVi());
+        }
+    }
+
+    private void fillcomboboxMauSac() {
+        DefaultComboBoxModel modelMausac = (DefaultComboBoxModel) cbxMausac.getModel();
+        modelMausac.removeAllElements();
+        listMauSac = daoms.selectAll();
+        for (MauSac x : listMauSac) {
+            modelMausac.addElement(x.getTenMauSac());
+        }
+    }
+
+    public void setform(ChiTietVi ctv) {
+        String mavi = jTable1.getValueAt(row, 1).toString();
+        for (int i = 0; i < listVi.size(); i++) {
+            if (mavi.equals(listVi.get(i).getTenVi())) {
+                cbxMaVi.setSelectedIndex(i);
+            }
+        }
+        String chatlieu = jTable1.getValueAt(row, 2).toString();
+        for (int i = 0; i < listChatLieu.size(); i++) {
+            if (chatlieu.equals(listChatLieu.get(i).getTenChatLieu())) {
+                cbxChatLieu.setSelectedIndex(i);
+            }
+        }
+        String mausac = jTable1.getValueAt(row, 4).toString();
+        for (int i = 0; i < listMauSac.size(); i++) {
+            if (mausac.equals(listMauSac.get(i).getTenMauSac())) {
+                cbxMausac.setSelectedIndex(i);
+            }
+        }
+        String xuatxu = jTable1.getValueAt(row, 5).toString();
+        for (int i = 0; i < listXuatXu.size(); i++) {
+            if (xuatxu.equals(listXuatXu.get(i).getTenXuatXu())) {
+                cbxXuatxu.setSelectedIndex(i);
+            }
+        }
+        String loaivi = jTable1.getValueAt(row, 6).toString();
+        for (int i = 0; i < listLoaiVi.size(); i++) {
+            if (loaivi.equals(listLoaiVi.get(i).getTenLoaiVi())) {
+                cbxLoaivi.setSelectedIndex(i);
+            }
+        }
+        txtMaChiTiet.setText(ctv.getMa_ChiTietVi());
+        txtGiaNhap.setText(Double.toString(ctv.getGiaNhap()));
+        txtGiaban.setText(ctv.getGiaBan() + "");
+//        Double.toString(ctv.getGiaBan())
+        txtKhoaVi.setText(ctv.getKhoaVi());
+        txtSoNgan.setText(ctv.getSoNganDungThe());
+        txtSoluong.setText(ctv.getSoLuong() + "");
+        date.setDate(ctv.getNgayNhap());
+        jRadioButton1.setSelected(ctv.isTrangThai());
+        jRadioButton2.setSelected(!ctv.isTrangThai());
+    }
+
+    public ChiTietVi getform() {
+        ChiTietVi ct = new ChiTietVi();
+        ct.setGiaBan(Double.valueOf(txtGiaban.getText()));
+        ct.setGiaNhap(Double.valueOf(txtGiaNhap.getText()));
+        ct.setID_ChatLieu(daocl.selectIdByName(cbxChatLieu.getSelectedItem() + ""));
+        ct.setID_LoaiVi(daolv.selectIdByName(cbxLoaivi.getSelectedItem() + ""));
+        ct.setID_MauSac(daoms.selectIdByName(cbxMausac.getSelectedItem() + ""));
+        ct.setID_Vi(daovi.selectIdByName(cbxMaVi.getSelectedItem() + ""));
+        ct.setID_XuatXu(daoxx.selectIdByName(cbxXuatxu.getSelectedItem() + ""));
+        ct.setKhoaVi(txtKhoaVi.getText());
+        ct.setNgayNhap(Xdate.toDate(Xdate.toString(date.getDate(), "yyyy-MM-dd"), "yyyy-MM-dd"));
+        ct.setSoLuong(Integer.parseInt(txtSoluong.getText()));
+        ct.setSoNganDungThe(txtSoNgan.getText());
+        ct.setMa_ChiTietVi(txtMaChiTiet.getText());
+        ct.setTrangThai(jRadioButton1.isSelected());
+        return ct;
+    }
+
+    void edit() {
+        String mavi = (String) jTable1.getValueAt(row, 0).toString();
+        ChiTietVi ctv = daoctv.selectID1(mavi);
+        this.setform(ctv);
+        updateStatus();
+    }
+
+    private void clearForm() {
+        txtGiaNhap.setText("");
+        txtGiaban.setText("");
+        txtKhoaVi.setText("");
+        txtMaChiTiet.setText("");
+        txtSoNgan.setText("");
+        txtSoluong.setText("");
+
+        row = -1;
+        identityMasp2();
+
+        updateStatus();
+
+    }
+
+    private void identityMasp2() {
+        if (daoctv.selectAll().isEmpty()) {
+            txtMaChiTiet.setText("CTV001");
+        } else {
+            txtMaChiTiet.setText("CTV0" + (daoctv.select_Max_id_java() + 1));
+        }
+    }
+
+    private void updateStatus() {
+        boolean edit = (row >= 0);
+        boolean fist = (row == 0);
+        boolean last = (row == jTable1.getRowCount() - 1);
+        ////
+        txtMaChiTiet.setEditable(!edit);
+        btnThem.setEnabled(!edit);
+        btnSua.setEnabled(edit);
+        ////
+        jButton6.setEnabled(edit && !fist);
+        jButton7.setEnabled(edit && !fist);
+        jButton8.setEnabled(!last && edit);
+        jButton9.setEnabled(!last && edit);
+    }
+
+    private boolean CheckNumber() {
+        String regex = "CTV\\d+";
+        String regexx = "sp\\d+";
+        Pattern parten = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        if (!parten.matcher(txtMaChiTiet.getText()).find()) {
+            JOptionPane.showMessageDialog(this, "Nhập sai định dạng mã sản phẩm");
+            return true;
+        } else {
+            Pattern p = Pattern.compile("^[0-9]{1,15}$");
+//            if (!p.matcher(txtGiaNhap.getText()).matches()) {
+//                JOptionPane.showMessageDialog(this, "Nhập sai định dạng giá nhập sản phẩm");
+//                txtGiaNhap.requestFocus();
+//                return true;
+//            } else 
+                if (Double.parseDouble(txtGiaNhap.getText()) < 0) {
+                JOptionPane.showMessageDialog(this, "Giá nhập vào không được âm");
+                txtGiaNhap.requestFocus();
+                return true;
+            }
+//            if (!p.matcher(txtGiaban.getText()).matches()) {
+//                JOptionPane.showMessageDialog(this, "Nhập sai định dạng giá bán sản phẩm");
+//                txtGiaban.requestFocus();
+//                return true;
+//            } else 
+                if (Double.parseDouble(txtGiaban.getText()) < 0) {
+                JOptionPane.showMessageDialog(this, "Giá nhập vào không được âm");
+                txtGiaban.requestFocus();
+                return true;
+            }
+//            if (!p.matcher(txtSoluong.getText()).matches()) {
+//                JOptionPane.showMessageDialog(this, "Nhập sai định dạng số lượng");
+//                txtSoluong.requestFocus();
+//                return true;
+//            } else 
+                if (Double.parseDouble(txtSoluong.getText()) < 0) {
+                JOptionPane.showMessageDialog(this, "Số lượng không được âm");
+                txtSoluong.requestFocus();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    private boolean Checknull() {
+        if (txtMaChiTiet.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không để trống mã ví !");
+            txtMaChiTiet.requestFocus();
+
+            return true;
+        }
+        if (txtGiaNhap.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không để trống giá !");
+            txtGiaNhap.requestFocus();
+
+            return true;
+        }
+        if (txtGiaban.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không để trống giá !");
+            txtGiaban.requestFocus();
+
+            return true;
+        }
+        if (txtKhoaVi.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập kiểu khoá ví !");
+            txtKhoaVi.requestFocus();
+
+            return true;
+        }
+
+        if (txtSoNgan.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không để trống số ngăn !");
+            txtSoNgan.requestFocus();
+
+            return true;
+        }
+        if (txtSoluong.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng không để trống số ngăn !");
+            txtSoluong.requestFocus();
+
+            return true;
+        }
+        List<ChiTietVi> list = daoctv.selectAll();
+        String id = txtMaChiTiet.getText();
+
+        for (int i = 0; i < list.size(); i++) {
+            if (id.equalsIgnoreCase(list.get(i).getMa_ChiTietVi())) {
+                JOptionPane.showMessageDialog(this, "Trùng khóa chính");
+                txtMaChiTiet.requestFocus();
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+    ChiTietViService ser = new ChiTietViService();
+
+    private void insert() {
+        if (Checknull()) {
+            return;
+        } else if (CheckNumber()) {
+            return;
+        } else {
+            try {
+                if (MsgBox.confirm(this, "Bạn có muốn thêm sản phẩm này ?")) {
+                    //SanPham sp = getInformation();
+
+                    ser.insert(getform());
+                    filltotableChitietVi();
+                    clearForm();
+                    JOptionPane.showMessageDialog(this, "Đã thêm");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Ops! Lỗi truy vấn dữ liệu rồi!");
+            }
+        }
+
+    }
+
+    private void update() {
+        if (CheckNumber()) {
+            return;
+        } else {
+            try {
+                if (MsgBox.confirm(this, "Bạn có muốn sửa sản phẩm này ?")) {
+                    //SanPham sp = getInformation();
+
+                    ser.update(getform());
+                    filltotableChitietVi();
+                    clearForm();
+                    JOptionPane.showMessageDialog(this, "Đã sửa");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Ops! Lỗi truy vấn dữ liệu rồi!");
+            }
+        }
+
+    }
 }

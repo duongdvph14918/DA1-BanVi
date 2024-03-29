@@ -4,24 +4,26 @@
  */
 package quanlycuahangpoly;
 
-/**
- *
- * @author Windows
- */
 import Model.ThuongHieu;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import quanlycuahangpoly.Dao.ThuongHieuDao;
 import Hepper.MsgBox;
-public class LoaiViJDiaLog extends javax.swing.JDialog {
 
-    /**
-     * Creates new form LoaiViJDiaLog
-     */
+/**
+ *
+ * @author Windows
+ */
+public class ThuongHieuJDiaLog extends javax.swing.JDialog {
+
     ThuongHieuDao dao = new ThuongHieuDao();
     int row;
-    public LoaiViJDiaLog(java.awt.Frame parent, boolean modal) {
+
+    /**
+     * Creates new form ThuongHieuJDiaLog
+     */
+    public ThuongHieuJDiaLog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
@@ -37,6 +39,7 @@ public class LoaiViJDiaLog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblThuongHieu = new javax.swing.JTable();
@@ -67,7 +70,7 @@ public class LoaiViJDiaLog extends javax.swing.JDialog {
                 {null, null, null}
             },
             new String [] {
-                "Mã Loại Ví", "Tên Loại Ví", "Trạng Thái"
+                "Mã Thương Hiệu", "Tên Thương Hiệu", "Trạng Thái"
             }
         ));
         tblThuongHieu.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -77,15 +80,17 @@ public class LoaiViJDiaLog extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tblThuongHieu);
 
-        lblMa.setText("Mã Loại Ví");
+        lblMa.setText("Mã Thương Hiệu");
 
-        lblTen.setText("Tên Loại Ví");
+        lblTen.setText("Tên Thương Hiệu");
 
         lblTrangThai.setText("Trạng Thái");
 
+        buttonGroup1.add(jRadioButton1);
         jRadioButton1.setSelected(true);
         jRadioButton1.setText("Còn Hàng");
 
+        buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("Hết Hàng");
 
         btnlammoi.setText("Làm mới");
@@ -180,16 +185,6 @@ public class LoaiViJDiaLog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblThuongHieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblThuongHieuMouseClicked
-        // TODO add your handling code here:
-        try {
-            row = tblThuongHieu.getSelectedRow();
-            edit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_tblThuongHieuMouseClicked
-
     private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
         // TODO add your handling code here:
         try {
@@ -204,6 +199,16 @@ public class LoaiViJDiaLog extends javax.swing.JDialog {
         // TODO add your handling code here:
         lammoi();
     }//GEN-LAST:event_btnlammoiActionPerformed
+
+    private void tblThuongHieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblThuongHieuMouseClicked
+        // TODO add your handling code here:
+        try {
+            row = tblThuongHieu.getSelectedRow();
+            edit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_tblThuongHieuMouseClicked
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
@@ -232,20 +237,21 @@ public class LoaiViJDiaLog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoaiViJDiaLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThuongHieuJDiaLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoaiViJDiaLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThuongHieuJDiaLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoaiViJDiaLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThuongHieuJDiaLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoaiViJDiaLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThuongHieuJDiaLog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                LoaiViJDiaLog dialog = new LoaiViJDiaLog(new javax.swing.JFrame(), true);
+                ThuongHieuJDiaLog dialog = new ThuongHieuJDiaLog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -261,6 +267,7 @@ public class LoaiViJDiaLog extends javax.swing.JDialog {
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnlammoi;
     private javax.swing.JButton btnsua;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
@@ -272,6 +279,7 @@ public class LoaiViJDiaLog extends javax.swing.JDialog {
     private javax.swing.JTextField txtMa;
     private javax.swing.JTextField txtTen;
     // End of variables declaration//GEN-END:variables
+
     private void filltotableThuongHieu() {
         DefaultTableModel model = (DefaultTableModel) tblThuongHieu.getModel();
         model.setRowCount(0);
@@ -414,4 +422,5 @@ public class LoaiViJDiaLog extends javax.swing.JDialog {
         }
         return false;
     }
+
 }
