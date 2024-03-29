@@ -577,10 +577,7 @@ showSaveDialogAndExport();    }//GEN-LAST:event_btnExportExcelActionPerformed
         } else if (!isValidPhoneNumber(txtSdt.getText())) {
             JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ");
             return false;
-        } else if (isPhoneNumberDuplicate(txtSdt.getText())) {
-            JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại trong danh sách khách hàng");
-            return false;
-        }
+        } 
 
         // Kiểm tra ngày sinh
         if (txtNgaySinh.getDate() == null) {
@@ -595,10 +592,7 @@ showSaveDialogAndExport();    }//GEN-LAST:event_btnExportExcelActionPerformed
         } else if (!isValidEmail(txtEmail.getText())) {
             JOptionPane.showMessageDialog(this, "Email không hợp lệ");
             return false;
-        } else if (isEmailDuplicate(txtEmail.getText())) {
-            JOptionPane.showMessageDialog(this, "Email đã tồn tại trong danh sách khách hàng");
-            return false;
-        }
+        } 
 
         // Kiểm tra địa chỉ
         if (txtDiaChi.getText().isEmpty()) {
