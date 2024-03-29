@@ -8,13 +8,61 @@ package quanlycuahangpoly;
  *
  * @author Windows
  */
+import Model.TaiKhoan;
+import java.io.File;
+import Hepper.Ximages;
+import Model.ThuongHieu;
+import Model.Vi;
+import Service.TaiKhoanDao;
+import Service.ViService;
+import java.util.List;
+import java.util.Locale;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import quanlycuahangpoly.Dao.ThuongHieuDao;
+import quanlycuahangpoly.Dao.ViDao;
+import Hepper.MsgBox;
+
 public class QuanLySanPhamJPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form QuanLySanPhamJPanel
      */
+    Locale vn = new Locale("vi", "VN");
+    ViDao dao_vi = new ViDao();
+    ThuongHieuDao dao_th = new ThuongHieuDao();
+    int row;
+    DefaultTableModel modelCH = new DefaultTableModel();
+    DefaultTableModel modelHH = new DefaultTableModel();
+    List<ThuongHieu> list_TH;
+    TaiKhoan tk = new TaiKhoan();
+    TaiKhoanDao serDao = new TaiKhoanDao();
+    boolean chucVu;
+
     public QuanLySanPhamJPanel() {
         initComponents();
+        init();
+        this.chucVu = chucVu;
+        modelCH = (DefaultTableModel) tblConhang.getModel();
+        filltotablech();
+        modelHH = (DefaultTableModel) tblHetHang.getModel();
+        filltotablehh();
+    }
+    private void init() {
+        fillcomboboxThuonghieu();
+              
+        if (serDao.getchuvu().getChucVuNV()==1) {
+            btnThem.setVisible(true);
+        }else if (serDao.getchuvu().getChucVuNV() ==0){
+            btnThem.setVisible(false);
+        }
     }
 
     /**
@@ -459,6 +507,7 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblHinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHinhMouseClicked
+        chooseImages();
     }//GEN-LAST:event_lblHinhMouseClicked
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
@@ -483,38 +532,63 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
 
     private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtTimKiemActionPerformed
 
     private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
         // TODO add your handling code here:
+        search();
     }//GEN-LAST:event_txtTimKiemKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-      
+        row = 0;
+        if (jTabbedPane1.getSelectedIndex() == 0) {
+            tblConhang.setRowSelectionInterval(row, row);
+            edit();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-      
+        if (jTabbedPane1.getSelectedIndex() == 0) {
+            if (row > 0) {
+                row--;
+                tblConhang.setRowSelectionInterval(row, row);
+                edit();
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-      
+        if (jTabbedPane1.getSelectedIndex() == 0) {
+            if (row < tblConhang.getRowCount() - 1) {
+                row++;
+                tblConhang.setRowSelectionInterval(row, row);
+                edit();
+            }
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-       
+        if (jTabbedPane1.getSelectedIndex() == 0) {
+            row = tblConhang.getRowCount() - 1;
+
+            tblConhang.setRowSelectionInterval(row, row);
+            edit();
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
+        update();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnLammoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLammoiMouseClicked
         // TODO add your handling code here:
+        clearForm();
     }//GEN-LAST:event_btnLammoiMouseClicked
 
     private void btnLammoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLammoiActionPerformed
@@ -527,21 +601,34 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+        this.insert();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblConhangtblSanPham1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblConhangtblSanPham1MouseClicked
         // TODO add your handling code here:
-        
+        try {
+            row = tblConhang.getSelectedRow();
+            edit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }//GEN-LAST:event_tblConhangtblSanPham1MouseClicked
 
     private void tblHetHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHetHangMouseClicked
         // TODO add your handling code here:
-      
+              try {
+            row = tblHetHang.getSelectedRow();
+            edithh();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_tblHetHangMouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        
+        new ThuongHieuJDiaLog(null, true).setVisible(true);
+        fillcomboboxThuonghieu();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void txtTenViActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenViActionPerformed
@@ -597,4 +684,354 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtTenVi;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
+    private void filltotablech() {
+        modelCH.setRowCount(0);
+        try {
+            List<Vi> list = dao_vi.selectAll();
+            for (Vi x : list) {
+                modelCH.addRow(new Object[]{
+                    //                    x.getIDVi(),
+                    x.getMa_Vi(),
+                    x.getTenVi(),
+                    dao_th.selectNameByID(x.getID_ThuongHieu()),
+                    x.getKieuDang(),
+                    x.isTrangThai() ? "Còn Hàng" : "Hết Hàng"
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void filltotablehh() {
+        modelHH.setRowCount(0);
+        try {
+            List<Vi> list = dao_vi.select_TrangThai();
+            for (Vi x : list) {
+                modelHH.addRow(new Object[]{
+                    //                    x.getIDVi(),
+                    x.getMa_Vi(),
+                    x.getTenVi(),
+                    dao_th.selectNameByID(x.getID_ThuongHieu()),
+                    x.getKieuDang(),
+                    x.isTrangThai() ? "Còn Hàng" : "Hết Hàng"
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillcomboboxThuonghieu() {
+        DefaultComboBoxModel modelcbo = (DefaultComboBoxModel) cbxThuongHieu.getModel();
+        modelcbo.removeAllElements();
+        list_TH = dao_th.selectAll();
+        for (ThuongHieu th : list_TH) {
+            modelcbo.addElement(th.getTenThuongHieu());
+        }
+    }
+
+    private void chooseImages() {
+        JFileChooser file = new JFileChooser("C:\\Users\\Windows\\Desktop\\Poly\\PolyBop\\QuanLyPolyBob\\logos");
+        if (file.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File filechoser = file.getSelectedFile();
+            Ximages.save(filechoser);
+            ImageIcon icon = Ximages.read(filechoser.getName());
+            lblHinh.setIcon(icon);
+            lblHinh.setToolTipText(filechoser.getName());
+            System.out.println(filechoser.getName());
+            System.out.println(lblHinh.getToolTipText());
+//            System.out.println("getPath : " + filechoser.getPath());
+//            System.out.println("getAbsolutePath : " + filechoser.getAbsolutePath());
+//            System.out.println("getName : " + filechoser.getName());
+        }
+    }
+
+    private Vi getInformation() {
+        Vi sp = new Vi();
+//        sp.setIDVi(Integer.parseInt(txtMaVi.getText()));
+        sp.setMa_Vi(txtMaVi.getText());
+        sp.setTenVi(txtTenVi.getText());
+        sp.setKieuDang(txtKieuDang.getText());
+        sp.setID_ThuongHieu(dao_th.selectIdByName(cbxThuongHieu.getSelectedItem() + ""));
+        //System.out.println(sp.getId_loaiSP());
+        sp.setTrangThai(rdo1.isSelected());
+        sp.setUrl_Anh(lblHinh.getToolTipText());
+        System.out.println(sp.getTenVi());
+        System.out.println(sp.getUrl_Anh());
+        return sp;
+    }
+
+    private void setForm(Vi sp) {
+        String thuonghieu = tblConhang.getValueAt(row, 2).toString();
+        for (int i = 0; i < list_TH.size(); i++) {
+            if (thuonghieu.equals(list_TH.get(i).getTenThuongHieu())) {
+                cbxThuongHieu.setSelectedIndex(i);
+            }
+        }
+//        txtMaVi.setText(sp.getIDVi() + "");
+        txtMaVi.setText(sp.getMa_Vi());
+        txtTenVi.setText(sp.getTenVi());
+        txtKieuDang.setText(sp.getKieuDang());
+//        cboLoaidouong.setSelectedItem(tblSanPhansd.getValueAt(row, 2).toString());
+        rdo1.setSelected(sp.isTrangThai());
+        rdo.setSelected(!sp.isTrangThai());
+        System.out.println(sp.getUrl_Anh());
+        try {
+            lblHinh.setToolTipText(sp.getUrl_Anh());
+            lblHinh.setIcon((Ximages.read(sp.getUrl_Anh())));
+        } catch (Exception e) {
+//            lblHinh.setIcon(new ImageIcon("unnamed.png"));
+        }
+    }
+    private void setForm1(Vi sp) {
+        String thuonghieu = tblHetHang.getValueAt(row, 2).toString();
+        for (int i = 0; i < list_TH.size(); i++) {
+            if (thuonghieu.equals(list_TH.get(i).getTenThuongHieu())) {
+                cbxThuongHieu.setSelectedIndex(i);
+            }
+        }
+//        txtMaVi.setText(sp.getIDVi() + "");
+        txtMaVi.setText(sp.getMa_Vi());
+        txtTenVi.setText(sp.getTenVi());
+        txtKieuDang.setText(sp.getKieuDang());
+//        cboLoaidouong.setSelectedItem(tblSanPhansd.getValueAt(row, 2).toString());
+        rdo1.setSelected(sp.isTrangThai());
+        rdo.setSelected(!sp.isTrangThai());
+        System.out.println(sp.getUrl_Anh());
+        try {
+            lblHinh.setToolTipText(sp.getUrl_Anh());
+            lblHinh.setIcon((Ximages.read(sp.getUrl_Anh())));
+        } catch (Exception e) {
+//            lblHinh.setIcon(new ImageIcon("unnamed.png"));
+        }
+    }
+    private void updateStatus() {
+        boolean edit = (row >= 0);
+        boolean fist = (row == 0);
+        boolean last = (row == tblConhang.getRowCount() - 1);
+        ////
+//        txtMaVi.setEditable(!edit);
+        btnThem.setEnabled(!edit);
+//        btnXoa.setEnabled(edit);
+        btnSua.setEnabled(edit);
+        ////
+        jButton1.setEnabled(edit && !fist);
+        jButton2.setEnabled(edit && !fist);
+        jButton3.setEnabled(!last && edit);
+        jButton4.setEnabled(!last && edit);
+    }
+
+    private void updateStatus2() {
+        boolean edit = (row >= 0);
+        boolean fist = (row == 0);
+        boolean last = (row == tblHetHang.getRowCount() - 1);
+        ////
+//        txtMaSP.setEditable(!edit);
+        btnThem.setEnabled(!edit);
+//        btnXoa.setEnabled(edit);
+        btnSua.setEnabled(edit);
+        ////
+        jButton1.setEnabled(edit && !fist);
+        jButton2.setEnabled(edit && !fist);
+        jButton3.setEnabled(!last && edit);
+        jButton4.setEnabled(!last && edit);
+    }
+//    private void edit() {
+//        Integer masp = Integer.valueOf(tblSanPham1.getValueAt(row, 0).toString());
+//        Vi sp = dao_vi.selectID(masp);
+//        setForm(sp);
+////        updateStatus();
+//    }
+
+    private void edit() {
+        String masp = tblConhang.getValueAt(row, 0).toString();
+        Vi sp = dao_vi.selectID1(masp);
+        setForm(sp);
+        updateStatus();
+    }
+
+    private void edithh() {
+        String mahh = tblHetHang.getValueAt(row, 0).toString();
+        Vi sp = dao_vi.selectID1(mahh);
+        
+        setForm1(sp);
+        updateStatus2();
+    }
+//    private void edithh() {
+//        Integer masp = Integer.valueOf(tblSanPham2.getValueAt(row, 0).toString());
+//        Vi sp = dao_vi.selectID(masp);
+//        setForm(sp);
+//        updateStatus2();
+//    }
+    ViService service = new ViService();
+
+    private void clearForm() {
+//        txtMaVi.setText("");
+        txtMaVi.setText("");
+        txtTenVi.setText("");
+        txtKieuDang.setText("");
+        lblHinh.setIcon(null);
+        row = -1;
+        identityMasp2();
+        if (jTabbedPane1.getSelectedIndex() == 0) {
+            updateStatus();
+        }
+    }
+
+    private void identityMasp2() {
+        if (dao_vi.selectAlll().isEmpty()) {
+            txtMaVi.setText("V001");
+        } else {
+            txtMaVi.setText("V0" + (dao_vi.select_Max_id_java() + 1));
+        }
+    }
+
+    private void insert() {
+        if (Checknull()) {
+            return;
+        } else if (CheckSPInuput()) {
+            return;
+        } else {
+            try {
+                if (MsgBox.confirm(this, "Bạn có muốn thêm sản phẩm này ?")) {
+                    //SanPham sp = getInformation();
+                    service.insert(getInformation());
+                    if (jTabbedPane1.getSelectedIndex() == 0) {
+                        filltotablech();
+                        jTabbedPane1.setSelectedIndex(0);
+                    } else {
+                        filltotablehh();
+                        jTabbedPane1.setSelectedIndex(1);
+                    }
+                    filltotablech();
+                    filltotablehh();
+                    clearForm();
+                    JOptionPane.showMessageDialog(this, "Đã thêm thành công");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Ops! Lỗi truy vấn dữ liệu rồi!");
+            }
+        }
+
+    }
+
+    private void delete() {
+        try {
+            int chon = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa ?");
+            if (row == -1) {
+                JOptionPane.showMessageDialog(this, "Dữ liệu chưa được hiển thị để xóa!");
+                return;
+            }
+            if (chon == JOptionPane.YES_OPTION) {
+                Integer manv = Integer.valueOf(txtTenVi.getText());
+                dao_vi.delete(manv);
+                filltotablehh();
+                filltotablech();
+                jTabbedPane1.setSelectedIndex(1);
+                clearForm();
+                JOptionPane.showMessageDialog(this, "Yeah! Đã xóa");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+//            JOptionPane.showMessageDialog(this, "xóa không thành công");
+        }
+    }
+
+    private void update() {
+//        if (CheckNumber()) {
+//            return;
+//        } else {
+        try {
+            if (MsgBox.confirm(this, "Bạn có muốn sửa sản phẩm ?")) {
+                Vi sp = getInformation();
+                dao_vi.update(sp);
+//                filltotablehh();
+                filltotablech();
+                filltotablehh();
+                clearForm();
+                jTabbedPane1.setSelectedIndex(0);
+                JOptionPane.showMessageDialog(this, "Đã sửa");
+            } else ;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ops! Sửa thất bại");
+            e.printStackTrace();
+        }
+
+//        }
+    }
+
+    private boolean Checknull() {
+        if (txtMaVi.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã sản phẩm!");
+            txtMaVi.requestFocus();
+
+            return true;
+        }
+        if (txtTenVi.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên sản phẩm!");
+            txtTenVi.requestFocus();
+
+            return true;
+        }
+        if (txtKieuDang.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập kiểu dáng sản phẩm!");
+            txtKieuDang.requestFocus();
+
+            return true;
+        }
+        List<Vi> list = dao_vi.selectAlll();
+        String id = txtMaVi.getText();
+        String tensp = txtTenVi.getText();
+        for (int i = 0; i < list.size(); i++) {
+            if (id.equalsIgnoreCase(list.get(i).getMa_Vi())) {
+                JOptionPane.showMessageDialog(this, "Mã sản phẩm đã tồn tại");
+                txtMaVi.requestFocus();
+                return true;
+            } else if (tensp.equalsIgnoreCase(list.get(i).getTenVi())) {
+                JOptionPane.showMessageDialog(this, "Tên sản phẩm đã tồn tại");
+                txtTenVi.requestFocus();
+                return true;
+            }
+        }
+        if (lblHinh.getIcon() == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hình sản phẩm!");
+            return true;
+        } else if (txtMaVi.getText().length() < 3) {
+            JOptionPane.showMessageDialog(this, "Mã sản phẩm phải trên 2 kí tự");
+            return true;
+        } else if (txtTenVi.getText().length() < 5) {
+            JOptionPane.showMessageDialog(this, "Tên sản phẩm phải trên 5 kí tự");
+            return true;
+        }
+        return false;
+
+    }
+
+    private boolean CheckSPInuput() {
+
+        modelCH.setRowCount(0);
+        try {
+            List<Vi> list = dao_vi.Select_ByName(txtTenVi.getText());
+            for (int i = 0; i < list.size(); i++) {
+                modelCH.addRow(new Object[]{list.get(i).getMa_Vi(), list.get(i).getTenVi(),
+                    dao_th.selectNameByID(list.get(i).getID_ThuongHieu()),
+                    list.get(i).isTrangThai() ? "Còn Hàng" : "Không còn hàng"});
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    private void search() {
+        if (jTabbedPane1.getSelectedIndex() == 0) {
+            String timkiem = txtTimKiem.getText();
+            TableRowSorter<DefaultTableModel> sanpham = new TableRowSorter<>(modelCH);
+            tblConhang.setRowSorter(sanpham);
+            sanpham.setRowFilter(javax.swing.RowFilter.regexFilter(timkiem));
+            jTabbedPane1.setSelectedIndex(0);
+        }
+    }
 }
