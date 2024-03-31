@@ -4,19 +4,163 @@
  */
 package quanlycuahangpoly;
 
+import Hepper.Xdate;
+import Model.KhuyenMai;
+import Repository.KhuyenMaiRepository;
+import Service.KhuyenMaiService;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Windows
  */
 public class KhuyenMaiJPanel extends javax.swing.JPanel {
-
+    KhuyenMaiService kms = new KhuyenMaiService();
+    KhuyenMaiRepository kmr  = new KhuyenMaiRepository();
+    DefaultTableModel dtm = new DefaultTableModel();
     /**
      * Creates new form KhuyenMaiJPanel
      */
     public KhuyenMaiJPanel() {
         initComponents();
+        dtm = (DefaultTableModel) tableKM.getModel();
+        fillTable();
+    }
+     private int currentPage = 1;
+    private int recordsPerPage = 10;
+
+    public void nextPage() {
+        int totalRecords = kmr.getTotal();
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+
+        if (currentPage < totalPages) {
+            currentPage++;
+            fillTable();
+        }
     }
 
+    public void prevPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            fillTable();
+        }
+    }
+
+    public void goToLastPage() {
+        int totalRecords = kmr.getTotal();
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+
+        if (currentPage < totalPages) {
+            currentPage = totalPages;
+            fillTable();
+        }
+    }
+
+    public void goToFirstPage() {
+        if (currentPage > 1) {
+            currentPage = 1;
+            fillTable();
+        }
+    }
+
+   private void fillTable() {
+        List<Model.KhuyenMai> listKM;
+        DefaultTableModel mol;
+        listKM = kmr.getAll();
+        mol = (DefaultTableModel) tableKM.getModel();
+        mol.setRowCount(0);
+        for (Model.KhuyenMai km : listKM) {
+            mol.addRow(new Object[]{
+                km.getMa(),
+                km.getNgayBatDau(),
+                km.getNgayKetThuc(),
+                km.getGiaTri(),
+                km.isTrangThai() ? "Còn hoạt động" : "Ngừng hoạt động"
+            });
+        }
+        int totalPages = (int) Math.ceil((double) kmr.getTotal() / recordsPerPage);
+        pageLabel.setText("Trang: " + currentPage + " / " + totalPages);
+    }
+       public void show(KhuyenMai km) {
+        txtMa.setText(km.getMa());
+        txtGiaTri.setText(km.getGiaTri() + "");
+        dateBatDau.setDate(km.getNgayBatDau());
+        dateKetThuc.setDate(km.getNgayKetThuc());
+        if (km.isTrangThai() == true) {
+            hd.setSelected(true);
+        } else {
+            nhd.setSelected(true);
+        }
+    }
+
+    private KhuyenMai getInformation() {
+        KhuyenMai km = new KhuyenMai();
+        km.setMa(txtMa.getText());
+        km.setGiaTri(Integer.parseInt(txtGiaTri.getText()));
+        km.setNgayBatDau(Xdate.toDate(Xdate.toString(dateBatDau.getDate(), "yyyy-MM-dd"), "yyyy-MM-dd"));
+        km.setNgayKetThuc(Xdate.toDate(Xdate.toString(dateKetThuc.getDate(), "yyyy-MM-dd"), "yyyy-MM-dd"));
+        km.setTrangThai(hd.isSelected());
+        return km;
+    }
+
+    private KhuyenMai setForm() {
+        KhuyenMai km = new KhuyenMai();
+        km.setMa(txtMa.getText());
+        km.setGiaTri(Integer.parseInt(txtGiaTri.getText()));
+        km.setNgayBatDau(Xdate.toDate(Xdate.toString(dateBatDau.getDate(), "yyyy-MM-dd"), "yyyy-MM-dd"));
+        km.setNgayKetThuc(Xdate.toDate(Xdate.toString(dateKetThuc.getDate(), "yyyy-MM-dd"), "yyyy-MM-dd"));
+        km.setTrangThai(hd.isSelected());
+        return km;
+    }
+        void delete() {
+        int chooser = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa không ?");
+        if (chooser == JOptionPane.YES_OPTION) {
+            try {
+                String ma = txtMa.getText();
+                kmr.delete(ma);
+                fillTable();
+                JOptionPane.showMessageDialog(this, "Xóa thành công !");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Xóa thất bại !");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    void update() {
+        try {
+
+            kms.update(getInformation());
+            fillTable();
+            JOptionPane.showMessageDialog(this, "Update thành công!");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Update thất bại!");
+            e.printStackTrace();
+        }
+    }
+
+//    void insert() {
+//        if(validateFormKM()){
+//                return;
+//            }
+//        else if(number()){
+//            return;
+//        }
+//        else{
+//        try {
+//            
+//            kms.insert(getInformation());
+//            fillTable();
+//            JOptionPane.showMessageDialog(this, "Thêm thành công!");
+//
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this, "Thêm thất bại!");
+//            e.printStackTrace();
+//        }}
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

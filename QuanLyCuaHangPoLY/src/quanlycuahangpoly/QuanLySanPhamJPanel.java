@@ -58,11 +58,11 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
     private void init() {
         fillcomboboxThuonghieu();
               
-        if (serDao.getchuvu().getChucVuNV()==1) {
-            btnThem.setVisible(true);
-        }else if (serDao.getchuvu().getChucVuNV() ==0){
-            btnThem.setVisible(false);
-        }
+//        if (serDao.getchuvu().getChucVuNV()==1) {
+//            btnThem.setVisible(true);
+//        }else if (serDao.getchuvu().getChucVuNV() ==0){
+//            btnThem.setVisible(false);
+//        }
     }
 
     /**

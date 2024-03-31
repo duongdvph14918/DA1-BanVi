@@ -15,18 +15,18 @@ import javax.swing.JOptionPane;
  */
 public class SendMail {
 
-    // Hàm gửi email 
+       // Hàm gửi email 
     public static void send(String to , String code) {
         try {
             Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.office365.com");
+            props.put("mail.smtp.host", "smtp.gmail.com");
             props.put("mail.smtp.port", "587");
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
             // Email gửi 
             String username = "polybop1@hotmail.com";
             String password = "12345678@aa";
-            Session s = Session.getInstance(props,
+            Session s = Session.getDefaultInstance(props,
                     new javax.mail.Authenticator() {
                 protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
                     return new javax.mail.PasswordAuthentication(username, password);
@@ -54,7 +54,7 @@ public class SendMail {
     }
 
     public static void main(String[] args) {
-        send("dh2k4k@gmail.com",randum());
+        send("anhduong9235@gmail.com",randum());
 
     }
 }

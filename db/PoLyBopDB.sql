@@ -506,3 +506,15 @@ ID_KhuyenMai , TienSauGiamGia, ThanhTien ,PhuongThucThanhToan , NgayThanhToan , 
 			join KhachHang on HoaDon.ID_KhachHang = KhachHang.IDKhangHang
 			Join NhanVien on HoaDon.ID_NhanVien = NhanVien.IDNhanVien
 			where HoaDon.TrangThai = 1
+--khuyen mai
+
+select * from KhuyenMai
+SELECT [IDKhuyenMai]
+                     ,[Ma_KhuyenMai]
+                     ,[GiaTri]
+                     ,[NgayBatDau]
+                     ,[NgayKetThuc]
+                     ,[KieuGiamGia]
+                     ,[TrangThai]
+                FROM [dbo].[KhuyenMai]
+				where N'2023-03-16' between KhuyenMai.NgayBatDau and KhuyenMai.NgayKetThuc

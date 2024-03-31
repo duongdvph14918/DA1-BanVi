@@ -6,16 +6,22 @@ package quanlycuahangpoly;
 
 import Model.HoaDonCT;
 import Model.HoaDonCT1;
+import Model.KhachHang;
+import Model.KhuyenMai;
 import Model.SanPham;
+import Repository.KhachHangRepository;
 import Service.HoaDonDAO;
+import Service.KhachHangService;
 import Service.SanPhamDAO;
 import static java.awt.image.ImageObserver.HEIGHT;
 import static java.awt.image.ImageObserver.WIDTH;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
+import quanlycuahangpoly.Dao.KhuyenMaiDAO;
 
 /**
  *
@@ -25,6 +31,9 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     SanPhamDAO service = new SanPhamDAO();
     HoaDonDAO serviceHD = new HoaDonDAO();
+    KhuyenMaiDAO khuyenMaiservice = new KhuyenMaiDAO();
+    KhachHangRepository khachHangRepository = new KhachHangRepository();
+    KhachHangService khachHangService = new KhachHangService();
     int index = -1;
 
     String tenNV, email;
@@ -40,6 +49,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         txt_KhachHang1.setText("Khách Lẻ");
         this.fillTableSP(service.seachSP(txt_TimKiemSP.getText()));
         this.fillTableHD(serviceHD.getAllHDChuaHT());
+        this.fillTableKH(khachHangService.firdKhachHangHD(txt_KhachHang.getText()));
         txt_NhanVien.setText(tenNV);
     }
 
@@ -424,11 +434,12 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // Thêm khách hàng mới
-        new NewKhachHangJDiaLog(null, true).setVisible(true);
+        this.addKhNew();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // hủy hóa đơn
+        this.huyHD();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -451,6 +462,8 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
+        //khuyenmai
+//        this.addMaGiamGia();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void tbl_hoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_hoaDonMouseClicked
@@ -483,10 +496,12 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     private void txt_TimKiemSPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_TimKiemSPKeyReleased
         // tìm kiếm sản phẩm
+        this.timKiemSP();
     }//GEN-LAST:event_txt_TimKiemSPKeyReleased
 
     private void tbl_KhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_KhachHangMouseClicked
         // Click khách hàng
+        this.getKH();
     }//GEN-LAST:event_tbl_KhachHangMouseClicked
 
     private void tbl_KhachHangMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_KhachHangMouseEntered
@@ -495,6 +510,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     private void txt_KhachHangKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_KhachHangKeyReleased
         // Tìm khách hàng
+        this.fillTableKH(khachHangService.firdKhachHangHD(txt_KhachHang.getText()));
     }//GEN-LAST:event_txt_KhachHangKeyReleased
 
     private void txt_KhachHangKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_KhachHangKeyTyped
@@ -695,19 +711,19 @@ public class BanHangJPanel extends javax.swing.JPanel {
         return sp.getGiaBan();
     }
 
-//    // Lấy ra khách hàng từ bảng lên form 
-//    private void getKH() {
-//        int index_KH = tbl_KhachHang.getSelectedRow();
-//        KhachHang kh = khachHangService.firdKhachHangHD(txt_KhachHang.getText()).get(index_KH);
-//        txt_KhachHang1.setText(kh.getTenKhachHang());
-//    }
-//
-//    // lấy ra id khách hàng từ bảng khách hàng 
-//    private int getIDKH() {
-//        int index_KH = tbl_KhachHang.getSelectedRow();
-//        KhachHang kh = khachHangService.firdKhachHangHD(txt_KhachHang.getText()).get(index_KH);
-//        return kh.getIdKhachHang();
-//    }
+    // Lấy ra khách hàng từ bảng lên form 
+    private void getKH() {
+        int index_KH = tbl_KhachHang.getSelectedRow();
+        KhachHang kh = khachHangService.firdKhachHangHD(txt_KhachHang.getText()).get(index_KH);
+        txt_KhachHang1.setText(kh.getTenKhachHang());
+    }
+
+    // lấy ra id khách hàng từ bảng khách hàng 
+    private int getIDKH() {
+        int index_KH = tbl_KhachHang.getSelectedRow();
+        KhachHang kh = khachHangService.firdKhachHangHD(txt_KhachHang.getText()).get(index_KH);
+        return kh.getIdKhachHang();
+    }
     // Lấy ra số lượng sản phẩm từ bảng sản phẩm 
     int getSoLuongSP() {
         int index_SP = tbl_SanPham.getSelectedRow();
@@ -773,31 +789,31 @@ public class BanHangJPanel extends javax.swing.JPanel {
         }
     }
 
-//    private void fillTableKH(List<KhachHang> list) {
-//        mol = (DefaultTableModel) tbl_KhachHang.getModel();
-//        mol.setRowCount(0);
-//        for (Model.KhachHang kh : list) {
-//            if (kh.isTrangThai() != false) {
-//                mol.addRow(new Object[]{
-//                    kh.getIdKhachHang(),
-//                    kh.getTenKhachHang(),
-//                    kh.getSdt()
-//                });
-//            }
-//        }
-//    }
-//
-//    private void searchKH(String ma) {
-//        List<Model.KhachHang> list;
-//        DefaultTableModel dtm;
-//        list = khachHangService.Search(ma);
-//        dtm = (DefaultTableModel) tbl_KhachHang.getModel();
-//        dtm.setRowCount(0);
-//        for (Model.KhachHang s : list) {
-//            dtm.addRow(new Object[]{s.getIdKhachHang(),
-//                s.getTenKhachHang(), s.getSdt(),});
-//        }
-//    }
+    private void fillTableKH(List<KhachHang> list) {
+        mol = (DefaultTableModel) tbl_KhachHang.getModel();
+        mol.setRowCount(0);
+        for (Model.KhachHang kh : list) {
+            if (kh.isTrangThai() != false) {
+                mol.addRow(new Object[]{
+                    kh.getIdKhachHang(),
+                    kh.getTenKhachHang(),
+                    kh.getSdt()
+                });
+            }
+        }
+    }
+
+    private void searchKH(String ma) {
+        List<Model.KhachHang> list;
+        DefaultTableModel dtm;
+        list = khachHangService.Search(ma);
+        dtm = (DefaultTableModel) tbl_KhachHang.getModel();
+        dtm.setRowCount(0);
+        for (Model.KhachHang s : list) {
+            dtm.addRow(new Object[]{s.getIdKhachHang(),
+                s.getTenKhachHang(), s.getSdt(),});
+        }
+    }
     // tạo hóa đơn 
     private void addHD() {
         try {
@@ -896,13 +912,13 @@ public class BanHangJPanel extends javax.swing.JPanel {
         }
     }
 
-//    // thêm khách hàng mới 
-//    private void addKhNew() {
-//        NewKhachHangJDiaLog newKH = new NewKhachHangJDiaLog();
-//        newKH.setVisible(true);
-//        this.fillTableKH(khachHangService.firdKhachHangHD(txt_KhachHang.getText()));
-//
-//    }
+    // thêm khách hàng mới 
+    private void addKhNew() {
+        NewKhachHangJDiaLog newKH = new NewKhachHangJDiaLog();
+        newKH.setVisible(true);
+        this.fillTableKH(khachHangService.firdKhachHangHD(txt_KhachHang.getText()));
+
+    }
     // lấy ra phương thức thanh toán 
     int getPTTT() {
         if (rdo_TienMat.isSelected()) {
@@ -1027,5 +1043,46 @@ public class BanHangJPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Thanh toán thất bại ! ");
         }
     }
+  private void addMaGiamGia() {
+        try {
+            index = tbl_hoaDon.getSelectedRow();
+            if (index < 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn thanh toán ! ");
+            } // Đã chọn hóa đơn 
+            else {
+                String maKM = txt_MaGiamGia.getText().trim();
+                int check_KM = 0;
+                if (!maKM.isBlank()) {
+                    for (KhuyenMai x : khuyenMaiservice.getKhuyenMai(new Date())) {
+                        if (maKM.equalsIgnoreCase(x.getMa())) {
+                            check_KM = 1;
+                            // mã hóa đơn đúng
+                            int giaTriKM = khuyenMaiservice.getGiaTriKM(maKM);
+                            JOptionPane.showMessageDialog(this, "Bạn đã áp dụng thành công mã " + maKM + "\nBạn được giảm giá " + giaTriKM + "% vào tổng tiền hóa đơn");
+                            float tien = (float) giaTriKM / 100;
+                            double tienGiamGia = Double.valueOf(lbl_TongTien.getText()) * tien;
+                            double tongTien = Double.valueOf(lbl_TongTien.getText()) - tienGiamGia;
+                            double tongTien_roundedUp = Math.ceil(tongTien); // Làm tròn lên
+                            lbl_TongTien.setText(String.valueOf(tongTien_roundedUp));
+                            txt_MaGiamGia.setText("");
+                            System.out.println("Tổng Tiền : " + lbl_TongTien.getText());
+                            System.out.println("Tiền giảm giá : " + tienGiamGia);
+                            System.out.println("giảm giá : " + tien);
+                            System.out.println("Thành tiền : " + tongTien_roundedUp);
+                        }
+                    }
+                    // mã không đúng , không tồn tại
+                    if (check_KM == 0) {
+                        JOptionPane.showMessageDialog(this, "Mã khuyến mãi không đúng !");
+                    }
+                    
+                } else {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập mã khuyến mãi");
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Áp dụng thất bại !");
+        }
 
+    }
 }

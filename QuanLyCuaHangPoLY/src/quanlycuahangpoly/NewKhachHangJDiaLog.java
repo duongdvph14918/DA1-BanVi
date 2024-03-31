@@ -4,18 +4,28 @@
  */
 package quanlycuahangpoly;
 
+import Hepper.Xdate;
+import Model.KhachHang;
+import Service.KhachHangService;
+import static java.awt.image.ImageObserver.HEIGHT;
+import static java.awt.image.ImageObserver.WIDTH;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+
 /**
  *
  * @author Windows
  */
-public class NewKhachHangJDiaLog extends javax.swing.JDialog {
-
+public class NewKhachHangJDiaLog extends javax.swing.JFrame {
+KhachHangService service = new KhachHangService();
     /**
      * Creates new form NewKhachHangJDiaLog
      */
-    public NewKhachHangJDiaLog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+     public NewKhachHangJDiaLog() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -202,6 +212,7 @@ public class NewKhachHangJDiaLog extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // thêm khách hàng
+        this.addKH();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -231,17 +242,10 @@ public class NewKhachHangJDiaLog extends javax.swing.JDialog {
         }
         //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                NewKhachHangJDiaLog dialog = new NewKhachHangJDiaLog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new NewKhachHangJDiaLog().setVisible(true);
             }
         });
     }
@@ -263,4 +267,90 @@ public class NewKhachHangJDiaLog extends javax.swing.JDialog {
     private javax.swing.JTextArea txt_diaChi;
     private com.toedter.calendar.JDateChooser txt_ngaySinh;
     // End of variables declaration//GEN-END:variables
+    KhachHang readForm() {
+        KhachHang kh = new KhachHang();
+        kh.setTenKhachHang(txt_Ten1.getText());
+        kh.setNgaySinh(Xdate.toDate(Xdate.toString(txt_ngaySinh.getDate(), "yyyy-MM-dd"), "yyyy-MM-dd"));
+        kh.setEmail(txt_Email.getText());
+        kh.setSdt(txt_SDT.getText());
+        kh.setDiaChi(txt_diaChi.getText());
+        kh.setTrangThai(true);
+        return kh;
+    }
+
+    private boolean isValidEmail(String email) {
+        // Định dạng email sử dụng regex cơ bản
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        // Định dạng số điện thoại: 10 hoặc 11 chữ số, bắt đầu từ 0 hoặc 84
+        String regex = "^(0|84)?[0-9]{9,10}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
+    }
+
+    private boolean validateKhachHangForm() {
+        // Kiểm tra tên khách hàng
+        if (txt_Ten1.getText().isEmpty()) {
+            // JOptionPane.showMessageDialog(this, "Vui lòng nhập Tên khách hàng");
+            return false;
+        }
+        // Kiểm tra số điện thoại
+        if (txt_SDT.getText().isEmpty()) {
+            // JOptionPane.showMessageDialog(this, "Vui lòng nhập Số điện thoại");
+            return false;
+        } else if (!isValidPhoneNumber(txt_SDT.getText())) {
+            //JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ");
+            return false;
+        }
+        // Kiểm tra ngày sinh
+        if (txt_ngaySinh.getDate() == null) {
+            // JOptionPane.showMessageDialog(this, "Vui lòng chọn Ngày sinh");
+            return false;
+        }
+
+        // Kiểm tra email
+        if (txt_Email.getText().isEmpty()) {
+            //JOptionPane.showMessageDialog(this, "Vui lòng nhập Email");
+            return false;
+        } else if (!isValidEmail(txt_Email.getText())) {
+            //JOptionPane.showMessageDialog(this, "Email không hợp lệ");
+            return false;
+        }
+
+        // Kiểm tra địa chỉ
+        if (txt_diaChi.getText().isEmpty()) {
+            // JOptionPane.showMessageDialog(this, "Vui lòng nhập Địa chỉ");
+            return false;
+        }
+
+        return true; // Đã kiểm tra hết, thông tin hợp lệ
+    }
+
+    private void addKH() {
+        try {
+            if (validateKhachHangForm() == false) {
+                String Options[] = {"Xác Nhận", "Hủy"};
+                int choice = JOptionPane.showOptionDialog(this, "Bạn Chưa điền đủ thông tin ! \nBạn muốn xác định muốn thêm không ", "Quản Lý Bán Ví BolyBop", WIDTH, HEIGHT, null, Options, EXIT_ON_CLOSE);
+                if (choice == 0) {
+                    service.insert(this.readForm());
+                    JOptionPane.showMessageDialog(this, "Thêm Thành công ");
+                    this.dispose();
+                }
+            } else if (validateKhachHangForm() == true) {
+                service.insert(this.readForm());
+                JOptionPane.showMessageDialog(this, "Thêm Thành công ");
+                this.dispose();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Thêm Khách hàng thất bại !");
+        }
+    }
+    
 }
