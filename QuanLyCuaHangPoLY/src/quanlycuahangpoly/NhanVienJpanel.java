@@ -4,17 +4,42 @@
  */
 package quanlycuahangpoly;
 
+import Model.KhachHang;
+import Model.NhanVien;
+import Repository.NhanVienRepository;
+import Service.NhanVienService;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import Hepper.Xdate;
+
 /**
  *
- * @author Windows
+ * @author ADMIN
  */
 public class NhanVienJpanel extends javax.swing.JPanel {
-
+    List<NhanVien> list;
+    DefaultTableModel dtm;
+    NhanVienRepository nhanVienRepository = new NhanVienRepository();
     /**
-     * Creates new form NhanVienJpanel
+     * Creates new form NhanVien
      */
     public NhanVienJpanel() {
         initComponents();
+        fillTableNhanVienKhongHoatDong();
+        fillTableNhanVien();
+        ButtonGroup bG1 = new ButtonGroup();
+        bG1.add(rdoNam);
+        bG1.add(rdoNu);
+         ButtonGroup bG2 = new ButtonGroup();
+        bG2.add(rdoCV1);
+        bG2.add(rdoCV2);
+         ButtonGroup bG3 = new ButtonGroup();
+        bG3.add(rdoTT1);
+        bG3.add(rdoTT2);
     }
 
     /**
@@ -26,7 +51,8 @@ public class NhanVienJpanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         rdoTT1 = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -37,7 +63,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         btnXoa = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         txtSearch = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -72,77 +98,31 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         txtEmail = new javax.swing.JTextField();
         txtMatKhau = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        rdoTT3 = new javax.swing.JRadioButton();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        rdoCV3 = new javax.swing.JRadioButton();
-        rdoTT4 = new javax.swing.JRadioButton();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        btnXoa1 = new javax.swing.JButton();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
-        jPanel6 = new javax.swing.JPanel();
-        txtSearch1 = new javax.swing.JTextField();
-        jButton8 = new javax.swing.JButton();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        tblNV2 = new javax.swing.JTable();
-        btnPrev1 = new javax.swing.JButton();
-        btnNext1 = new javax.swing.JButton();
-        pageLabel1 = new javax.swing.JLabel();
-        btnFirstPage1 = new javax.swing.JButton();
-        btnLastPage1 = new javax.swing.JButton();
-        jPanel7 = new javax.swing.JPanel();
-        txtsearchNVKHD1 = new javax.swing.JTextField();
-        jButton9 = new javax.swing.JButton();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        tblNV3 = new javax.swing.JTable();
-        btnSua1 = new javax.swing.JButton();
-        jLabel17 = new javax.swing.JLabel();
-        btnClear1 = new javax.swing.JButton();
-        rdoNam1 = new javax.swing.JRadioButton();
-        btnThem1 = new javax.swing.JButton();
-        jLabel18 = new javax.swing.JLabel();
-        txtMaNV1 = new javax.swing.JTextField();
-        rdoNu1 = new javax.swing.JRadioButton();
-        txtHoTen1 = new javax.swing.JTextField();
-        rdoCV4 = new javax.swing.JRadioButton();
-        txtSdt1 = new javax.swing.JTextField();
-        jLabel19 = new javax.swing.JLabel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        txtDiaChi1 = new javax.swing.JTextArea();
-        jLabel20 = new javax.swing.JLabel();
-        txtNgaySinh1 = new com.toedter.calendar.JDateChooser();
-        jLabel21 = new javax.swing.JLabel();
-        txtEmail1 = new javax.swing.JTextField();
-        txtMatKhau1 = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
+        buttonGroup2.add(rdoTT1);
         rdoTT1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         rdoTT1.setSelected(true);
         rdoTT1.setText("Làm việc");
-        jPanel1.add(rdoTT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 574, -1, -1));
+        add(rdoTT1, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 574, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Giới Tính");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 471, -1, -1));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 471, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setText("Trạng thái");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 573, -1, -1));
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 573, -1, -1));
 
+        buttonGroup1.add(rdoCV1);
         rdoCV1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         rdoCV1.setSelected(true);
         rdoCV1.setText("Quản lý");
-        jPanel1.add(rdoCV1, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 534, -1, -1));
+        add(rdoCV1, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 534, -1, -1));
 
+        buttonGroup2.add(rdoTT2);
         rdoTT2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         rdoTT2.setText("Nghỉ việc");
         rdoTT2.addActionListener(new java.awt.event.ActionListener() {
@@ -150,19 +130,19 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                 rdoTT2ActionPerformed(evt);
             }
         });
-        jPanel1.add(rdoTT2, new org.netbeans.lib.awtextra.AbsoluteConstraints(639, 574, -1, -1));
+        add(rdoTT2, new org.netbeans.lib.awtextra.AbsoluteConstraints(639, 574, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setText("Ngày Sinh");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 499, -1, -1));
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 499, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Chức Vụ");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 533, -1, -1));
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 533, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Mã Nhân Viên");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 391, -1, -1));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 391, -1, -1));
 
         btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnXoa.setText("Xóa");
@@ -171,10 +151,10 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                 btnXoaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnXoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 470, 114, -1));
+        add(btnXoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 470, 114, -1));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -238,15 +218,15 @@ public class NhanVienJpanel extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -263,17 +243,17 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                         .addGap(81, 81, 81)))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPrev, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnLastPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtSearch)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(pageLabel)
                         .addComponent(btnFirstPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -281,7 +261,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                 .addGap(221, 221, 221))
         );
 
-        jTabbedPane1.addTab("Nhân viên hoạt động", jPanel2);
+        jTabbedPane1.addTab("Nhân viên hoạt động", jPanel1);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.red));
@@ -342,7 +322,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Nhân viên không hoạt động", jPanel3);
 
-        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 81, 990, 292));
+        add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 81, 990, 292));
 
         btnSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSua.setText("Sửa");
@@ -351,11 +331,11 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                 btnSuaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSua, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 430, 114, -1));
+        add(btnSua, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 430, 114, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Địa Chỉ");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 391, -1, -1));
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 391, -1, -1));
 
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnClear.setText("Làm Mới");
@@ -364,11 +344,11 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                 btnClearActionPerformed(evt);
             }
         });
-        jPanel1.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 510, 114, -1));
+        add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 510, 114, -1));
 
         rdoNam.setSelected(true);
         rdoNam.setText("Nam");
-        jPanel1.add(rdoNam, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 472, -1, -1));
+        add(rdoNam, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 472, -1, -1));
 
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThem.setText("Thêm");
@@ -377,540 +357,479 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                 btnThemActionPerformed(evt);
             }
         });
-        jPanel1.add(btnThem, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 390, 114, -1));
+        add(btnThem, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 390, 114, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Số Điện Thoại");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 533, -1, -1));
-        jPanel1.add(txtMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 391, 169, -1));
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 533, -1, -1));
+        add(txtMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 391, 169, -1));
 
         rdoNu.setText("Nữ");
-        jPanel1.add(rdoNu, new org.netbeans.lib.awtextra.AbsoluteConstraints(274, 472, -1, -1));
-        jPanel1.add(txtHoTen, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 431, 169, -1));
+        add(rdoNu, new org.netbeans.lib.awtextra.AbsoluteConstraints(274, 472, -1, -1));
+        add(txtHoTen, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 431, 169, -1));
 
+        buttonGroup1.add(rdoCV2);
         rdoCV2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         rdoCV2.setText("Nhân viên");
-        jPanel1.add(rdoCV2, new org.netbeans.lib.awtextra.AbsoluteConstraints(639, 534, -1, -1));
-        jPanel1.add(txtSdt, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 533, 169, -1));
+        add(rdoCV2, new org.netbeans.lib.awtextra.AbsoluteConstraints(639, 534, -1, -1));
+        add(txtSdt, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 533, 169, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Họ Tên");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 431, -1, -1));
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 431, -1, -1));
 
         txtDiaChi.setColumns(20);
         txtDiaChi.setRows(5);
         jScrollPane3.setViewportView(txtDiaChi);
 
-        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 391, -1, -1));
+        add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 391, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 0, 0));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("QUẢN LÝ NHÂN VIÊN");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 560, 57));
-        jPanel1.add(txtNgaySinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 499, 169, -1));
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 560, 57));
+        add(txtNgaySinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 499, 169, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel10.setText("Email");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 499, -1, -1));
-        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(555, 499, 237, -1));
-        jPanel1.add(txtMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 573, 169, -1));
+        add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 499, -1, -1));
+        add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(555, 499, 237, -1));
+        add(txtMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 573, 169, -1));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel11.setText("Mật Khẩu");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 573, -1, -1));
-
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        rdoTT3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        rdoTT3.setSelected(true);
-        rdoTT3.setText("Làm việc");
-        jPanel5.add(rdoTT3, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 574, -1, -1));
-
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel12.setText("Giới Tính");
-        jPanel5.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 471, -1, -1));
-
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel13.setText("Trạng thái");
-        jPanel5.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 573, -1, -1));
-
-        rdoCV3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        rdoCV3.setSelected(true);
-        rdoCV3.setText("Quản lý");
-        jPanel5.add(rdoCV3, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 534, -1, -1));
-
-        rdoTT4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        rdoTT4.setText("Nghỉ việc");
-        rdoTT4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdoTT4ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(rdoTT4, new org.netbeans.lib.awtextra.AbsoluteConstraints(639, 574, -1, -1));
-
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel14.setText("Ngày Sinh");
-        jPanel5.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 499, -1, -1));
-
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel15.setText("Chức Vụ");
-        jPanel5.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 533, -1, -1));
-
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel16.setText("Mã Nhân Viên");
-        jPanel5.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 391, -1, -1));
-
-        btnXoa1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnXoa1.setText("Xóa");
-        btnXoa1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoa1ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnXoa1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 470, 114, -1));
-
-        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        txtSearch1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearch1KeyReleased(evt);
-            }
-        });
-
-        jButton8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton8.setText("Tìm kiếm");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        tblNV2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Mã nhân viên", "Họ tên", "Sđt", "Ngày sinh", "Email", "Địa chỉ", "Mật khẩu", "Giới tính", "Chức vụ", "Trạng thái"
-            }
-        ));
-        tblNV2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblNV2MouseClicked(evt);
-            }
-        });
-        jScrollPane6.setViewportView(tblNV2);
-
-        btnPrev1.setText("<");
-        btnPrev1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrev1ActionPerformed(evt);
-            }
-        });
-
-        btnNext1.setText(">");
-        btnNext1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNext1ActionPerformed(evt);
-            }
-        });
-
-        pageLabel1.setText("jLabel12");
-
-        btnFirstPage1.setText("|<");
-        btnFirstPage1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFirstPage1ActionPerformed(evt);
-            }
-        });
-
-        btnLastPage1.setText(">|");
-        btnLastPage1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLastPage1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(txtSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnFirstPage1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnPrev1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pageLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnNext1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLastPage1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(81, 81, 81)))
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnPrev1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNext1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnLastPage1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtSearch1)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(pageLabel1)
-                        .addComponent(btnFirstPage1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(221, 221, 221))
-        );
-
-        jTabbedPane2.addTab("Nhân viên hoạt động", jPanel6);
-
-        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.red));
-
-        txtsearchNVKHD1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtsearchNVKHD1KeyReleased(evt);
-            }
-        });
-
-        jButton9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton9.setText("Tìm kiếm");
-
-        tblNV3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Mã nhân viên", "Họ tên", "Sđt", "Ngày sinh", "Email", "Địa chỉ", "Mật khẩu", "Giới tính", "Chức vụ", "Trạng thái"
-            }
-        ));
-        tblNV3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblNV3MouseClicked(evt);
-            }
-        });
-        jScrollPane7.setViewportView(tblNV3);
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(txtsearchNVKHD1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 651, Short.MAX_VALUE))
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(10, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtsearchNVKHD1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8))
-        );
-
-        jTabbedPane2.addTab("Nhân viên không hoạt động", jPanel7);
-
-        jPanel5.add(jTabbedPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 81, 990, 292));
-
-        btnSua1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnSua1.setText("Sửa");
-        btnSua1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSua1ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnSua1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 430, 114, -1));
-
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel17.setText("Địa Chỉ");
-        jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 391, -1, -1));
-
-        btnClear1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnClear1.setText("Làm Mới");
-        btnClear1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClear1ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnClear1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 510, 114, -1));
-
-        rdoNam1.setSelected(true);
-        rdoNam1.setText("Nam");
-        jPanel5.add(rdoNam1, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 472, -1, -1));
-
-        btnThem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnThem1.setText("Thêm");
-        btnThem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThem1ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnThem1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 390, 114, -1));
-
-        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel18.setText("Số Điện Thoại");
-        jPanel5.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 533, -1, -1));
-        jPanel5.add(txtMaNV1, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 391, 169, -1));
-
-        rdoNu1.setText("Nữ");
-        jPanel5.add(rdoNu1, new org.netbeans.lib.awtextra.AbsoluteConstraints(274, 472, -1, -1));
-        jPanel5.add(txtHoTen1, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 431, 169, -1));
-
-        rdoCV4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        rdoCV4.setText("Nhân viên");
-        jPanel5.add(rdoCV4, new org.netbeans.lib.awtextra.AbsoluteConstraints(639, 534, -1, -1));
-        jPanel5.add(txtSdt1, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 533, 169, -1));
-
-        jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel19.setText("Họ Tên");
-        jPanel5.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 431, -1, -1));
-
-        txtDiaChi1.setColumns(20);
-        txtDiaChi1.setRows(5);
-        jScrollPane8.setViewportView(txtDiaChi1);
-
-        jPanel5.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 391, -1, -1));
-
-        jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel20.setText("QUẢN LÝ NHÂN VIÊN");
-        jPanel5.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 560, 57));
-        jPanel5.add(txtNgaySinh1, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 499, 169, -1));
-
-        jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel21.setText("Email");
-        jPanel5.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(454, 499, -1, -1));
-        jPanel5.add(txtEmail1, new org.netbeans.lib.awtextra.AbsoluteConstraints(555, 499, 237, -1));
-        jPanel5.add(txtMatKhau1, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 573, 169, -1));
-
-        jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel22.setText("Mật Khẩu");
-        jPanel5.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 573, -1, -1));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1122, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 1122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 729, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 729, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1122, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 729, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 729, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 573, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void rdoTT2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTT2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdoTT2ActionPerformed
-
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        this.delete();
     }//GEN-LAST:event_btnXoaActionPerformed
-
-    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-    }//GEN-LAST:event_txtSearchKeyReleased
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void tblNVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNVMouseClicked
-      
-    }//GEN-LAST:event_tblNVMouseClicked
-
-    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        
-    }//GEN-LAST:event_btnPrevActionPerformed
-
-    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-    }//GEN-LAST:event_btnNextActionPerformed
-
-    private void btnFirstPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstPageActionPerformed
-    }//GEN-LAST:event_btnFirstPageActionPerformed
-
-    private void btnLastPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastPageActionPerformed
-    }//GEN-LAST:event_btnLastPageActionPerformed
-
-    private void txtsearchNVKHDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtsearchNVKHDKeyReleased
-    }//GEN-LAST:event_txtsearchNVKHDKeyReleased
-
-    private void tblNV1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNV1MouseClicked
-       
-    }//GEN-LAST:event_tblNV1MouseClicked
-
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        this.update();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        this.clear();
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        this.insert();
     }//GEN-LAST:event_btnThemActionPerformed
 
-    private void rdoTT4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTT4ActionPerformed
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        searchNhanVien(txtSearch.getText());
+    }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void txtsearchNVKHDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtsearchNVKHDKeyReleased
+        searchNhanVienKhongHoatDong(txtsearchNVKHD.getText());
+    }//GEN-LAST:event_txtsearchNVKHDKeyReleased
+
+    private void tblNV1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNV1MouseClicked
+       int index = tblNV1.getSelectedRow();
+        NhanVien kh = nhanVienRepository.getById(tblNV1.getValueAt(index, 0).toString());
+        show(kh);
+    }//GEN-LAST:event_tblNV1MouseClicked
+
+    private void tblNVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNVMouseClicked
+        int index = tblNV.getSelectedRow();
+        NhanVien kh = nhanVienRepository.getById(tblNV.getValueAt(index, 0).toString());
+        show(kh);
+    }//GEN-LAST:event_tblNVMouseClicked
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        this.nextPage();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        this.prevPage();
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void btnLastPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastPageActionPerformed
+        this.goToLastPage();
+    }//GEN-LAST:event_btnLastPageActionPerformed
+
+    private void btnFirstPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstPageActionPerformed
+        this.goToFirstPage();
+    }//GEN-LAST:event_btnFirstPageActionPerformed
+
+    private void rdoTT2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTT2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rdoTT4ActionPerformed
+    }//GEN-LAST:event_rdoTT2ActionPerformed
+    
+    public void searchNhanVien(String ma) {
+        list = nhanVienService.Search(ma);
+        dtm = (DefaultTableModel) tblNV.getModel();
+        dtm.setRowCount(0);
+        for (NhanVien s : list) {
+            dtm.addRow(new Object[]{s.getIdNhanVien(), s.getHoTen(), s.getSdt(), s.getNgaySinh(), s.getEmail(), s.getDiaChi(), s.getMatKhau(), s.isGioiTinh()? "Nam" : "Nữ", s.isChucVu()? "Quản lý" : "Nhân viên", s.isTrangThai()? "Còn hoạt động" : "Không hoạt động"});
+        }
+        updatePageLabel();
+    }
+    
+    private void updatePageLabel() {
+        if (list != null) {
+            int totalPages = (int) Math.ceil((double) list.size() / recordsPerPage);
+            currentPage = 1; // Trang hiện tại sẽ là trang đầu tiên
+            pageLabel.setText("Trang: " + currentPage + " / " + Math.max(1, totalPages)); // Ensure at least 1 page is shown
+        } else {
+            pageLabel.setText("Trang: 0 / 0");
+        }
+    }
 
-    private void btnXoa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoa1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnXoa1ActionPerformed
+    public void searchNhanVienKhongHoatDong(String ma) {
+        list = nhanVienService.SearchNVKHD(ma);
+        dtm = (DefaultTableModel) tblNV1.getModel();
+        dtm.setRowCount(0);
+        for (NhanVien s : list) {
+            dtm.addRow(new Object[]{s.getIdNhanVien(), s.getHoTen(), s.getSdt(), s.getNgaySinh(), s.getEmail(), s.getDiaChi(), s.getMatKhau(), s.isGioiTinh()? "Nam" : "Nữ", s.isChucVu()? "Quản lý" : "Nhân viên", s.isTrangThai()? "Còn hoạt động" : "Không hoạt động"});
+        }
+    }
+    private int currentPage = 1;
+    private int recordsPerPage = 10;
+    public void fillTableNhanVien() {
 
-    private void txtSearch1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearch1KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearch1KeyReleased
+            List<NhanVien> listNV;
+            DefaultTableModel mol;
+//            listNV = nhanVienRepository.getAllNhanVien();
+            listNV = nhanVienRepository.getNhanVienByPage(currentPage, recordsPerPage);
+            mol = (DefaultTableModel) tblNV.getModel();
+            mol.setRowCount(0);
+            for (NhanVien nv : listNV) {
+                mol.addRow(new Object[]{
+                        nv.getIdNhanVien(), 
+                        nv.getHoTen(), 
+                        nv.getSdt(), 
+                        nv.getNgaySinh(),
+                        nv.getEmail(), 
+                        nv.getDiaChi(),
+                        nv.getMatKhau(),
+                        nv.isGioiTinh()? "Nam" : "Nữ",
+                        nv.isChucVu()? "Quản lý" : "Nhân viên",
+                        nv.isTrangThai()? "Còn hoạt động" : "Không hoạt động"
+                });
+            }
+                  int totalPages = (int) Math.ceil((double) nhanVienRepository.getTotalNhanVien() / recordsPerPage);
+                 pageLabel.setText("Trang: " + currentPage + " / " + totalPages);
+        }
+    public void fillTableNhanVienKhongHoatDong() {
+            DefaultTableModel model = (DefaultTableModel) tblNV1.getModel();
+            model.setRowCount(0);
+            try {
+                List<NhanVien> list = nhanVienRepository.getAllNhanVienKhongHoatDong();
+                for (NhanVien nv : list) {
+                    model.addRow(new Object[]{
+                         nv.getIdNhanVien(), 
+                        nv.getHoTen(), 
+                        nv.getSdt(), 
+                        nv.getNgaySinh(),
+                        nv.getEmail(), 
+                        nv.getDiaChi(),
+                        nv.getMatKhau(),
+                        nv.isGioiTinh()? "Nam" : "Nữ",
+                        nv.isChucVu()? "Quản lý" : "Nhân viên",
+                        nv.isTrangThai()? "Còn hoạt động" : "Không hoạt động"
+                    });
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Lỗi truy vấn dữ liệu");
+                e.printStackTrace();
+            }
+        }
+    
+     public void show(NhanVien nv) {
+        txtDiaChi.setText(nv.getDiaChi());
+        txtMaNV.setText(String.valueOf(nv.getIdNhanVien()));
+        txtEmail.setText(nv.getEmail());
+        txtNgaySinh.setDate(nv.getNgaySinh());
+        txtSdt.setText(nv.getSdt());
+        txtHoTen.setText(nv.getHoTen());
+        txtMatKhau.setText(nv.getHoTen());
+        
+        if (nv.isGioiTinh()== true) {
+            rdoNam.setSelected(true);
+        } else {
+            rdoNu.setSelected(true);
+        }
+        
+        if (nv.isChucVu()== true) {
+            rdoCV1.setSelected(true);
+        } else {
+            rdoCV2.setSelected(true);
+        }
+        
+        if (nv.isTrangThai()== true) {
+            rdoTT1.setSelected(true);
+        } else {
+            rdoTT2.setSelected(true);
+        }
+    }
+     
+     public NhanVien getForm() {
+        NhanVien nv = new NhanVien();
+        nv.setIdNhanVien(Integer.parseInt(txtMaNV.getText()));
+        nv.setHoTen(txtHoTen.getText());
+        nv.setTrangThai(rdoTT1.isSelected());
+        nv.setGioiTinh(rdoNam.isSelected());
+        nv.setChucVu(rdoCV1.isSelected());
+        //String ngaySinh = format.format(jDateNgaysinh.getDate());
+        nv.setNgaySinh(Xdate.toDate(Xdate.toString(txtNgaySinh.getDate(), "yyyy-MM-dd"), "yyyy-MM-dd"));
+        nv.setEmail(txtEmail.getText());
+        nv.setSdt(txtSdt.getText());
+        nv.setDiaChi(txtDiaChi.getText());
+        nv.setMatKhau(txtMatKhau.getText());
+        return nv;
+    }
+     
+     public NhanVien getFormAdd() {
+        NhanVien nv = new NhanVien();
+        nv.setHoTen(txtHoTen.getText());
+        nv.setTrangThai(rdoTT1.isSelected());
+        nv.setGioiTinh(rdoNam.isSelected());
+        nv.setChucVu(rdoCV1.isSelected());
+        //String ngaySinh = format.format(jDateNgaysinh.getDate());
+        nv.setNgaySinh(Xdate.toDate(Xdate.toString(txtNgaySinh.getDate(), "yyyy-MM-dd"), "yyyy-MM-dd"));
+        nv.setEmail(txtEmail.getText());
+        nv.setSdt(txtSdt.getText());
+        nv.setDiaChi(txtDiaChi.getText());
+        nv.setMatKhau(txtMatKhau.getText());
+        return nv;
+    }
+     
+     void delete() {
+        int chooser = JOptionPane.showConfirmDialog(this, "Bạn muốn xóa nhân viên?");
+        if (chooser == JOptionPane.YES_OPTION) {
+            try {
+                String manv = txtMaNV.getText();
+                nhanVienService.delete(manv);
+                fillTableNhanVien();
+                fillTableNhanVienKhongHoatDong();
+                JOptionPane.showMessageDialog(this, "Xóa thành công!!");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Xóa thất bại");
+                e.printStackTrace();
+            }
+        }
+    }
+     
+     NhanVienService nhanVienService  = new NhanVienService();
+     void update() {
+            try {
+                nhanVienService.update(getForm());
+                fillTableNhanVien();
+                fillTableNhanVienKhongHoatDong();
+                this.clear();
+                JOptionPane.showMessageDialog(this, "Update thành công!!");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Cập nhật thất bại!" + "\n" + "Vui lòng chọn dữ liệu ở mục danh sách để cập nhật");
+                e.printStackTrace();
+            }
+    }
+     
+     void insert() {
+        try {
+            if (validateForm()) { // Nếu thông tin hợp lệ thì thực hiện thêm mới
+                nhanVienService.insert(getFormAdd());
+                fillTableNhanVien();
+                fillTableNhanVienKhongHoatDong();
+                this.clear();
+                JOptionPane.showMessageDialog(this, "Thêm mới thành công");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Thêm mới thất bại");
+        }   
+    }
+     
+     public void nextPage() {
+        int totalRecords = nhanVienRepository.getTotalNhanVien();
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+        if (currentPage < totalPages) {
+            currentPage++;
+            fillTableNhanVien();
+        }
+    }
 
-    private void tblNV2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNV2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblNV2MouseClicked
+    public void prevPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            fillTableNhanVien();
+        }
+    }
+    
+    public void goToLastPage() {
+        int totalRecords = nhanVienRepository.getTotalNhanVien();
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
-    private void btnPrev1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrev1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnPrev1ActionPerformed
+        if (currentPage < totalPages) {
+            currentPage = totalPages;
+            fillTableNhanVien();
+        }
+    }
+    
+    public void goToFirstPage() {
+        if (currentPage > 1) {
+            currentPage = 1;
+            fillTableNhanVien();
+        }
+    }
+    
+    //    Sđt trùng
+    private boolean isPhoneNumberDuplicate(String phoneNumber) {
+        DefaultTableModel model = (DefaultTableModel) tblNV.getModel();
+        int rowCount = model.getRowCount();
 
-    private void btnNext1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNext1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNext1ActionPerformed
+        for (int i = 0; i < rowCount; i++) {
+            String existingPhoneNumber = (String) model.getValueAt(i, 2); // Assuming 2 is the column index for phone number
+            if (existingPhoneNumber.equals(phoneNumber)) {
+                return true; // Phone number already exists in the table
+            }
+        }
 
-    private void btnFirstPage1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstPage1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnFirstPage1ActionPerformed
+        return false; // Phone number is not a duplicate
+    }
+    
+    //    Email trùng
+    private boolean isEmailDuplicate(String email) {
+        DefaultTableModel model = (DefaultTableModel) tblNV.getModel();
+        int rowCount = model.getRowCount();
 
-    private void btnLastPage1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastPage1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnLastPage1ActionPerformed
+        for (int i = 0; i < rowCount; i++) {
+            String existingEmail = (String) model.getValueAt(i, 4); // Assuming 4 is the column index for email
+            if (existingEmail.equals(email)) {
+                return true;
+            }
+        }
 
-    private void txtsearchNVKHD1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtsearchNVKHD1KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtsearchNVKHD1KeyReleased
+        return false;
+    }
 
-    private void tblNV3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNV3MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblNV3MouseClicked
+    private boolean validateForm() {
+        // Kiểm tra họ tên
+        if (txtHoTen.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Họ tên");
+            return false;
+        }
 
-    private void btnSua1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSua1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSua1ActionPerformed
+        // Kiểm tra số điện thoại
+        if (txtSdt.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Số điện thoại");
+            return false;
+        } else if (!isValidPhoneNumber(txtSdt.getText())) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ");
+            return false;
+        } else if (isPhoneNumberDuplicate(txtSdt.getText())) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại trong danh sách khách hàng");
+            return false;
+        }   
 
-    private void btnClear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnClear1ActionPerformed
+        // Kiểm tra ngày sinh
+        if (txtNgaySinh.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Ngày sinh");
+            return false;
+        }
 
-    private void btnThem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnThem1ActionPerformed
+        // Kiểm tra email (có thể thêm kiểm tra định dạng email)
+        if (txtEmail.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Email");
+            return false;
+        } else if (!isValidEmail(txtEmail.getText())) {
+            JOptionPane.showMessageDialog(this, "Email không hợp lệ");
+            return false;
+        } else if (isEmailDuplicate(txtEmail.getText())) {
+            JOptionPane.showMessageDialog(this, "Email đã tồn tại trong danh sách khách hàng");
+            return false;
+        }
 
+        // Kiểm tra địa chỉ
+        if (txtDiaChi.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Địa chỉ");
+            return false;
+        }
 
+        // Kiểm tra mật khẩu
+        if (txtMatKhau.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Mật khẩu");
+            return false;
+        }
+
+        // Kiểm tra radio button giới tính
+        if (!rdoNam.isSelected() && !rdoNu.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Giới tính");
+            return false;
+        }
+
+        // Kiểm tra radio button chức vụ
+        if (!rdoCV1.isSelected() && !rdoCV2.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Chức vụ");
+            return false;
+        }
+
+        // Kiểm tra radio button trạng thái
+        if (!rdoTT1.isSelected() && !rdoTT2.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Trạng thái");
+            return false;
+        }
+
+        return true; // Đã kiểm tra hết, thông tin hợp lệ
+    }
+
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        // Định dạng số điện thoại: 10 hoặc 11 chữ số, bắt đầu từ 0 hoặc 84
+        String regex = "^(0|84)?[0-9]{9,10}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
+    }
+
+// Hàm kiểm tra regex cho email
+    private boolean isValidEmail(String email) {
+        // Định dạng email sử dụng regex cơ bản
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+    
+    private void clear() {
+        txtMaNV.setText("");
+        txtHoTen.setText("");
+        txtSdt.setText("");
+        txtNgaySinh.setDate(null);
+        txtEmail.setText("");
+        txtDiaChi.setText("");
+        txtMatKhau.setText("");
+        rdoNam.setSelected(false);
+        rdoNu.setSelected(false);
+        rdoCV1.setSelected(false);
+        rdoCV2.setSelected(false);
+        rdoTT1.setSelected(false);
+        rdoTT2.setSelected(false);
+    }
+    
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnClear1;
     private javax.swing.JButton btnFirstPage;
-    private javax.swing.JButton btnFirstPage1;
     private javax.swing.JButton btnLastPage;
-    private javax.swing.JButton btnLastPage1;
     private javax.swing.JButton btnNext;
-    private javax.swing.JButton btnNext1;
     private javax.swing.JButton btnPrev;
-    private javax.swing.JButton btnPrev1;
     private javax.swing.JButton btnSua;
-    private javax.swing.JButton btnSua1;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnThem1;
     private javax.swing.JButton btnXoa;
-    private javax.swing.JButton btnXoa1;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -919,55 +838,28 @@ public class NhanVienJpanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel pageLabel;
-    private javax.swing.JLabel pageLabel1;
     private javax.swing.JRadioButton rdoCV1;
     private javax.swing.JRadioButton rdoCV2;
-    private javax.swing.JRadioButton rdoCV3;
-    private javax.swing.JRadioButton rdoCV4;
     private javax.swing.JRadioButton rdoNam;
-    private javax.swing.JRadioButton rdoNam1;
     private javax.swing.JRadioButton rdoNu;
-    private javax.swing.JRadioButton rdoNu1;
     private javax.swing.JRadioButton rdoTT1;
     private javax.swing.JRadioButton rdoTT2;
-    private javax.swing.JRadioButton rdoTT3;
-    private javax.swing.JRadioButton rdoTT4;
     private javax.swing.JTable tblNV;
     private javax.swing.JTable tblNV1;
-    private javax.swing.JTable tblNV2;
-    private javax.swing.JTable tblNV3;
     private javax.swing.JTextArea txtDiaChi;
-    private javax.swing.JTextArea txtDiaChi1;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtEmail1;
     private javax.swing.JTextField txtHoTen;
-    private javax.swing.JTextField txtHoTen1;
     private javax.swing.JTextField txtMaNV;
-    private javax.swing.JTextField txtMaNV1;
     private javax.swing.JTextField txtMatKhau;
-    private javax.swing.JTextField txtMatKhau1;
     private com.toedter.calendar.JDateChooser txtNgaySinh;
-    private com.toedter.calendar.JDateChooser txtNgaySinh1;
     private javax.swing.JTextField txtSdt;
-    private javax.swing.JTextField txtSdt1;
     private javax.swing.JTextField txtSearch;
-    private javax.swing.JTextField txtSearch1;
     private javax.swing.JTextField txtsearchNVKHD;
-    private javax.swing.JTextField txtsearchNVKHD1;
     // End of variables declaration//GEN-END:variables
 }
