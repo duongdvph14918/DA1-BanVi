@@ -4,12 +4,17 @@
  */
 package quanlycuahangpoly;
 
+import Hepper.MsgBox;
 import Hepper.Xdate;
 import Model.KhuyenMai;
 import Repository.KhuyenMaiRepository;
 import Service.KhuyenMaiService;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
+import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,18 +22,23 @@ import javax.swing.table.DefaultTableModel;
  * @author Windows
  */
 public class KhuyenMaiJPanel extends javax.swing.JPanel {
+
     KhuyenMaiService kms = new KhuyenMaiService();
-    KhuyenMaiRepository kmr  = new KhuyenMaiRepository();
+    KhuyenMaiRepository kmr = new KhuyenMaiRepository();
     DefaultTableModel dtm = new DefaultTableModel();
+
     /**
      * Creates new form KhuyenMaiJPanel
      */
     public KhuyenMaiJPanel() {
         initComponents();
         dtm = (DefaultTableModel) tableKM.getModel();
+        ButtonGroup bG = new ButtonGroup();
+        bG.add(hd);
+        bG.add(nhd);
         fillTable();
     }
-     private int currentPage = 1;
+    private int currentPage = 1;
     private int recordsPerPage = 10;
 
     public void nextPage() {
@@ -65,7 +75,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         }
     }
 
-   private void fillTable() {
+    private void fillTable() {
         List<Model.KhuyenMai> listKM;
         DefaultTableModel mol;
         listKM = kmr.getAll();
@@ -83,7 +93,8 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         int totalPages = (int) Math.ceil((double) kmr.getTotal() / recordsPerPage);
         pageLabel.setText("Trang: " + currentPage + " / " + totalPages);
     }
-       public void show(KhuyenMai km) {
+
+    public void show(KhuyenMai km) {
         txtMa.setText(km.getMa());
         txtGiaTri.setText(km.getGiaTri() + "");
         dateBatDau.setDate(km.getNgayBatDau());
@@ -114,7 +125,8 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         km.setTrangThai(hd.isSelected());
         return km;
     }
-        void delete() {
+
+    void delete() {
         int chooser = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa không ?");
         if (chooser == JOptionPane.YES_OPTION) {
             try {
@@ -130,6 +142,10 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
     }
 
     void update() {
+        if(number()){
+            return;
+        }
+        else{
         try {
 
             kms.update(getInformation());
@@ -140,27 +156,95 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Update thất bại!");
             e.printStackTrace();
         }
+        }
     }
 
-//    void insert() {
-//        if(validateFormKM()){
-//                return;
-//            }
-//        else if(number()){
-//            return;
-//        }
-//        else{
-//        try {
-//            
-//            kms.insert(getInformation());
-//            fillTable();
-//            JOptionPane.showMessageDialog(this, "Thêm thành công!");
-//
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(this, "Thêm thất bại!");
-//            e.printStackTrace();
-//        }}
-//    }
+    void insert() {
+        if (validateFormKM()) {
+            return;
+        } else if (number()) {
+            return;
+        } else {
+            try {
+
+                kms.insert(getInformation());
+                fillTable();
+                JOptionPane.showMessageDialog(this, "Thêm thành công!");
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Thêm thất bại!");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private boolean number() {
+        if (Integer.parseInt(txtGiaTri.getText()) <= 0) {
+            JOptionPane.showMessageDialog(this, "Giá không được nhập âm ");
+            txtGiaTri.requestFocus();
+            return true;
+        }
+        if (Integer.parseInt(txtGiaTri.getText()) >= 100) {
+            JOptionPane.showMessageDialog(this, "Giá không được nhập quá 100%");
+            txtGiaTri.requestFocus();
+            return true;
+        }        
+
+        return false;
+    }
+
+    private boolean validateFormKM() {
+        if (txtMa.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui long nhap ma khuyen mai");
+            return true;
+        }
+
+        if (dateBatDau.getDate().equals("")) {
+            dateBatDau.requestFocus();
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Ngày bat dau");
+            return true;
+        }
+
+        if (dateKetThuc.getDate().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Ngày ket thuc");
+            return true;
+        }
+        List<KhuyenMai> list = kmr.getAll();
+        String id = txtMa.getText();
+
+        for (int i = 0; i < list.size(); i++) {
+            if (id.equalsIgnoreCase(list.get(i).getMa())) {
+                JOptionPane.showMessageDialog(this, "Mã khuyến mãi đã tồn tại");
+                txtMa.requestFocus();
+                return true;
+            }
+        }
+
+        if (txtGiaTri.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mức giảm giá");
+            return true;
+        }
+        return false;
+    }
+
+    private boolean check() {
+        Date a = dateBatDau.getDate();
+        Date b = dateKetThuc.getDate();
+        if (a.getTime() > b.getTime()) {
+            MsgBox.alert(this, "Ngày kết thúc phải nhỏ hơn ngày bắt đầu");
+            return false;
+        }
+        return true;
+    }
+    public static boolean isInt(JTextField txt,String mess){
+        try {
+            int testInt = Integer.parseInt(txt.getText());
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, mess,"Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -277,7 +361,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 920, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addComponent(jLabel1)
@@ -407,7 +491,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
                                         .addComponent(jLabel4)))
                                 .addGap(18, 18, 18)
                                 .addComponent(dateKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 23, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -442,7 +526,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
                             .addComponent(btUpdate)
                             .addComponent(btDelete))
                         .addGap(9, 9, 9)))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -450,7 +534,9 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
 
     private void tableKMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableKMMouseClicked
         // TODO add your handling code here:
-       
+int index = tableKM.getSelectedRow();
+KhuyenMai km = kmr.getById(tableKM.getValueAt(index, 0).toString());
+        show(km);
     }//GEN-LAST:event_tableKMMouseClicked
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
@@ -479,16 +565,24 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
         // TODO add your handling code here:
-        
+        // them
+        if (check()) {
+            this.insert();
+        }
     }//GEN-LAST:event_btSaveActionPerformed
 
     private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
         // TODO add your handling code here:
-        
+        //xua
+        if (check()) {
+            this.update();
+        }
     }//GEN-LAST:event_btUpdateActionPerformed
 
     private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
         // TODO add your handling code here:
+        //xoa
+        this.delete();
     }//GEN-LAST:event_btDeleteActionPerformed
 
 

@@ -46,7 +46,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         initComponents();
         this.tenNV = tenNV;
         this.email = email;
-        txt_KhachHang1.setText("Khách Lẻ");
+//        txt_KhachHang1.setText("Khách Lẻ");
         this.fillTableSP(service.seachSP(txt_TimKiemSP.getText()));
         this.fillTableHD(serviceHD.getAllHDChuaHT());
         this.fillTableKH(khachHangService.firdKhachHangHD(txt_KhachHang.getText()));
@@ -724,6 +724,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         KhachHang kh = khachHangService.firdKhachHangHD(txt_KhachHang.getText()).get(index_KH);
         return kh.getIdKhachHang();
     }
+
     // Lấy ra số lượng sản phẩm từ bảng sản phẩm 
     int getSoLuongSP() {
         int index_SP = tbl_SanPham.getSelectedRow();
@@ -814,6 +815,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 s.getTenKhachHang(), s.getSdt(),});
         }
     }
+
     // tạo hóa đơn 
     private void addHD() {
         try {
@@ -919,6 +921,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         this.fillTableKH(khachHangService.firdKhachHangHD(txt_KhachHang.getText()));
 
     }
+
     // lấy ra phương thức thanh toán 
     int getPTTT() {
         if (rdo_TienMat.isSelected()) {
@@ -929,6 +932,79 @@ public class BanHangJPanel extends javax.swing.JPanel {
     }
 
 //    // Thanh toán hóa đơn 
+    private void thanhToanHD() {
+        try {
+            index = tbl_hoaDon.getSelectedRow();
+            if (index < 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn thanh toán ! ");
+            } // Đã chọn hóa đơn 
+            else {
+                try {
+                    if (txt_KhachHang1.getText().equals("")) {
+                        JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng !");
+                    } // nếu khách không muốn cung cấp thông tin 
+                    else if (txt_KhachHang1.getText().equals("Khách Lẻ")) {
+                        if (rdo_TienMat.isSelected()) {
+                            double moneyNhan = Integer.valueOf(JOptionPane.showInputDialog("Nhập số tiền nhận của khách "));
+                            if (moneyNhan == Double.valueOf(lbl_TongTien.getText())) {
+                                serviceHD.thanhToanHD(lbl_maHD.getText(), 1, Double.valueOf(lbl_TongTien.getText()), getPTTT());
+                                this.fillTableHD(serviceHD.getAllHDChuaHT());
+                                JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
+                            } else if (moneyNhan < Double.valueOf(lbl_TongTien.getText())) {
+                                JOptionPane.showMessageDialog(this, "Thanh toán thât bại ! \nKhách đưa thiếu tiền !");
+                            } else {
+                                double moneyTra = moneyNhan - Double.valueOf(lbl_TongTien.getText());
+                                serviceHD.thanhToanHD(lbl_maHD.getText(), 1, Double.valueOf(lbl_TongTien.getText()), getPTTT());
+                                this.fillTableHD(serviceHD.getAllHDChuaHT());
+                                JOptionPane.showMessageDialog(this, "Thanh Toán Thành Công !" + "\nSố tiền thối khách : " + String.valueOf(moneyTra) + " VNĐ");
+                                mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
+                                mol.setRowCount(0);
+
+                            }
+                        } else if (rdo_ChuyenKhoan.isEnabled()) {
+                            serviceHD.thanhToanHD(lbl_maHD.getText(), 1, Double.valueOf(lbl_TongTien.getText()), getPTTT());
+                            this.fillTableHD(serviceHD.getAllHDChuaHT());
+                            JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
+                            mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
+                            mol.setRowCount(0);
+                        }
+                    }
+                    // Khách cung cấp thông tin 
+                    if (rdo_TienMat.isSelected()) {
+                        double moneyNhan = Integer.valueOf(JOptionPane.showInputDialog("Nhập số tiền nhận của khách "));
+                        if (moneyNhan == Double.valueOf(lbl_TongTien.getText())) {
+                            serviceHD.thanhToanHD(lbl_maHD.getText(), getIDKH(), Double.valueOf(lbl_TongTien.getText()), getPTTT());
+                            this.fillTableHD(serviceHD.getAllHDChuaHT());
+                            JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
+                        } else if (moneyNhan < Double.valueOf(lbl_TongTien.getText())) {
+                            JOptionPane.showMessageDialog(this, "Thanh toán thât bại ! \nKhách đưa thiếu tiền !");
+                        } else {
+                            double moneyTra = moneyNhan - Double.valueOf(lbl_TongTien.getText());
+                            serviceHD.thanhToanHD(lbl_maHD.getText(), getIDKH(), Double.valueOf(lbl_TongTien.getText()), getPTTT());
+                            this.fillTableHD(serviceHD.getAllHDChuaHT());
+                            JOptionPane.showMessageDialog(this, "Thanh Toán Thành Công !" + "\nSố tiền thối khách : " + String.valueOf(moneyTra) + " VNĐ");
+                            mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
+                            mol.setRowCount(0);
+                        }
+                    } else if (rdo_ChuyenKhoan.isEnabled()) {
+                        serviceHD.thanhToanHD(lbl_maHD.getText(), getIDKH(), Double.valueOf(lbl_TongTien.getText()), getPTTT());
+                        this.fillTableHD(serviceHD.getAllHDChuaHT());
+                        JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
+                        mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
+                        mol.setRowCount(0);
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                    JOptionPane.showMessageDialog(this, "Số tiền không hợp lệ !");
+                }
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Thanh toán thất bại ! ");
+        }
+    }
+
 //    private void thanhToanHD() {
 //        try {
 //            index = tbl_hoaDon.getSelectedRow();
@@ -937,35 +1013,11 @@ public class BanHangJPanel extends javax.swing.JPanel {
 //            } // Đã chọn hóa đơn 
 //            else {
 //                try {
-//                    if(txt_KhachHang1.getText().equals("")) {
+//                    if (txt_KhachHang1.getText().equals("")) {
 //                        JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng !");
-//                    } 
-//                    // nếu khách không muốn cung cấp thông tin 
-//                    
-//                      else  if (rdo_TienMat.isSelected()) {
-//                            double moneyNhan = Integer.valueOf(JOptionPane.showInputDialog("Nhập số tiền nhận của khách "));
-//                            if (moneyNhan == Double.valueOf(lbl_TongTien.getText())) {
-//                                serviceHD.thanhToanHD(lbl_maHD.getText(),1, Double.valueOf(lbl_TongTien.getText()), getPTTT());
-//                                this.fillTableHD(serviceHD.getAllHDChuaHT());
-//                                JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
-//                            } else if (moneyNhan < Double.valueOf(lbl_TongTien.getText())) {
-//                                JOptionPane.showMessageDialog(this, "Thanh toán thât bại ! \nKhách đưa thiếu tiền !");
-//                            } else {
-//                                double moneyTra = moneyNhan - Double.valueOf(lbl_TongTien.getText());
-//                                serviceHD.thanhToanHD(lbl_maHD.getText(),1, Double.valueOf(lbl_TongTien.getText()), getPTTT());
-//                                this.fillTableHD(serviceHD.getAllHDChuaHT());
-//                                JOptionPane.showMessageDialog(this, "Thanh Toán Thành Công !" + "\nSố tiền thối khách : " + String.valueOf(moneyTra) + " VNĐ");
+//                    }
 //
-//                            }
-//                        } else if (rdo_ChuyenKhoan.isEnabled()) {
-//                            serviceHD.thanhToanHD(lbl_maHD.getText(),1, Double.valueOf(lbl_TongTien.getText()), getPTTT());
-//                            this.fillTableHD(serviceHD.getAllHDChuaHT());
-//                            JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
-//                        }
-//                    
-//                    // Khách cung cấp thông tin 
-//                   if(txt_KhachHang1.getText().isBlank()){
-//                        if (rdo_TienMat.isSelected()) {
+//                    if (rdo_TienMat.isSelected()) {
 //                        double moneyNhan = Integer.valueOf(JOptionPane.showInputDialog("Nhập số tiền nhận của khách "));
 //                        if (moneyNhan == Double.valueOf(lbl_TongTien.getText())) {
 //                            serviceHD.thanhToanHD(lbl_maHD.getText(), getIDKH(), Double.valueOf(lbl_TongTien.getText()), getPTTT());
@@ -978,72 +1030,27 @@ public class BanHangJPanel extends javax.swing.JPanel {
 //                            serviceHD.thanhToanHD(lbl_maHD.getText(), getIDKH(), Double.valueOf(lbl_TongTien.getText()), getPTTT());
 //                            this.fillTableHD(serviceHD.getAllHDChuaHT());
 //                            JOptionPane.showMessageDialog(this, "Thanh Toán Thành Công !" + "\nSố tiền thối khách : " + String.valueOf(moneyTra) + " VNĐ");
-//
+//                            mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
+//                            mol.setRowCount(0);
 //                        }
 //                    } else if (rdo_ChuyenKhoan.isEnabled()) {
 //                        serviceHD.thanhToanHD(lbl_maHD.getText(), getIDKH(), Double.valueOf(lbl_TongTien.getText()), getPTTT());
 //                        this.fillTableHD(serviceHD.getAllHDChuaHT());
 //                        JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
-//                    }
+//                        mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
+//                        mol.setRowCount(0);
 //                    }
 //                } catch (Exception e) {
-//                    System.out.println(e);
 //                    JOptionPane.showMessageDialog(this, "Số tiền không hợp lệ !");
 //                }
 //
 //            }
-//            mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
-//            mol.setRowCount(0);
+//
 //        } catch (Exception e) {
 //            JOptionPane.showMessageDialog(this, "Thanh toán thất bại ! ");
 //        }
 //    }
-    private void thanhToanHD() {
-        try {
-            index = tbl_hoaDon.getSelectedRow();
-            if (index < 0) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn thanh toán ! ");
-            } // Đã chọn hóa đơn 
-            else {
-                try {
-                    if (txt_KhachHang1.getText().equals("")) {
-                        JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng !");
-                    }
-
-                    if (rdo_TienMat.isSelected()) {
-                        double moneyNhan = Integer.valueOf(JOptionPane.showInputDialog("Nhập số tiền nhận của khách "));
-                        if (moneyNhan == Double.valueOf(lbl_TongTien.getText())) {
-                            serviceHD.thanhToanHD(lbl_maHD.getText(), 1, Double.valueOf(lbl_TongTien.getText()), getPTTT());
-                            this.fillTableHD(serviceHD.getAllHDChuaHT());
-                            JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
-                        } else if (moneyNhan < Double.valueOf(lbl_TongTien.getText())) {
-                            JOptionPane.showMessageDialog(this, "Thanh toán thât bại ! \nKhách đưa thiếu tiền !");
-                        } else {
-                            double moneyTra = moneyNhan - Double.valueOf(lbl_TongTien.getText());
-                            serviceHD.thanhToanHD(lbl_maHD.getText(), 1, Double.valueOf(lbl_TongTien.getText()), getPTTT());
-                            this.fillTableHD(serviceHD.getAllHDChuaHT());
-                            JOptionPane.showMessageDialog(this, "Thanh Toán Thành Công !" + "\nSố tiền thối khách : " + String.valueOf(moneyTra) + " VNĐ");
-                            mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
-                            mol.setRowCount(0);
-                        }
-                    } else if (rdo_ChuyenKhoan.isEnabled()) {
-                        serviceHD.thanhToanHD(lbl_maHD.getText(), 1, Double.valueOf(lbl_TongTien.getText()), getPTTT());
-                        this.fillTableHD(serviceHD.getAllHDChuaHT());
-                        JOptionPane.showMessageDialog(this, "Thanh toán thành công !");
-                        mol = (DefaultTableModel) tbl_hoaDonCT.getModel();
-                        mol.setRowCount(0);
-                    }
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "Số tiền không hợp lệ !");
-                }
-
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Thanh toán thất bại ! ");
-        }
-    }
-  private void addMaGiamGia() {
+    private void addMaGiamGia() {
         try {
             index = tbl_hoaDon.getSelectedRow();
             if (index < 0) {
@@ -1075,7 +1082,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                     if (check_KM == 0) {
                         JOptionPane.showMessageDialog(this, "Mã khuyến mãi không đúng !");
                     }
-                    
+
                 } else {
                     JOptionPane.showMessageDialog(this, "Vui lòng nhập mã khuyến mãi");
                 }

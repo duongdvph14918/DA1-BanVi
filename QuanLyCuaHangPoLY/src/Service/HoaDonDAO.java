@@ -53,7 +53,7 @@ public class HoaDonDAO implements InterfaceHoaDon {
 
     @Override
     public List<HoaDonCT1> getAllCTHD(String ma) {
-       String sql = "SELECT HoaDonChiTiet.Ma_HoaDonChiTiet\n"
+        String sql = "SELECT HoaDonChiTiet.Ma_HoaDonChiTiet\n"
                 + "                   ,[ID_ChiTietVi]\n"
                 + "                	  ,ChiTietVi.Ma_ChiTietVi\n"
                 + "                	  ,Vi.TenVi\n"
@@ -462,7 +462,29 @@ public class HoaDonDAO implements InterfaceHoaDon {
             e.printStackTrace();
         }
     }
-
+//// tìm hoá đơn
+//
+//    public HoaDonCT getDHByMa(String ma) {
+//        String sql = "select Ma_HoaDon, NhanVien.HoTen, KhachHang.TenKhachHang,HoaDon.NgayThanhToan,HoaDon.TrangThai from HoaDon\n"
+//                + "join NhanVien on HoaDon.ID_NhanVien = NhanVien.IDNhanVien\n"
+//                + "join KhachHang on HoaDon.ID_KhachHang = KhachHang.IDKhangHang\n"
+//                + "where HoaDon.Ma_HoaDon = ?";
+//        ResultSet rs = JDBCHeper.Query(sql, ma);
+//        try {
+//            while (rs.next()) {
+//                HoaDonCT nv = new HoaDonCT();
+//               
+//            }
+//            return DH;
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//            return null;
+//        }
+//    }
+    public int update(HoaDonCT dh) {
+        String sql = "update HoaDon set ID_KhachHang =? ,ThanhTien=?, PhuongThucThanhToan=? ,TrangThai = ? where Ma_HoaDon = ?";
+        return JDBCHeper.update(sql, dh.getTrangThai(), dh.getMaHD());
+    }
     @Override
     public List<HoaDonCT> filterHoaDon(String startDate, String endDate, String keySearch, Integer payMethod, int page, int recordsPerPage) {
         String sql = "SELECT [IDHoaDon]\n"
