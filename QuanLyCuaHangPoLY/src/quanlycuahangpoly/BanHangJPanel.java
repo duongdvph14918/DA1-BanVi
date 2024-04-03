@@ -632,7 +632,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         }
         lbl_TongTien.setText(String.valueOf(tongTien));
         lbl_maHD.setText(hd.getMaHD());
-        txt_KhachHang1.setText("Khách Lẻ");
+        txt_KhachHang1.setText(hd.getTenKH());
     }
 
     // Show tổng tiền 
@@ -735,7 +735,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
     // Tạo mã hoá đơn ngẫu nhiên 
     public static String randum() {
         Random rd = new Random();
-        int numberCode = rd.nextInt(200) + 200;
+        int numberCode = rd.nextInt(100) + 100;
         return String.valueOf(numberCode);
     }
 
@@ -822,7 +822,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
             if (email.equals("")) {
                 JOptionPane.showMessageDialog(this, "Bạn Chưa đăng nhập !");
             } else {
-                serviceHD.addHoaDon(1, serviceHD.getIDNhanVien(email), 1, "HD" + randum(), 0, 0);
+                serviceHD.addHoaDon(getIDKH(), serviceHD.getIDNhanVien(email), 1, "HD" + randum(), 0, 0);
                 this.fillTableHD(serviceHD.getAllHDChuaHT());
             }
         } catch (Exception e) {

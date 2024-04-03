@@ -16,6 +16,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -222,6 +223,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
 
         if (txtGiaTri.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mức giảm giá");
+            txtGiaTri.requestFocus();
             return true;
         }
         return false;
@@ -244,6 +246,12 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, mess,"Lỗi", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+    }
+    public  void searchKM(){
+        String search = txtSearch.getText();
+        TableRowSorter<DefaultTableModel> km = new TableRowSorter<>(dtm);
+        tableKM.setRowSorter(km);
+        km.setRowFilter(javax.swing.RowFilter.regexFilter(search));
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -541,26 +549,32 @@ KhuyenMai km = kmr.getById(tableKM.getValueAt(index, 0).toString());
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         // TODO add your handling code here:
+        this.searchKM();
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
         // TODO add your handling code here:
+        this.prevPage();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
+        this.nextPage();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnLastPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastPageActionPerformed
         // TODO add your handling code here:
+        this.goToLastPage();
     }//GEN-LAST:event_btnLastPageActionPerformed
 
     private void btnFirstPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstPageActionPerformed
         // TODO add your handling code here:
+        this.goToFirstPage();
     }//GEN-LAST:event_btnFirstPageActionPerformed
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed

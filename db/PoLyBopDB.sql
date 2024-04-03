@@ -518,3 +518,11 @@ SELECT [IDKhuyenMai]
                      ,[TrangThai]
                 FROM [dbo].[KhuyenMai]
 				where N'2023-03-16' between KhuyenMai.NgayBatDau and KhuyenMai.NgayKetThuc
+
+-- timkiem theo ma hoa don
+select Ma_HoaDon, NhanVien.HoTen, KhachHang.TenKhachHang,HoaDon.NgayThanhToan,HoaDon.TrangThai from HoaDon
+join NhanVien on HoaDon.ID_NhanVien = NhanVien.IDNhanVien
+join KhachHang on HoaDon.ID_KhachHang = KhachHang.IDKhangHang
+where HoaDon.Ma_HoaDon = N'HD001'
+
+update HoaDon set ID_KhachHang =? ,ThanhTien=?, PhuongThucThanhToan=? ,TrangThai = ? where Ma_HoaDon = ?
