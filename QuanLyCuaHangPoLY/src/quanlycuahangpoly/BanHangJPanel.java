@@ -784,6 +784,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                     }
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Số lượng sản phẩm không hợp lệ !");
             }
 
@@ -822,7 +823,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
             if (email.equals("")) {
                 JOptionPane.showMessageDialog(this, "Bạn Chưa đăng nhập !");
             } else {
-                serviceHD.addHoaDon(getIDKH(), serviceHD.getIDNhanVien(email), 1, "HD" + randum(), 0, 0);
+                serviceHD.addHoaDon(1, serviceHD.getIDNhanVien(email), 1, "HD" + randum(), 0, 0);
                 this.fillTableHD(serviceHD.getAllHDChuaHT());
             }
         } catch (Exception e) {
