@@ -15,18 +15,18 @@ import javax.swing.JOptionPane;
  */
 public class SendMail {
 
-       // Hàm gửi email 
+// Hàm gửi email 
     public static void send(String to , String code) {
         try {
             Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.host", "smtp.office365.com");
             props.put("mail.smtp.port", "587");
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
             // Email gửi 
-            String username = "polybop1@hotmail.com";
-            String password = "12345678@aa";
-            Session s = Session.getDefaultInstance(props,
+            String username = "polybop2@hotmail.com";
+                String password = "Anhduong2k1@";
+            Session s = Session.getInstance(props,
                     new javax.mail.Authenticator() {
                 protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
                     return new javax.mail.PasswordAuthentication(username, password);
@@ -35,26 +35,14 @@ public class SendMail {
             // Nội dung email  
             String tittle = "Quên Mật Khẩu - PoLyBop";
             // 
-            Message msg = new MimeMessage(s);
-            msg.setFrom(new InternetAddress(username));
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-            msg.setSubject(tittle);
-            msg.setText("Mã OTP:" + code);
-            Transport.send(msg);
+             Message msg = new MimeMessage(s);
+                msg.setFrom(new InternetAddress(username));
+                msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+                msg.setSubject(tittle);
+                msg.setText("Mã OTP:" + code+"\nĐây là mã OTP của bạn. Vui lòng không để lộ thông tin này!");
+                Transport.send(msg);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    // Tạo số ngẫu nhiên 
-    public static String randum() {
-        Random rd = new Random();
-        int numberCode = rd.nextInt(1000) + 1000;
-        return String.valueOf(numberCode);
-    }
-
-    public static void main(String[] args) {
-        send("anhduong9235@gmail.com",randum());
-
     }
 }
