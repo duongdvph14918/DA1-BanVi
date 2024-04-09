@@ -30,6 +30,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
      */
     public NhanVienJpanel() {
         initComponents();
+        txtMaNV.setEnabled(false);
         fillTableNhanVienKhongHoatDong();
         fillTableNhanVien();
         ButtonGroup bG1 = new ButtonGroup();
@@ -456,6 +457,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         int index = tblNV.getSelectedRow();
         NhanVien kh = nhanVienRepository.getById(tblNV.getValueAt(index, 0).toString());
         show(kh);
+        txtMaNV.setEnabled(false);
     }//GEN-LAST:event_tblNVMouseClicked
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
@@ -636,11 +638,14 @@ public class NhanVienJpanel extends javax.swing.JPanel {
      NhanVienService nhanVienService  = new NhanVienService();
      void update() {
             try {
-                nhanVienService.update(getForm());
+                if(this.validateFormUpdate()) {
+                    nhanVienService.update(getForm());
                 fillTableNhanVien();
                 fillTableNhanVienKhongHoatDong();
                 this.clear();
                 JOptionPane.showMessageDialog(this, "Update thành công!!");
+                }
+                
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Cập nhật thất bại!" + "\n" + "Vui lòng chọn dữ liệu ở mục danh sách để cập nhật");
                 e.printStackTrace();
@@ -827,6 +832,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         rdoCV2.setSelected(false);
         rdoTT1.setSelected(false);
         rdoTT2.setSelected(false);
+        txtMaNV.setEnabled(true);
     }
     
   
@@ -879,4 +885,68 @@ public class NhanVienJpanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtsearchNVKHD;
     // End of variables declaration//GEN-END:variables
+
+    private boolean validateFormUpdate() {
+           // Kiểm tra họ tên
+        if (txtHoTen.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Họ tên");
+            return false;
+        }
+
+        // Kiểm tra số điện thoại
+        if (txtSdt.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Số điện thoại");
+            return false;
+        } else if (!isValidPhoneNumber(txtSdt.getText())) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ");
+            return false;
+        }   
+
+        // Kiểm tra ngày sinh
+        if (txtNgaySinh.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Ngày sinh");
+            return false;
+        }
+
+        // Kiểm tra email (có thể thêm kiểm tra định dạng email)
+        if (txtEmail.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Email");
+            return false;
+        } else if (!isValidEmail(txtEmail.getText())) {
+            JOptionPane.showMessageDialog(this, "Email không hợp lệ");
+            return false;
+        } 
+
+        // Kiểm tra địa chỉ
+        if (txtDiaChi.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Địa chỉ");
+            return false;
+        }
+
+        // Kiểm tra mật khẩu
+        if (txtMatKhau.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Mật khẩu");
+            return false;
+        }
+
+        // Kiểm tra radio button giới tính
+        if (!rdoNam.isSelected() && !rdoNu.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Giới tính");
+            return false;
+        }
+
+        // Kiểm tra radio button chức vụ
+        if (!rdoCV1.isSelected() && !rdoCV2.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Chức vụ");
+            return false;
+        }
+
+        // Kiểm tra radio button trạng thái
+        if (!rdoTT1.isSelected() && !rdoTT2.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Trạng thái");
+            return false;
+        }
+
+        return true; // Đã kiểm tra hết, thông tin hợp lệ
+    }
 }
