@@ -526,7 +526,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                         nv.getNgaySinh(),
                         nv.getEmail(), 
                         nv.getDiaChi(),
-                        nv.getMatKhau(),
+                        nv.matkhau(),
                         nv.isGioiTinh()? "Nam" : "Nữ",
                         nv.isChucVu()? "Quản lý" : "Nhân viên",
                         nv.isTrangThai()? "Còn hoạt động" : "Không hoạt động"
@@ -548,7 +548,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                         nv.getNgaySinh(),
                         nv.getEmail(), 
                         nv.getDiaChi(),
-                        nv.getMatKhau(),
+                        nv.matkhau(),
                         nv.isGioiTinh()? "Nam" : "Nữ",
                         nv.isChucVu()? "Quản lý" : "Nhân viên",
                         nv.isTrangThai()? "Còn hoạt động" : "Không hoạt động"
@@ -567,7 +567,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         txtNgaySinh.setDate(nv.getNgaySinh());
         txtSdt.setText(nv.getSdt());
         txtHoTen.setText(nv.getHoTen());
-        txtMatKhau.setText(nv.getHoTen());
+        txtMatKhau.setText("********");
         
         if (nv.isGioiTinh()== true) {
             rdoNam.setSelected(true);
