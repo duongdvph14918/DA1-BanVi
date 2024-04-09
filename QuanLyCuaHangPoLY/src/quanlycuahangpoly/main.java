@@ -4,7 +4,7 @@
  */
 package quanlycuahangpoly;
 
-
+import Hepper.Auth;
 import View.DoiMK_View;
 import View.LoginView;
 import java.awt.Color;
@@ -21,32 +21,32 @@ import javax.swing.JButton;
  */
 public class main extends javax.swing.JFrame {
 //TaiKhoanDao service = new TaiKhoanDao();
+
     /**
      * Creates new form main
      */
     String email, name;
     int chucVu;
 
-    public main(String email, String name, int chucVu) {
+    public main(String email, String name, boolean chucVu) {
         initComponents();
         setLocationRelativeTo(null);
         this.email = email;
         this.name = name;
-        this.chucVu = chucVu;
         lblTenNV.setText(name);
 //        new LoginView().setVisible(false);
         setExtendedState(this.MAXIMIZED_BOTH);
         setColor(lblTrangChu);
         setColorJpanel(pnTrangChu);
 
-        if (chucVu == 1) {
+        if (chucVu == true) {
             lblChucVu.setText("ADMIN");
-            
+
         } else {
             lblChucVu.setText("NHÂN VIÊN");
         }
 
-       showPanel(new TrangChuJPanel());
+        showPanel(new TrangChuJPanel());
 //mm
     }
 
@@ -533,6 +533,13 @@ public class main extends javax.swing.JFrame {
 
     private void lblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNhanVienMouseClicked
         // TODO add your handling code here:
+//        if (Auth.isManager() == true) {
+//            fillPanel(new NhanVienJpanel());
+//            lblNhanVien.setHorizontalAlignment(JLabel.RIGHT);
+//
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Chức năng chỉ dành cho quản lý", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//        }
         setColorJpanel(pnNhanVien);
         resetColorJpane(pnBanHang);
         resetColorJpane(pnKhuyenMai);
@@ -688,6 +695,7 @@ public class main extends javax.swing.JFrame {
 
     private void lblThongkeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblThongkeMouseClicked
         // TODO add your handling code here:
+
         setColorJpanel(pnThongKe);
         resetColorJpane(pnBanHang);
         resetColorJpane(pnNhanVien);
@@ -749,7 +757,7 @@ public class main extends javax.swing.JFrame {
         resetColor(lblThongke);
         resetColor(lblKhuyenMai);
         resetColor(lblKhachHang);
-                showPanel(new TrangChuJPanel());
+        showPanel(new TrangChuJPanel());
     }//GEN-LAST:event_pnTrangChuMouseClicked
 
     private void lblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSanPhamMouseClicked
@@ -776,7 +784,7 @@ public class main extends javax.swing.JFrame {
 
     private void lblTrangChuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTrangChuMouseClicked
         // TODO add your handling code here:
-                setColorJpanel(pnTrangChu);
+        setColorJpanel(pnTrangChu);
         resetColorJpane(pnBanHang);
         resetColorJpane(pnKhuyenMai);
         resetColorJpane(pnHoaDon);
@@ -793,7 +801,7 @@ public class main extends javax.swing.JFrame {
         resetColor(lblThongke);
         resetColor(lblKhuyenMai);
         resetColor(lblKhachHang);
-                showPanel(new TrangChuJPanel());
+        showPanel(new TrangChuJPanel());
     }//GEN-LAST:event_lblTrangChuMouseClicked
 
     private void lblBanHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBanHangMouseClicked

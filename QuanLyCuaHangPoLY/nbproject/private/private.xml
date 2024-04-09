@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/TrangChuJPanel.java</file>
             <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/BanHangJPanel.java</file>
             <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/Hepper/JDBCHeper.java</file>
@@ -16,6 +17,13 @@
             <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/ChiTietViJDiaLog.java</file>
             <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/Service/SendMail.java</file>
             <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/QuanLySanPhamJPanel.java</file>
+=======
+            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/View/LoginView.java</file>
+            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/quanlycuahangpoly/main.java</file>
+            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/quanlycuahangpoly/KhuyenMaiJPanel.java</file>
+            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/Model/TaiKhoan.java</file>
+            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/Service/TaiKhoanDao.java</file>
+>>>>>>> a22b26c18dc1407084ccb81e896ba526536b5b45
         </group>
     </open-files>
 </project-private>

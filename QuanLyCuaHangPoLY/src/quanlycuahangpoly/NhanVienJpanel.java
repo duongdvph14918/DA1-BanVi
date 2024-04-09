@@ -4,6 +4,7 @@
  */
 package quanlycuahangpoly;
 
+import Hepper.Auth;
 import Model.KhachHang;
 import Model.NhanVien;
 import Repository.NhanVienRepository;
@@ -40,8 +41,24 @@ public class NhanVienJpanel extends javax.swing.JPanel {
          ButtonGroup bG3 = new ButtonGroup();
         bG3.add(rdoTT1);
         bG3.add(rdoTT2);
+        this.init();
     }
 
+    private void init(){
+               if (Auth.isManager() == false) {
+            btnThem.setVisible(false);
+            btnSua.setVisible(false);
+            btnXoa.setVisible(false);
+            btnClear.setVisible(false);
+
+
+        } else {
+            btnThem.setVisible(true);
+            btnSua.setVisible(true);
+            btnXoa.setVisible(true);
+            btnClear.setVisible(true);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -151,10 +168,10 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                 btnXoaActionPerformed(evt);
             }
         });
-        add(btnXoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 470, 114, -1));
+        add(btnXoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 470, 114, -1));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
 
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -225,7 +242,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1096, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -304,8 +321,8 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                         .addComponent(txtsearchNVKHD, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 651, Short.MAX_VALUE))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE))
+                        .addGap(0, 771, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1096, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -322,7 +339,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Nhân viên không hoạt động", jPanel3);
 
-        add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 81, 990, 292));
+        add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 81, 1110, 292));
 
         btnSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSua.setText("Sửa");
@@ -331,7 +348,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                 btnSuaActionPerformed(evt);
             }
         });
-        add(btnSua, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 430, 114, -1));
+        add(btnSua, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 430, 114, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Địa Chỉ");
@@ -344,7 +361,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                 btnClearActionPerformed(evt);
             }
         });
-        add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 510, 114, -1));
+        add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 510, 114, -1));
 
         rdoNam.setSelected(true);
         rdoNam.setText("Nam");
@@ -357,7 +374,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
                 btnThemActionPerformed(evt);
             }
         });
-        add(btnThem, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 390, 114, -1));
+        add(btnThem, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 390, 114, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Số Điện Thoại");
@@ -382,7 +399,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         txtDiaChi.setRows(5);
         jScrollPane3.setViewportView(txtDiaChi);
 
-        add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 391, -1, -1));
+        add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 391, 240, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

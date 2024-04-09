@@ -35,7 +35,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
     KhachHangRepository khachHangRepository = new KhachHangRepository();
     KhachHangService khachHangService = new KhachHangService();
     int index = -1;
-
+int index1 = -1;
     String tenNV, email;
     DefaultTableModel mol = new DefaultTableModel();
 
@@ -108,7 +108,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thanh Toán", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)), "Thanh Toán", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 0, 0))); // NOI18N
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -222,7 +222,8 @@ public class BanHangJPanel extends javax.swing.JPanel {
         jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 280, -1, 30));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Hóa Đơn", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)), "Hóa Đơn ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 0, 0))); // NOI18N
+        jPanel3.setForeground(new java.awt.Color(255, 0, 0));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tbl_hoaDon.setModel(new javax.swing.table.DefaultTableModel(
@@ -254,7 +255,8 @@ public class BanHangJPanel extends javax.swing.JPanel {
         jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 20, 820, 120));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Hóa Đơn Chi Tiết", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)), "Hóa Đơn Chi Tiết", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 0, 0))); // NOI18N
+        jPanel4.setForeground(new java.awt.Color(255, 0, 0));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tbl_hoaDonCT.setModel(new javax.swing.table.DefaultTableModel(
@@ -304,7 +306,8 @@ public class BanHangJPanel extends javax.swing.JPanel {
         jPanel4.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 20, 110, 50));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Danh Sách Sản Phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)), "Danh Sách Sản Phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(255, 0, 0))); // NOI18N
+        jPanel5.setForeground(new java.awt.Color(255, 0, 0));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tbl_SanPham.setModel(new javax.swing.table.DefaultTableModel(
@@ -347,7 +350,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         jPanel5.add(txt_TimKiemSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 200, 30));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tbl_KhachHang.setModel(new javax.swing.table.DefaultTableModel(
@@ -414,7 +417,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 93, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -449,6 +452,11 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // thanh toán
+        if (getvalidate() == false) {
+                
+                return;
+                
+            }
         this.thanhToanHD();
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -463,7 +471,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         //khuyenmai
-//        this.addMaGiamGia();
+        this.addMaGiamGia();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void tbl_hoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_hoaDonMouseClicked
@@ -784,6 +792,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                     }
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Số lượng sản phẩm không hợp lệ !");
             }
 
@@ -938,6 +947,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
             if (index < 0) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn thanh toán ! ");
             } // Đã chọn hóa đơn 
+           
             else {
                 try {
                     if (txt_KhachHang1.getText().equals("")) {
@@ -970,7 +980,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                         }
                     }
                     // Khách cung cấp thông tin 
-                    if (rdo_TienMat.isSelected()) {
+                  else  if (rdo_TienMat.isSelected()) {
                         double moneyNhan = Integer.valueOf(JOptionPane.showInputDialog("Nhập số tiền nhận của khách "));
                         if (moneyNhan == Double.valueOf(lbl_TongTien.getText())) {
                             serviceHD.thanhToanHD(lbl_maHD.getText(), getIDKH(), Double.valueOf(lbl_TongTien.getText()), getPTTT());
@@ -1091,5 +1101,14 @@ public class BanHangJPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Áp dụng thất bại !");
         }
 
+    }
+        public boolean getvalidate() {
+        if (tbl_hoaDonCT.getRowCount() <= 0) {
+            JOptionPane.showMessageDialog(this, "Đơn Hàng Chi Tiết Chưa Có Sản Phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } 
+         else {
+            return true;
+        }
     }
 }

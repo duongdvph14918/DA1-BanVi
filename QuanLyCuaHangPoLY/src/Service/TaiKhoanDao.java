@@ -31,7 +31,7 @@ public class TaiKhoanDao implements InterfaceTaiKhoan {
         try ( Connection con = DBconnect.getConnection();  PreparedStatement ps = con.prepareCall(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                TaiKhoan tk = new TaiKhoan(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
+                TaiKhoan tk = new TaiKhoan(rs.getString(1), rs.getString(2), rs.getBoolean(3), rs.getInt(4));
                 listTKNV.add(tk);
             }
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class TaiKhoanDao implements InterfaceTaiKhoan {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                TaiKhoan tk = new TaiKhoan(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
+                TaiKhoan tk = new TaiKhoan(rs.getString(1), rs.getString(2), rs.getBoolean(3), rs.getInt(4));
                 listChucVu.add(tk);
             }
         } catch (Exception e) {
@@ -72,7 +72,7 @@ public class TaiKhoanDao implements InterfaceTaiKhoan {
             
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                tk = new TaiKhoan(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
+                tk = new TaiKhoan(rs.getString(1), rs.getString(2), rs.getBoolean(3), rs.getInt(4));
 
             }
             return tk;
@@ -93,7 +93,7 @@ public class TaiKhoanDao implements InterfaceTaiKhoan {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                tk = new TaiKhoan(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
+                tk = new TaiKhoan(rs.getString(1), rs.getString(2), rs.getBoolean(3), rs.getInt(4));
 
             }
             return tk;

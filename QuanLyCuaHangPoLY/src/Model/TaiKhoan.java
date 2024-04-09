@@ -12,7 +12,7 @@ public class TaiKhoan {
 
     private String email;
     private String matKhau;
-    private int chucVuNV;
+    private boolean chucVuNV;
     private int trangThaiNV;
 
     public String getEmail() {
@@ -31,11 +31,11 @@ public class TaiKhoan {
         this.matKhau = matKhau;
     }
 
-    public int getChucVuNV() {
+    public boolean isChucVuNV() {
         return chucVuNV;
     }
 
-    public void setChucVuNV(int chucVuNV) {
+    public void setChucVuNV(boolean chucVuNV) {
         this.chucVuNV = chucVuNV;
     }
 
@@ -47,12 +47,14 @@ public class TaiKhoan {
         this.trangThaiNV = trangThaiNV;
     }
 
-    public TaiKhoan(String email, String matKhau, int chucVuNV, int trangThaiNV) {
+    public TaiKhoan(String email, String matKhau, boolean chucVuNV, int trangThaiNV) {
         this.email = email;
         this.matKhau = matKhau;
         this.chucVuNV = chucVuNV;
         this.trangThaiNV = trangThaiNV;
     }
+
+   
 
     public TaiKhoan() {
     }

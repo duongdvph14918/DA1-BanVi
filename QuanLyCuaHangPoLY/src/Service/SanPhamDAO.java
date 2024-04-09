@@ -50,7 +50,7 @@ public class SanPhamDAO implements InterfaceSanPham {
                 + "		ChiTietVi.GiaBan\n"
                 + " FROM Vi \n"
                 + " JOIN (ChiTietVi JOIN MauSac ON ChiTietVi.ID_MauSac = MauSac.IDMauSac) ON Vi.IDVi = ChiTietVi.ID_Vi \n"
-                + " JOIN ThuongHieu ON Vi.ID_ThuongHieu = ThuongHieu.IDThuongHieu Where IDVi like '%" + key + "%'  ";
+                + " JOIN ThuongHieu ON Vi.ID_ThuongHieu = ThuongHieu.IDThuongHieu Where Ma_ChiTietVi like '%" + key + "%' or TenVi like N'%" + key + "%' ";
         List<SanPham> list = new ArrayList<>();
         try (Connection con = DBconnect.getConnection(); PreparedStatement ps = con.prepareCall(sql)) {
             ResultSet rs = ps.executeQuery();
