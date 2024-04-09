@@ -4,6 +4,7 @@
  */
 package quanlycuahangpoly;
 
+import Hepper.Auth;
 import Hepper.MsgBox;
 import Hepper.Xdate;
 import Model.KhuyenMai;
@@ -38,6 +39,20 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         bG.add(hd);
         bG.add(nhd);
         fillTable();
+        this.init();
+    }
+    private void init(){
+                if (Auth.isManager() == false) {
+            btDelete.setVisible(false);
+            btSave.setVisible(false);
+            btUpdate.setVisible(false);
+           
+
+        } else {
+         btDelete.setVisible(true);
+            btSave.setVisible(true);
+            btUpdate.setVisible(true);
+        }
     }
     private int currentPage = 1;
     private int recordsPerPage = 10;

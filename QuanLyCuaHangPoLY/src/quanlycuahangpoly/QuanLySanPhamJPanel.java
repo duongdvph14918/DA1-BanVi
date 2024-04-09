@@ -8,6 +8,7 @@ package quanlycuahangpoly;
  *
  * @author Windows
  */
+import Hepper.Auth;
 import Model.TaiKhoan;
 import java.io.File;
 import Hepper.Ximages;
@@ -55,14 +56,36 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
         modelHH = (DefaultTableModel) tblHetHang.getModel();
         filltotablehh();
     }
+
     private void init() {
         fillcomboboxThuonghieu();
-              
-//        if (serDao.getchuvu().getChucVuNV()==1) {
-//            btnThem.setVisible(true);
-//        }else if (serDao.getchuvu().getChucVuNV() ==0){
-//            btnThem.setVisible(false);
-//        }
+
+        if (Auth.isManager() == false) {
+            btnThem.setVisible(false);
+            btnSua.setVisible(false);
+            btnLammoi.setVisible(false);
+            btnThem1.setVisible(false);
+            txtMaVi.setEditable(false);
+            txtKieuDang.setEditable(false);
+            txtTenVi.setEditable(false);
+            cbxThuongHieu.setEnabled(false);
+            rdo.setEnabled(false);
+            rdo1.setEnabled(false);
+            jButton5.setVisible(false);
+
+        } else {
+            btnThem.setVisible(true);
+            btnSua.setVisible(true);
+            btnLammoi.setVisible(true);
+            btnThem1.setVisible(true);
+            txtMaVi.setEditable(true);
+            txtKieuDang.setEditable(true);
+            txtTenVi.setEditable(true);
+            cbxThuongHieu.setEnabled(true);
+            rdo.setEnabled(true);
+            rdo1.setEnabled(true);
+        }
+
     }
 
     /**
@@ -531,7 +554,7 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
 
     private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_txtTimKiemActionPerformed
 
     private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
@@ -616,7 +639,7 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
 
     private void tblHetHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHetHangMouseClicked
         // TODO add your handling code here:
-              try {
+        try {
             row = tblHetHang.getSelectedRow();
             edithh();
         } catch (Exception e) {
@@ -783,6 +806,7 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
 //            lblHinh.setIcon(new ImageIcon("unnamed.png"));
         }
     }
+
     private void setForm1(Vi sp) {
         String thuonghieu = tblHetHang.getValueAt(row, 2).toString();
         for (int i = 0; i < list_TH.size(); i++) {
@@ -805,6 +829,7 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
 //            lblHinh.setIcon(new ImageIcon("unnamed.png"));
         }
     }
+
     private void updateStatus() {
         boolean edit = (row >= 0);
         boolean fist = (row == 0);
@@ -853,7 +878,7 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
     private void edithh() {
         String mahh = tblHetHang.getValueAt(row, 0).toString();
         Vi sp = dao_vi.selectID1(mahh);
-        
+
         setForm1(sp);
         updateStatus2();
     }

@@ -4,6 +4,7 @@
  */
 package quanlycuahangpoly;
 
+import Hepper.Auth;
 import Model.TKDoanhThu_View;
 import Model.TKSanPham_View;
 import Model.TKTongQuan_View;
@@ -18,6 +19,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import java.text.NumberFormat;
 import java.util.Locale;
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -54,6 +56,17 @@ public class ThongKeJpanel extends javax.swing.JPanel {
         btnTK.setEnabled(false);
         TKTongQuan_View tk = tkTQ_Service.tkHomNay();
         fillTKTongQuan(tk.getDonHang(), tk.getSanPham(), tk.getDoanhthu());
+        init();
+    }
+
+    private void init() {
+
+        if (Auth.isManager() == false) {
+            jTabbedPane1.removeAll();
+            pnlLoaiThoiGian.removeAll();
+            cboLoaiTG.setEnabled(false);
+        } else {
+        }
     }
 
     /**

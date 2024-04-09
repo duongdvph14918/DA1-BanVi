@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/Service/SanPhamDAO.java</file>
-            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/quanlycuahangpoly/QuanLySanPhamJPanel.java</file>
-            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/quanlycuahangpoly/ThuongHieuJDiaLog.java</file>
-            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/quanlycuahangpoly/TrangChuJPanel.java</file>
-            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/quanlycuahangpoly/NhanVienJpanel.java</file>
-            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/View/QuenMK_View.java</file>
-            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/quanlycuahangpoly/BanHangJPanel.java</file>
+            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/View/LoginView.java</file>
+            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/quanlycuahangpoly/main.java</file>
+            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/quanlycuahangpoly/KhuyenMaiJPanel.java</file>
+            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/Model/TaiKhoan.java</file>
+            <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/Service/TaiKhoanDao.java</file>
         </group>
     </open-files>
 </project-private>

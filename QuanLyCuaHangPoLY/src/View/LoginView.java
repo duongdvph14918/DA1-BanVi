@@ -4,6 +4,7 @@
  */
 package View;
 
+import Hepper.Auth;
 import Service.TaiKhoanDao;
 import Model.TaiKhoan;
 import com.itextpdf.text.pdf.BidiOrder;
@@ -12,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import quanlycuahangpoly.main;
-
 
 /**
  *
@@ -30,10 +30,10 @@ public class LoginView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 //        txt_Email.setText("nguyenvana@example.com");
-        txt_Email.setText("anhduong9235@gmail.com");
+txt_Email.setText("tranthib@example.com");
+//        txt_Email.setText("duongdvph14918@fpt.edu.vn");
         txt_Pass.setText("123");
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -361,6 +361,7 @@ public class LoginView extends javax.swing.JFrame {
         lbl_Pass.setForeground(Color.BLACK);
     }
 
+
     private void checkAccount() {
         if (CheckData() == true) {
             String email = txt_Email.getText().trim();
@@ -371,34 +372,37 @@ public class LoginView extends javax.swing.JFrame {
                 if (email.equalsIgnoreCase(x.getEmail()) && matKhau.equalsIgnoreCase(x.getMatKhau())) {
                     // Check trạng thái tài khoản 
                     for (TaiKhoan tt : service.getChucVu(email)) {
+                        Auth.user = tt;
+
                         // Tài khoản không hoạt động 
                         if (tt.getTrangThaiNV() == 0) {
                             JOptionPane.showMessageDialog(this, "Tài khoản không còn hoạt dộng");
                         } // Tài khoản còn hoạt động
                         else {
-                            // check chức vụ 
-                            if (tt.getChucVuNV() == 1) {
-                                JOptionPane.showMessageDialog(this, "Đăng nhập thành công dưới quyền quản lý");
-                                main m = new main(txt_Email.getText(), service.getNameNV(txt_Email.getText()), 1);
-                                m.setVisible(true);
-                                this.dispose();
-                            } else {
-                                JOptionPane.showMessageDialog(this, "Đăng nhập thành công dưới quyền nhân viên");
-                                main m = new main(txt_Email.getText(), service.getNameNV(txt_Email.getText()), 0);
-                                m.setVisible(true);
-                                this.dispose();
-                            }
-
+                            if (Auth.isManager() == true) {
+                                // check chức vụ 
+                                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công dưới quyền quản lý");
+                                    main m = new main(txt_Email.getText(), service.getNameNV(txt_Email.getText()), true);
+                                    m.setVisible(true);
+                                    this.dispose();
+                                } else {
+                                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công dưới quyền nhân viên");
+                                    main m = new main(txt_Email.getText(), service.getNameNV(txt_Email.getText()), false);
+                                    m.setVisible(true);
+                                    this.dispose();
+                                }
+                            
                         }
+
                     }
-                    check = 1;
                 }
+                check = 1;
             }
+
             // đăng nhập thất bại 
             if (check == 0) {
                 JOptionPane.showMessageDialog(this, "Tài khoản hoặc mật khẩu chưa chính xác !");
             }
         }
     }
-
 }
