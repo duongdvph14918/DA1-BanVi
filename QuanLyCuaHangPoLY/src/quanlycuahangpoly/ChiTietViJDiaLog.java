@@ -77,7 +77,7 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
         txtMaChiTiet = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablechitiet = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         txtKhoaVi = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -124,7 +124,7 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
 
         jLabel1.setText("Mã Chi Tiết Ví");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablechitiet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null, null, null},
@@ -135,12 +135,12 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
                 "Mã chi tiết", "Mã ví", "Chất liệu", "Khoá ví", "Màu sắc", "Xuất xứ", "Loại ví", "Số ngăn", "Giá nhập", "Giá bán", "Số lượng", "Ngày nhập", "Trạng thái"
             }
         ));
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablechitiet.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                tablechitietMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablechitiet);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -479,9 +479,15 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+    private void tablechitietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablechitietMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTable1MouseClicked
+        try {
+            row = tablechitiet.getSelectedRow();
+            edit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_tablechitietMouseClicked
 
     private void btnChatLieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChatLieuActionPerformed
         // TODO add your handling code here:
@@ -513,6 +519,11 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
+//        row = 0;
+//        if (jScrollPane1.getSelectedIndex() == 0) {
+//            tablechitiet.setRowSelectionInterval(row, row);
+//            edit();
+//        }
       
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -535,18 +546,19 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-
+        insert();
      
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-
+        update();
 
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void tbnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbnLamMoiActionPerformed
         // TODO add your handling code here:
+        clearForm();
     }//GEN-LAST:event_tbnLamMoiActionPerformed
 
     /**
@@ -627,7 +639,7 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablechitiet;
     private javax.swing.JButton tbnLamMoi;
     private javax.swing.JTextField txtGiaNhap;
     private javax.swing.JTextField txtGiaban;
@@ -641,13 +653,13 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
 
         String timkiem = txtTimKiem.getText();
         TableRowSorter<DefaultTableModel> sanpham = new TableRowSorter<>(model);
-        jTable1.setRowSorter(sanpham);
+        tablechitiet.setRowSorter(sanpham);
         sanpham.setRowFilter(javax.swing.RowFilter.regexFilter(timkiem));
 
     }
 
     private void filltotableChitietVi() {
-        model = (DefaultTableModel) jTable1.getModel();
+        model = (DefaultTableModel) tablechitiet.getModel();
         model.setRowCount(0);
         try {
             List<ChiTietVi> list = daoctv.selectAll();
@@ -711,31 +723,31 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
     }
 
     public void setform(ChiTietVi ctv) {
-        String mavi = jTable1.getValueAt(row, 1).toString();
+        String mavi = tablechitiet.getValueAt(row, 1).toString();
         for (int i = 0; i < listVi.size(); i++) {
             if (mavi.equals(listVi.get(i).getTenVi())) {
                 cbxMaVi.setSelectedIndex(i);
             }
         }
-        String chatlieu = jTable1.getValueAt(row, 2).toString();
+        String chatlieu = tablechitiet.getValueAt(row, 2).toString();
         for (int i = 0; i < listChatLieu.size(); i++) {
             if (chatlieu.equals(listChatLieu.get(i).getTenChatLieu())) {
                 cbxChatLieu.setSelectedIndex(i);
             }
         }
-        String mausac = jTable1.getValueAt(row, 4).toString();
+        String mausac = tablechitiet.getValueAt(row, 4).toString();
         for (int i = 0; i < listMauSac.size(); i++) {
             if (mausac.equals(listMauSac.get(i).getTenMauSac())) {
                 cbxMausac.setSelectedIndex(i);
             }
         }
-        String xuatxu = jTable1.getValueAt(row, 5).toString();
+        String xuatxu = tablechitiet.getValueAt(row, 5).toString();
         for (int i = 0; i < listXuatXu.size(); i++) {
             if (xuatxu.equals(listXuatXu.get(i).getTenXuatXu())) {
                 cbxXuatxu.setSelectedIndex(i);
             }
         }
-        String loaivi = jTable1.getValueAt(row, 6).toString();
+        String loaivi = tablechitiet.getValueAt(row, 6).toString();
         for (int i = 0; i < listLoaiVi.size(); i++) {
             if (loaivi.equals(listLoaiVi.get(i).getTenLoaiVi())) {
                 cbxLoaivi.setSelectedIndex(i);
@@ -772,7 +784,7 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
     }
 
     void edit() {
-        String mavi = (String) jTable1.getValueAt(row, 0).toString();
+        String mavi = (String) tablechitiet.getValueAt(row, 0).toString();
         ChiTietVi ctv = daoctv.selectID1(mavi);
         this.setform(ctv);
         updateStatus();
@@ -804,7 +816,7 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
     private void updateStatus() {
         boolean edit = (row >= 0);
         boolean fist = (row == 0);
-        boolean last = (row == jTable1.getRowCount() - 1);
+        boolean last = (row == tablechitiet.getRowCount() - 1);
         ////
         txtMaChiTiet.setEditable(!edit);
         btnThem.setEnabled(!edit);

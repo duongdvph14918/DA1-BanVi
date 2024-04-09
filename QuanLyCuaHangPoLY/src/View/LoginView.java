@@ -30,8 +30,8 @@ public class LoginView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 //        txt_Email.setText("nguyenvana@example.com");
-        txt_Email.setText("anhduong9235@gmail.com");
-        txt_Pass.setText("123");
+        txt_Email.setText("duongthih@example.com");
+        txt_Pass.setText("hashed_password");
     }
 
 
