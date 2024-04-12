@@ -22,9 +22,11 @@ import Hepper.Xdate;
  * @author ADMIN
  */
 public class NhanVienJpanel extends javax.swing.JPanel {
+
     List<NhanVien> list;
     DefaultTableModel dtm;
     NhanVienRepository nhanVienRepository = new NhanVienRepository();
+
     /**
      * Creates new form NhanVien
      */
@@ -36,22 +38,21 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         ButtonGroup bG1 = new ButtonGroup();
         bG1.add(rdoNam);
         bG1.add(rdoNu);
-         ButtonGroup bG2 = new ButtonGroup();
+        ButtonGroup bG2 = new ButtonGroup();
         bG2.add(rdoCV1);
         bG2.add(rdoCV2);
-         ButtonGroup bG3 = new ButtonGroup();
+        ButtonGroup bG3 = new ButtonGroup();
         bG3.add(rdoTT1);
         bG3.add(rdoTT2);
         this.init();
     }
 
-    private void init(){
-               if (Auth.isManager() == false) {
+    private void init() {
+        if (Auth.isManager() == false) {
             btnThem.setVisible(false);
             btnSua.setVisible(false);
             btnXoa.setVisible(false);
             btnClear.setVisible(false);
-
 
         } else {
             btnThem.setVisible(true);
@@ -60,6 +61,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
             btnClear.setVisible(true);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -190,13 +192,13 @@ public class NhanVienJpanel extends javax.swing.JPanel {
 
         tblNV.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã nhân viên", "Họ tên", "Sđt", "Ngày sinh", "Email", "Địa chỉ", "Mật khẩu", "Giới tính", "Chức vụ", "Trạng thái"
+                "Mã nhân viên", "Họ tên", "Sđt", "Ngày sinh", "Email", "Địa chỉ", "Giới tính", "Chức vụ", "Trạng thái"
             }
         ));
         tblNV.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -295,13 +297,13 @@ public class NhanVienJpanel extends javax.swing.JPanel {
 
         tblNV1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã nhân viên", "Họ tên", "Sđt", "Ngày sinh", "Email", "Địa chỉ", "Mật khẩu", "Giới tính", "Chức vụ", "Trạng thái"
+                "Mã nhân viên", "Họ tên", "Sđt", "Ngày sinh", "Email", "Địa chỉ", "Giới tính", "Chức vụ", "Trạng thái"
             }
         ));
         tblNV1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -329,7 +331,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(10, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtsearchNVKHD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton7))
@@ -448,7 +450,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
     }//GEN-LAST:event_txtsearchNVKHDKeyReleased
 
     private void tblNV1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNV1MouseClicked
-       int index = tblNV1.getSelectedRow();
+        int index = tblNV1.getSelectedRow();
         NhanVien kh = nhanVienRepository.getById(tblNV1.getValueAt(index, 0).toString());
         show(kh);
     }//GEN-LAST:event_tblNV1MouseClicked
@@ -479,17 +481,17 @@ public class NhanVienJpanel extends javax.swing.JPanel {
     private void rdoTT2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTT2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rdoTT2ActionPerformed
-    
+
     public void searchNhanVien(String ma) {
         list = nhanVienService.Search(ma);
         dtm = (DefaultTableModel) tblNV.getModel();
         dtm.setRowCount(0);
         for (NhanVien s : list) {
-            dtm.addRow(new Object[]{s.getIdNhanVien(), s.getHoTen(), s.getSdt(), s.getNgaySinh(), s.getEmail(), s.getDiaChi(), s.getMatKhau(), s.isGioiTinh()? "Nam" : "Nữ", s.isChucVu()? "Quản lý" : "Nhân viên", s.isTrangThai()? "Còn hoạt động" : "Không hoạt động"});
+            dtm.addRow(new Object[]{s.getIdNhanVien(), s.getHoTen(), s.getSdt(), s.getNgaySinh(), s.getEmail(), s.getDiaChi(), s.getMatKhau(), s.isGioiTinh() ? "Nam" : "Nữ", s.isChucVu() ? "Quản lý" : "Nhân viên", s.isTrangThai() ? "Còn hoạt động" : "Không hoạt động"});
         }
         updatePageLabel();
     }
-    
+
     private void updatePageLabel() {
         if (list != null) {
             int totalPages = (int) Math.ceil((double) list.size() / recordsPerPage);
@@ -505,62 +507,62 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         dtm = (DefaultTableModel) tblNV1.getModel();
         dtm.setRowCount(0);
         for (NhanVien s : list) {
-            dtm.addRow(new Object[]{s.getIdNhanVien(), s.getHoTen(), s.getSdt(), s.getNgaySinh(), s.getEmail(), s.getDiaChi(), s.getMatKhau(), s.isGioiTinh()? "Nam" : "Nữ", s.isChucVu()? "Quản lý" : "Nhân viên", s.isTrangThai()? "Còn hoạt động" : "Không hoạt động"});
+            dtm.addRow(new Object[]{s.getIdNhanVien(), s.getHoTen(), s.getSdt(), s.getNgaySinh(), s.getEmail(), s.getDiaChi(), s.getMatKhau(), s.isGioiTinh() ? "Nam" : "Nữ", s.isChucVu() ? "Quản lý" : "Nhân viên", s.isTrangThai() ? "Còn hoạt động" : "Không hoạt động"});
         }
     }
     private int currentPage = 1;
     private int recordsPerPage = 10;
+
     public void fillTableNhanVien() {
 
-            List<NhanVien> listNV;
-            DefaultTableModel mol;
+        List<NhanVien> listNV;
+        DefaultTableModel mol;
 //            listNV = nhanVienRepository.getAllNhanVien();
-            listNV = nhanVienRepository.getNhanVienByPage(currentPage, recordsPerPage);
-            mol = (DefaultTableModel) tblNV.getModel();
-            mol.setRowCount(0);
-            for (NhanVien nv : listNV) {
-                mol.addRow(new Object[]{
-                        nv.getIdNhanVien(), 
-                        nv.getHoTen(), 
-                        nv.getSdt(), 
-                        nv.getNgaySinh(),
-                        nv.getEmail(), 
-                        nv.getDiaChi(),
-                        nv.matkhau(),
-                        nv.isGioiTinh()? "Nam" : "Nữ",
-                        nv.isChucVu()? "Quản lý" : "Nhân viên",
-                        nv.isTrangThai()? "Còn hoạt động" : "Không hoạt động"
+        listNV = nhanVienRepository.getNhanVienByPage(currentPage, recordsPerPage);
+        mol = (DefaultTableModel) tblNV.getModel();
+        mol.setRowCount(0);
+        for (NhanVien nv : listNV) {
+            mol.addRow(new Object[]{
+                nv.getIdNhanVien(),
+                nv.getHoTen(),
+                nv.getSdt(),
+                nv.getNgaySinh(),
+                nv.getEmail(),
+                nv.getDiaChi(),
+                nv.isGioiTinh() ? "Nam" : "Nữ",
+                nv.isChucVu() ? "Quản lý" : "Nhân viên",
+                nv.isTrangThai() ? "Còn hoạt động" : "Không hoạt động"
+            });
+        }
+        int totalPages = (int) Math.ceil((double) nhanVienRepository.getTotalNhanVien() / recordsPerPage);
+        pageLabel.setText("Trang: " + currentPage + " / " + totalPages);
+    }
+
+    public void fillTableNhanVienKhongHoatDong() {
+        DefaultTableModel model = (DefaultTableModel) tblNV1.getModel();
+        model.setRowCount(0);
+        try {
+            List<NhanVien> list = nhanVienRepository.getAllNhanVienKhongHoatDong();
+            for (NhanVien nv : list) {
+                model.addRow(new Object[]{
+                    nv.getIdNhanVien(),
+                    nv.getHoTen(),
+                    nv.getSdt(),
+                    nv.getNgaySinh(),
+                    nv.getEmail(),
+                    nv.getDiaChi(),
+                    nv.isGioiTinh() ? "Nam" : "Nữ",
+                    nv.isChucVu() ? "Quản lý" : "Nhân viên",
+                    nv.isTrangThai() ? "Còn hoạt động" : "Không hoạt động"
                 });
             }
-                  int totalPages = (int) Math.ceil((double) nhanVienRepository.getTotalNhanVien() / recordsPerPage);
-                 pageLabel.setText("Trang: " + currentPage + " / " + totalPages);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi truy vấn dữ liệu");
+            e.printStackTrace();
         }
-    public void fillTableNhanVienKhongHoatDong() {
-            DefaultTableModel model = (DefaultTableModel) tblNV1.getModel();
-            model.setRowCount(0);
-            try {
-                List<NhanVien> list = nhanVienRepository.getAllNhanVienKhongHoatDong();
-                for (NhanVien nv : list) {
-                    model.addRow(new Object[]{
-                         nv.getIdNhanVien(), 
-                        nv.getHoTen(), 
-                        nv.getSdt(), 
-                        nv.getNgaySinh(),
-                        nv.getEmail(), 
-                        nv.getDiaChi(),
-                        nv.matkhau(),
-                        nv.isGioiTinh()? "Nam" : "Nữ",
-                        nv.isChucVu()? "Quản lý" : "Nhân viên",
-                        nv.isTrangThai()? "Còn hoạt động" : "Không hoạt động"
-                    });
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Lỗi truy vấn dữ liệu");
-                e.printStackTrace();
-            }
-        }
-    
-     public void show(NhanVien nv) {
+    }
+
+    public void show(NhanVien nv) {
         txtDiaChi.setText(nv.getDiaChi());
         txtMaNV.setText(String.valueOf(nv.getIdNhanVien()));
         txtEmail.setText(nv.getEmail());
@@ -568,27 +570,27 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         txtSdt.setText(nv.getSdt());
         txtHoTen.setText(nv.getHoTen());
         txtMatKhau.setText("********");
-        
-        if (nv.isGioiTinh()== true) {
+
+        if (nv.isGioiTinh() == true) {
             rdoNam.setSelected(true);
         } else {
             rdoNu.setSelected(true);
         }
-        
-        if (nv.isChucVu()== true) {
+
+        if (nv.isChucVu() == true) {
             rdoCV1.setSelected(true);
         } else {
             rdoCV2.setSelected(true);
         }
-        
-        if (nv.isTrangThai()== true) {
+
+        if (nv.isTrangThai() == true) {
             rdoTT1.setSelected(true);
         } else {
             rdoTT2.setSelected(true);
         }
     }
-     
-     public NhanVien getForm() {
+
+    public NhanVien getForm() {
         NhanVien nv = new NhanVien();
         nv.setIdNhanVien(Integer.parseInt(txtMaNV.getText()));
         nv.setHoTen(txtHoTen.getText());
@@ -603,8 +605,8 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         nv.setMatKhau(txtMatKhau.getText());
         return nv;
     }
-     
-     public NhanVien getFormAdd() {
+
+    public NhanVien getFormAdd() {
         NhanVien nv = new NhanVien();
         nv.setHoTen(txtHoTen.getText());
         nv.setTrangThai(rdoTT1.isSelected());
@@ -618,8 +620,8 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         nv.setMatKhau(txtMatKhau.getText());
         return nv;
     }
-     
-     void delete() {
+
+    void delete() {
         int chooser = JOptionPane.showConfirmDialog(this, "Bạn muốn xóa nhân viên?");
         if (chooser == JOptionPane.YES_OPTION) {
             try {
@@ -634,25 +636,26 @@ public class NhanVienJpanel extends javax.swing.JPanel {
             }
         }
     }
-     
-     NhanVienService nhanVienService  = new NhanVienService();
-     void update() {
-            try {
-                if(this.validateFormUpdate()) {
-                    nhanVienService.update(getForm());
+
+    NhanVienService nhanVienService = new NhanVienService();
+
+    void update() {
+        try {
+            if (this.validateFormUpdate()) {
+                nhanVienService.update(getForm());
                 fillTableNhanVien();
                 fillTableNhanVienKhongHoatDong();
                 this.clear();
                 JOptionPane.showMessageDialog(this, "Update thành công!!");
-                }
-                
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Cập nhật thất bại!" + "\n" + "Vui lòng chọn dữ liệu ở mục danh sách để cập nhật");
-                e.printStackTrace();
             }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Cập nhật thất bại!" + "\n" + "Vui lòng chọn dữ liệu ở mục danh sách để cập nhật");
+            e.printStackTrace();
+        }
     }
-     
-     void insert() {
+
+    void insert() {
         try {
             if (validateForm()) { // Nếu thông tin hợp lệ thì thực hiện thêm mới
                 nhanVienService.insert(getFormAdd());
@@ -664,10 +667,10 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Thêm mới thất bại");
-        }   
+        }
     }
-     
-     public void nextPage() {
+
+    public void nextPage() {
         int totalRecords = nhanVienRepository.getTotalNhanVien();
         int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
@@ -683,7 +686,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
             fillTableNhanVien();
         }
     }
-    
+
     public void goToLastPage() {
         int totalRecords = nhanVienRepository.getTotalNhanVien();
         int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
@@ -693,14 +696,14 @@ public class NhanVienJpanel extends javax.swing.JPanel {
             fillTableNhanVien();
         }
     }
-    
+
     public void goToFirstPage() {
         if (currentPage > 1) {
             currentPage = 1;
             fillTableNhanVien();
         }
     }
-    
+
     //    Sđt trùng
     private boolean isPhoneNumberDuplicate(String phoneNumber) {
         DefaultTableModel model = (DefaultTableModel) tblNV.getModel();
@@ -715,7 +718,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
 
         return false; // Phone number is not a duplicate
     }
-    
+
     //    Email trùng
     private boolean isEmailDuplicate(String email) {
         DefaultTableModel model = (DefaultTableModel) tblNV.getModel();
@@ -736,6 +739,9 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         if (txtHoTen.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập Họ tên");
             return false;
+        } else if(!isValidText(txtHoTen.getText())){
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập họ tên đúng định dạng");
+            return false;
         }
 
         // Kiểm tra số điện thoại
@@ -748,7 +754,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         } else if (isPhoneNumberDuplicate(txtSdt.getText())) {
             JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại trong danh sách khách hàng");
             return false;
-        }   
+        }
 
         // Kiểm tra ngày sinh
         if (txtNgaySinh.getDate() == null) {
@@ -771,6 +777,9 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         // Kiểm tra địa chỉ
         if (txtDiaChi.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập Địa chỉ");
+            return false;
+        } else if(!isValidDiaChi(txtDiaChi.getText())) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Địa chỉ đúng định dạng");
             return false;
         }
 
@@ -817,7 +826,22 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-    
+// Hàm kiểm tra regex cho họ và tên
+    private boolean isValidText(String text) {
+        // Định dạng text sử dụng regex cơ bản
+        String regex = "[\\p{L} ]+";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
+        return matcher.matches();
+    }
+// Hàm kiểm tra regex cho địa chỉ
+    private boolean isValidDiaChi(String text) {
+        // Định dạng text sử dụng regex cơ bản
+        String regex = "[\\p{L}0-9 ]+";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
+        return matcher.matches();
+    }    
     private void clear() {
         txtMaNV.setText("");
         txtHoTen.setText("");
@@ -832,10 +856,9 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         rdoCV2.setSelected(false);
         rdoTT1.setSelected(false);
         rdoTT2.setSelected(false);
-        txtMaNV.setEnabled(true);
     }
-    
-  
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnFirstPage;
@@ -887,9 +910,12 @@ public class NhanVienJpanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private boolean validateFormUpdate() {
-           // Kiểm tra họ tên
+        // Kiểm tra họ tên
         if (txtHoTen.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập Họ tên");
+            return false;
+        } else if(!isValidText(txtHoTen.getText())) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Họ tên đúng định dạng");
             return false;
         }
 
@@ -900,7 +926,7 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         } else if (!isValidPhoneNumber(txtSdt.getText())) {
             JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ");
             return false;
-        }   
+        }
 
         // Kiểm tra ngày sinh
         if (txtNgaySinh.getDate() == null) {
@@ -915,11 +941,14 @@ public class NhanVienJpanel extends javax.swing.JPanel {
         } else if (!isValidEmail(txtEmail.getText())) {
             JOptionPane.showMessageDialog(this, "Email không hợp lệ");
             return false;
-        } 
+        }
 
         // Kiểm tra địa chỉ
         if (txtDiaChi.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập Địa chỉ");
+            return false;
+        } else if(!isValidDiaChi(txtDiaChi.getText())) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập Địa chỉ đúng định dạng");
             return false;
         }
 
