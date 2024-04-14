@@ -6,6 +6,7 @@ package quanlycuahangpoly;
 
 import Hepper.Auth;
 import Hepper.MsgBox;
+import Hepper.ValiDate;
 import Hepper.Xdate;
 import Model.KhuyenMai;
 import Repository.KhuyenMaiRepository;
@@ -41,15 +42,15 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         fillTable();
         this.init();
     }
-    private void init(){
-                if (Auth.isManager() == false) {
+
+    private void init() {
+        if (Auth.isManager() == false) {
             btDelete.setVisible(false);
             btSave.setVisible(false);
             btUpdate.setVisible(false);
-           
 
         } else {
-         btDelete.setVisible(true);
+            btDelete.setVisible(true);
             btSave.setVisible(true);
             btUpdate.setVisible(true);
         }
@@ -158,20 +159,19 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
     }
 
     void update() {
-        if(number()){
+        if (number()) {
             return;
-        }
-        else{
-        try {
+        } else {
+            try {
 
-            kms.update(getInformation());
-            fillTable();
-            JOptionPane.showMessageDialog(this, "Update thành công!");
+                kms.update(getInformation());
+                fillTable();
+                JOptionPane.showMessageDialog(this, "Update thành công!");
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Update thất bại!");
-            e.printStackTrace();
-        }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Update thất bại!");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -193,18 +193,52 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
             }
         }
     }
+    int row;
+
+    private void clearForm() {
+
+//        txtMaVi.setText("");
+        txtMa.setText("");
+        txtGiaTri.setText("");
+        row = -1;
+        btSave.setEnabled(true);
+        txtMa.setEnabled(true);
+    }
 
     private boolean number() {
-        if (Integer.parseInt(txtGiaTri.getText()) <= 0) {
-            JOptionPane.showMessageDialog(this, "Giá không được nhập âm ");
+        Pattern regex = Pattern.compile("^[a-zA-Z0-9]*$");
+        Pattern regex2 = Pattern.compile("[a-zA-Z]");
+        Pattern regex3 = Pattern.compile("[^0-9]");
+        if (!regex.matcher(txtMa.getText().trim()).find()) {
+            JOptionPane.showMessageDialog(this, "Mã khuyến mại chứa ký tự đặc biệt");
+            txtMa.requestFocus();
+            return true;
+        }
+        if (regex2.matcher(txtGiaTri.getText()).find()) {
+            JOptionPane.showMessageDialog(this, "Giá trị khuyến mại chỉ nhận giá trị số");
+            txtGiaTri.setText("");
             txtGiaTri.requestFocus();
             return true;
         }
-        if (Integer.parseInt(txtGiaTri.getText()) >= 100) {
+//                Pattern p = Pattern.compile("^[0-9]{1,15}$");
+//        if (!p.matcher(txtGiaTri.getText()).matches()) {
+//            JOptionPane.showMessageDialog(this, "Nhập sai định dạng giá khuyến mãi");
+//            txtGiaTri.requestFocus();
+//            return true;
+//        }
+        if (Integer.parseInt(txtGiaTri.getText()) > 100) {
             JOptionPane.showMessageDialog(this, "Giá không được nhập quá 100%");
+            txtGiaTri.setText("");
             txtGiaTri.requestFocus();
             return true;
-        }        
+        }
+        if (Integer.parseInt(txtGiaTri.getText()) < 0) {
+            JOptionPane.showMessageDialog(this, "Giá không được nhập âm ");
+            txtGiaTri.setText("");
+            txtGiaTri.requestFocus();
+            return true;
+        }
+
 
         return false;
     }
@@ -212,17 +246,20 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
     private boolean validateFormKM() {
         if (txtMa.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui long nhap ma khuyen mai");
+            txtMa.requestFocus();
             return true;
         }
 
         if (dateBatDau.getDate().equals("")) {
-            dateBatDau.requestFocus();
+
             JOptionPane.showMessageDialog(this, "Vui lòng chọn Ngày bat dau");
+            dateBatDau.requestFocus();
             return true;
         }
 
         if (dateKetThuc.getDate().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn Ngày ket thuc");
+            dateKetThuc.requestFocus();
             return true;
         }
         List<KhuyenMai> list = kmr.getAll();
@@ -236,9 +273,26 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
             }
         }
 
-        if (txtGiaTri.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mức giảm giá");
+        Pattern p = Pattern.compile("^[0-9]{1,15}$");
+        if (!p.matcher(txtGiaTri.getText()).matches()) {
+            JOptionPane.showMessageDialog(this, "Nhập sai định dạng giá khuyến mãi");
             txtGiaTri.requestFocus();
+            return true;
+        }
+        if (Integer.parseInt(txtGiaTri.getText()) <= 0) {
+            JOptionPane.showMessageDialog(this, "Giá khuyến mãi không được nhập âm ");
+            txtGiaTri.requestFocus();
+            return true;
+        }
+        if (Integer.parseInt(txtGiaTri.getText()) >= 100) {
+            JOptionPane.showMessageDialog(this, "Giá khuyến mãi không được nhập quá 100%");
+            txtGiaTri.requestFocus();
+            return true;
+        }
+        Date a = dateBatDau.getDate();
+        Date b = dateKetThuc.getDate();
+        if (a.getTime() > b.getTime()) {
+            MsgBox.alert(this, "Ngày kết thúc phải lớn hơn ngày bắt đầu");
             return true;
         }
         return false;
@@ -248,26 +302,47 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         Date a = dateBatDau.getDate();
         Date b = dateKetThuc.getDate();
         if (a.getTime() > b.getTime()) {
-            MsgBox.alert(this, "Ngày kết thúc phải nhỏ hơn ngày bắt đầu");
+            MsgBox.alert(this, "Ngày kết thúc phải lớn hơn ngày bắt đầu");
             return false;
         }
+
         return true;
     }
-    public static boolean isInt(JTextField txt,String mess){
-        try {
-            int testInt = Integer.parseInt(txt.getText());
-            return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, mess,"Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-    }
-    public  void searchKM(){
+
+    public void searchKM() {
         String search = txtSearch.getText();
         TableRowSorter<DefaultTableModel> km = new TableRowSorter<>(dtm);
         tableKM.setRowSorter(km);
         km.setRowFilter(javax.swing.RowFilter.regexFilter(search));
     }
+
+    // chỗ này đã fix xong check tiếng việt
+    public boolean checkRegex() {
+        Pattern regex = Pattern.compile("^[a-zA-Z0-9]*$");
+        Pattern regex2 = Pattern.compile("[a-zA-Z]");
+        Pattern regex3 = Pattern.compile("[^0-9]");
+        if (regex.matcher(txtMa.getText().trim()).find()) {
+            JOptionPane.showMessageDialog(this, "Mã khuyến mại chứa ký tự đặc biệt");
+            txtMa.requestFocus();
+            return true;
+        }
+//        if (regex2.matcher(txtGiaTri.getText()).find()) {
+//            JOptionPane.showMessageDialog(this, "Giá chỉ nhận giá trị số, vui lòng nhập lại!");
+//            txtGiaTri.setText("");
+//            txtGiaTri.requestFocus();
+//            return false;
+//        }
+//        if (regex3.matcher(txtGiaTri.getText()).find()) {
+//            JOptionPane.showMessageDialog(this, "Giá chứa ký tự đặc biệt, vui lòng xem lại!");
+//            txtGiaTri.requestFocus();
+//            return false;
+//        }
+        if (ValiDate.isInt(txtGiaTri, "Số Lượng phải số")) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -441,6 +516,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         jLabel5.setText("Trạng thái :");
 
         hd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        hd.setSelected(true);
         hd.setText("Hoạt động");
 
         nhd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -555,50 +631,11 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tableKMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableKMMouseClicked
+    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
         // TODO add your handling code here:
-int index = tableKM.getSelectedRow();
-KhuyenMai km = kmr.getById(tableKM.getValueAt(index, 0).toString());
-        show(km);
-    }//GEN-LAST:event_tableKMMouseClicked
-
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_txtSearchActionPerformed
-
-    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-        // TODO add your handling code here:
-        this.searchKM();
-    }//GEN-LAST:event_txtSearchKeyReleased
-
-    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        // TODO add your handling code here:
-        this.prevPage();
-    }//GEN-LAST:event_btnPrevActionPerformed
-
-    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        // TODO add your handling code here:
-        this.nextPage();
-    }//GEN-LAST:event_btnNextActionPerformed
-
-    private void btnLastPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastPageActionPerformed
-        // TODO add your handling code here:
-        this.goToLastPage();
-    }//GEN-LAST:event_btnLastPageActionPerformed
-
-    private void btnFirstPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstPageActionPerformed
-        // TODO add your handling code here:
-        this.goToFirstPage();
-    }//GEN-LAST:event_btnFirstPageActionPerformed
-
-    private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
-        // them
-        if (check()) {
-            this.insert();
-        }
-    }//GEN-LAST:event_btSaveActionPerformed
+        //xoa
+        this.delete();
+    }//GEN-LAST:event_btDeleteActionPerformed
 
     private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
         // TODO add your handling code here:
@@ -606,13 +643,56 @@ KhuyenMai km = kmr.getById(tableKM.getValueAt(index, 0).toString());
         if (check()) {
             this.update();
         }
+
     }//GEN-LAST:event_btUpdateActionPerformed
 
-    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
+    private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
         // TODO add your handling code here:
-        //xoa
-        this.delete();
-    }//GEN-LAST:event_btDeleteActionPerformed
+        // them
+//        if(check()){
+//        return;
+//        }
+        this.insert();
+
+    }//GEN-LAST:event_btSaveActionPerformed
+
+    private void btnFirstPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstPageActionPerformed
+        // TODO add your handling code here:
+        this.goToFirstPage();
+    }//GEN-LAST:event_btnFirstPageActionPerformed
+
+    private void btnLastPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastPageActionPerformed
+        // TODO add your handling code here:
+        this.goToLastPage();
+    }//GEN-LAST:event_btnLastPageActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        // TODO add your handling code here:
+        this.nextPage();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        // TODO add your handling code here:
+        this.prevPage();
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+        this.searchKM();
+    }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
+
+    private void tableKMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableKMMouseClicked
+        // TODO add your handling code here:
+        int index = tableKM.getSelectedRow();
+        KhuyenMai km = kmr.getById(tableKM.getValueAt(index, 0).toString());
+        show(km);
+//        txtMa.setEnabled(false);
+//        btSave.setEnabled(false);
+    }//GEN-LAST:event_tableKMMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
