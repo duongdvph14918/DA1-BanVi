@@ -61,12 +61,6 @@ public class ThongKeJpanel extends javax.swing.JPanel {
 
     private void init() {
 
-        if (Auth.isManager() == false) {
-            jTabbedPane1.removeAll();
-            pnlLoaiThoiGian.removeAll();
-            cboLoaiTG.setEnabled(false);
-        } else {
-        }
     }
 
     /**

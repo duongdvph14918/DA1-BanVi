@@ -37,7 +37,7 @@ public class HoaDonDAO implements InterfaceHoaDon {
                 + "  FROM [HoaDon]\n"
                 + "  join KhachHang on KhachHang.IDKhangHang = HoaDon.ID_KhachHang\n"
                 + "  join NhanVien on NhanVien.IDNhanVien = HoaDon.ID_NhanVien\n"
-                + "  where HoaDon.TrangThai = 1";
+                + "  where HoaDon.TrangThai = 1 ";
         List<HoaDonCT> listHoaDon = new ArrayList<>();
         try ( Connection con = DBconnect.getConnection();  PreparedStatement ps = con.prepareCall(sql)) {
             ResultSet rs = ps.executeQuery();

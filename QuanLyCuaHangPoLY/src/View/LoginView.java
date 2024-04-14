@@ -9,6 +9,8 @@ import Service.TaiKhoanDao;
 import Model.TaiKhoan;
 import com.itextpdf.text.pdf.BidiOrder;
 import java.awt.Color;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
@@ -30,8 +32,8 @@ public class LoginView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 //        txt_Email.setText("nguyenvana@example.com");
-txt_Email.setText("tranthib@example.com");
-//        txt_Email.setText("duongdvph14918@fpt.edu.vn");
+//txt_Email.setText("tranthib@example.com");
+        txt_Email.setText("duongdvph14918@fpt.edu.vn");
         txt_Pass.setText("123");
     }
 
@@ -333,24 +335,50 @@ txt_Email.setText("tranthib@example.com");
 
     // Chức năng 
     boolean CheckData() {
-        if (txt_Email.getText().isBlank() || txt_Pass.getText().isBlank()) {
+        String matKhau = new String(txt_Pass.getPassword()).trim();
             if (txt_Email.getText().isBlank()) {
                 txt_Email.setBackground(Color.red);
                 lbl_Email.setText("Vui lòng nhập email");
                 lbl_Email.setForeground(Color.red);
+                return false;
             }
             if (txt_Pass.getText().isBlank()) {
                 txt_Pass.setBackground(Color.red);
                 lbl_Pass.setText("Vui lòng nhập mật khẩu");
                 lbl_Pass.setForeground(Color.red);
+                return false;
             }
-            JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin !");
-            return false;
-        } else {
+            if(!isValidEmail(txt_Email.getText())){
+                JOptionPane.showMessageDialog(this,"Email không hợp lệ");
+                txt_Email.requestFocus();
+                return false;
+            }
+            
+        else {
             return true;
         }
+        
     }
+       public boolean checkRegex() {
+        Pattern regex = Pattern.compile("^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêếìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\ ]+$");
+        Pattern regex2 = Pattern.compile("[a-zA-Z]");
+        Pattern regex3 = Pattern.compile("[^0-9]");
+        if (!regex.matcher(txt_Email.getText().trim()).find()) {
+            JOptionPane.showMessageDialog(this, "Tên sản phẩm chứa ký tự đặc biệt, vui lòng xem lại!");
+            txt_Email.requestFocus();
+            return true;
+        }
 
+        return false;
+    }
+// Hàm kiểm tra regex cho email
+    private boolean isValidEmail(String email) {
+        // Định dạng email sử dụng regex cơ bản
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
     // reset báo lỗi form 
     void ResetError() {
         txt_Email.setBackground(Color.WHITE);

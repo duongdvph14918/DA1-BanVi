@@ -28,6 +28,7 @@ public class QuenMK_View extends javax.swing.JFrame {
 
     public QuenMK_View() {
         initComponents();
+        txt_Email.setText("duongdvph14918@fpt.edu.vn");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
@@ -270,7 +271,7 @@ public class QuenMK_View extends javax.swing.JFrame {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 30; i >= 0; i--) {
+                for (int i = 10; i >= 0; i--) {
                     try {
                         Thread.sleep(1000);
                         lbl_ThongBaoTimeOTP.setText("Nhận mã mới sau " + String.valueOf(i));
