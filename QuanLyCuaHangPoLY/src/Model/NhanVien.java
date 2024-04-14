@@ -120,7 +120,9 @@ public class NhanVien {
     public void setChucVu(boolean chucVu) {
         this.chucVu = chucVu;
     }
-
+     public String matkhau() {
+         return "********";
+     }
    
     
     
