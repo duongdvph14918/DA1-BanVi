@@ -30,6 +30,8 @@ import javax.swing.table.TableRowSorter;
 import quanlycuahangpoly.Dao.ThuongHieuDao;
 import quanlycuahangpoly.Dao.ViDao;
 import Hepper.MsgBox;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class QuanLySanPhamJPanel extends javax.swing.JPanel {
 
@@ -916,7 +918,10 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
             return;
         } else if (CheckSPInuput()) {
             return;
-        } else {
+        } else if(checkso()){
+            return;
+        }
+        else {
             try {
                 if (MsgBox.confirm(this, "Bạn có muốn thêm sản phẩm này ?")) {
                     //SanPham sp = getInformation();
@@ -1006,6 +1011,14 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
 
             return true;
         }
+        
+       
+        Pattern parten = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        if (!parten.matcher(txtMaVi.getText()).find()) {
+            JOptionPane.showMessageDialog(this, "Nhập sai định dạng mã sản phẩm");
+            return true;
+        }
+        
         List<Vi> list = dao_vi.selectAlll();
         String id = txtMaVi.getText();
         String tensp = txtTenVi.getText();
@@ -1032,6 +1045,21 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel {
         }
         return false;
 
+    }
+    public boolean checkso(){
+        String regex = "V\\d+";
+        String chuoi = "[a-zA-Z\\s]+";
+        if (!chuoi.matches("[a-zA-Z\\s]+")) {
+            JOptionPane.showMessageDialog(this, "Không được nhập số và kí tự đặc biệt");
+            txtTenVi.requestFocus();
+            return true;
+        }
+        if (!chuoi.matches("[a-zA-Z\\s]+")) {
+            JOptionPane.showMessageDialog(this, "Không được nhập số và kí tự đặc biệt");
+            txtKieuDang.requestFocus();
+            return true;
+        }
+        return false;
     }
 
     private boolean CheckSPInuput() {
