@@ -515,6 +515,7 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
 
     private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
         // TODO add your handling code here:
+        this.search();
     }//GEN-LAST:event_txtTimKiemKeyReleased
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed

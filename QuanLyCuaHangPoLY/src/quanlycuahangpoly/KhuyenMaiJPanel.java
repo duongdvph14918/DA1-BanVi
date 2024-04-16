@@ -279,12 +279,12 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
             txtGiaTri.requestFocus();
             return true;
         }
-        if (Integer.parseInt(txtGiaTri.getText()) <= 0) {
+        if (Integer.parseInt(txtGiaTri.getText()) < 0) {
             JOptionPane.showMessageDialog(this, "Giá khuyến mãi không được nhập âm ");
             txtGiaTri.requestFocus();
             return true;
         }
-        if (Integer.parseInt(txtGiaTri.getText()) >= 100) {
+        if (Integer.parseInt(txtGiaTri.getText()) > 100) {
             JOptionPane.showMessageDialog(this, "Giá khuyến mãi không được nhập quá 100%");
             txtGiaTri.requestFocus();
             return true;

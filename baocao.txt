@@ -1,0 +1,6 @@
+-- link giao dien
+https://lucid.app/lucidchart/d90f46e4-f942-4d73-872e-b02aa4f6dc41/edit?beaconFlowId=6351D0E8711C1BF1&invitationId=inv_912b03df-4a28-4d11-830a-ba885562eef0&page=T9FcoEa-OAct#
+-- link use case
+https://app.diagrams.net/#G1DpSmNr5gYFc8C31myobFD5tiMIfo1qdd#%7B%22pageId%22%3A%22lQAayGCY4Q-f5zivH73Y%22%7D
+-- link báo cáo
+https://docs.google.com/document/d/1O4kja-xnUwV4Lzmj6oqGv7hFthYg_kBi2T0yheTqK4Q/edit
