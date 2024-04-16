@@ -3,11 +3,40 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/TrangChuJPanel.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/BanHangJPanel.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/Hepper/JDBCHeper.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/Service/TaiKhoanDao.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/KhachHangJPanel.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/Dao/InterfaceMauSac.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/Service/SanPhamDAO.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/main.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/Repository/DBconnect.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/XuatXuJDiaLog.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/View/LoginView.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/ChatLieuJDiaLog.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/ChiTietViJDiaLog.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/QuanLySanPhamJPanel.java</file>
+            <file>file:/C:/Users/luuth/OneDrive/Tài%20liệu/Downloads/DA1-BanVi/QuanLyCuaHangPoLY/src/Repository/ChiTietViRepositoryImp.java</file>
+=======
+<<<<<<< HEAD
+>>>>>>> 5eaad7fc9e0e877f74f427dda46b6acce383d90a
             <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/View/LoginView.java</file>
             <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/Repository/DBconnect.java</file>
             <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/quanlycuahangpoly/KhuyenMaiJPanel.java</file>
             <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/quanlycuahangpoly/ChiTietViJDiaLog.java</file>
             <file>file:/C:/Users/Windows/Desktop/BanViPoly/QuanLyCuaHangPoLY/src/quanlycuahangpoly/BanHangJPanel.java</file>
+<<<<<<< HEAD
+=======
+=======
+            <file>file:/C:/Users/lvta4/OneDrive/Desktop/DA1-BanVi/QuanLyCuaHangPoLY/src/View/LoginView.java</file>
+            <file>file:/C:/Users/lvta4/OneDrive/Desktop/DA1-BanVi/QuanLyCuaHangPoLY/src/quanlycuahangpoly/NhanVienJpanel.java</file>
+>>>>>>> e75aafe9753fa2ad693dba782f22ec5321e795cb
+>>>>>>> 7a5f2c30ee23d603bffa2e1103dae22025cc50e4
+>>>>>>> 5eaad7fc9e0e877f74f427dda46b6acce383d90a
         </group>
     </open-files>
 </project-private>

@@ -29,6 +29,8 @@ import quanlycuahangpoly.Dao.ViDao;
 import quanlycuahangpoly.Dao.XuatXuDao;
 import Hepper.MsgBox;
 import Hepper.Xdate;
+import java.util.regex.Matcher;
+
 public class ChiTietViJDiaLog extends javax.swing.JDialog {
 
     /**
@@ -48,6 +50,7 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
     List<LoaiVi> listLoaiVi;
     List<ChatLieu> listChatLieu;
     int row;
+
     public ChiTietViJDiaLog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -55,6 +58,7 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
         filltotableChitietVi();
         init();
     }
+
     private void init() {
         fillcomboboxMaVi();
         fillcomboboxChatLieu();
@@ -525,7 +529,7 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
 //            tablechitiet.setRowSelectionInterval(row, row);
 //            edit();
 //        }
-      
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -536,19 +540,19 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
 
-      
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
 
-        
+
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
         insert();
-     
+
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
@@ -832,47 +836,50 @@ public class ChiTietViJDiaLog extends javax.swing.JDialog {
     private boolean CheckNumber() {
         String regex = "CTV\\d+";
         String regexx = "sp\\d+";
+        String soluong = "";
+        Pattern pattern = Pattern.compile("[^a-zA-Z0-9 ]");
+        Matcher matcher = pattern.matcher(soluong);
         Pattern parten = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         if (!parten.matcher(txtMaChiTiet.getText()).find()) {
             JOptionPane.showMessageDialog(this, "Nhập sai định dạng mã sản phẩm");
             return true;
         } else {
             Pattern p = Pattern.compile("^[0-9]{1,15}$");
-//            if (!p.matcher(txtGiaNhap.getText()).matches()) {
-//                JOptionPane.showMessageDialog(this, "Nhập sai định dạng giá nhập sản phẩm");
-//                txtGiaNhap.requestFocus();
-//                return true;
-//            } else 
-                if (Double.parseDouble(txtGiaNhap.getText()) < 0) {
+            if (!p.matcher(txtGiaNhap.getText()).matches()) {
+                JOptionPane.showMessageDialog(this, "Nhập sai định dạng giá nhập sản phẩm");
+                txtGiaNhap.requestFocus();
+                return true;
+            } else if (Double.parseDouble(txtGiaNhap.getText()) < 0) {
                 JOptionPane.showMessageDialog(this, "Giá nhập vào không được âm");
                 txtGiaNhap.requestFocus();
                 return true;
             }
-//            if (!p.matcher(txtGiaban.getText()).matches()) {
-//                JOptionPane.showMessageDialog(this, "Nhập sai định dạng giá bán sản phẩm");
-//                txtGiaban.requestFocus();
-//                return true;
-//            } else 
-                if (Double.parseDouble(txtGiaban.getText()) < 0) {
+            if (!p.matcher(txtGiaban.getText()).matches()) {
+                JOptionPane.showMessageDialog(this, "Nhập sai định dạng giá bán sản phẩm");
+                txtGiaban.requestFocus();
+                return true;
+            } else if (Double.parseDouble(txtGiaban.getText()) < 0) {
                 JOptionPane.showMessageDialog(this, "Giá nhập vào không được âm");
                 txtGiaban.requestFocus();
                 return true;
             }
-//            if (!p.matcher(txtSoluong.getText()).matches()) {
-//                JOptionPane.showMessageDialog(this, "Nhập sai định dạng số lượng");
-//                txtSoluong.requestFocus();
-//                return true;
-//            } else 
-                if (Double.parseDouble(txtSoluong.getText()) < 0) {
+            if (!p.matcher(txtSoluong.getText()).matches()) {
+                JOptionPane.showMessageDialog(this, "Nhập sai định dạng số lượng");
+                txtSoluong.requestFocus();
+                return true;
+            } else if (Double.parseDouble(txtSoluong.getText()) < 0) {
                 JOptionPane.showMessageDialog(this, "Số lượng không được âm");
                 txtSoluong.requestFocus();
                 return true;
             }
-            return false;
+            
+            
         }
+        return false;
     }
 
-    private boolean Checknull() {
+
+private boolean Checknull() {
         if (txtMaChiTiet.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng không để trống mã ví !");
             txtMaChiTiet.requestFocus();

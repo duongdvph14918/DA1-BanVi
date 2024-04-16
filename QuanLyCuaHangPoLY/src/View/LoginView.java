@@ -31,10 +31,30 @@ public class LoginView extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+<<<<<<< HEAD
 
+=======
+//        txt_Email.setText("nguyenvana@example.com");
+<<<<<<< HEAD
+
+        txt_Email.setText("duongthih@example.com");
+        txt_Pass.setText("hashed_password");
+
+=======
+<<<<<<< HEAD
+>>>>>>> 5eaad7fc9e0e877f74f427dda46b6acce383d90a
 //txt_Email.setText("tranthib@example.com");
         txt_Email.setText("duongdvph14918@fpt.edu.vn");
         txt_Pass.setText("123");
+<<<<<<< HEAD
+=======
+//=======
+//txt_Email.setText("tranthib@example.com");
+//        txt_Email.setText("duongdvph14918@fpt.edu.vn");
+    //    txt_Pass.setText("123");
+//>>>>>>> a22b26c18dc1407084ccb81e896ba526536b5b45
+>>>>>>> 7a5f2c30ee23d603bffa2e1103dae22025cc50e4
+>>>>>>> 5eaad7fc9e0e877f74f427dda46b6acce383d90a
     }
 
     /**
